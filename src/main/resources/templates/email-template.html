@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<div align="center">
+		<h2>
+			Hello <span th:text="${name}"></span>
+		</h2>
+		<h3>
+			You are trying to create account as <span th:text="${role}"></span>
+		</h3>
+		<h4>Your OTP is</h4>
+		<h1 th:text="${otp}"></h1>
+	</div>
+</body>
+</html>
