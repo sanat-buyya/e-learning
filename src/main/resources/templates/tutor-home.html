@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3 style="color: green" th:text="${session.pass}"></h3>
+	<h3 style="color: red" th:text="${session.fail}"></h3>
+	<span th:text="${@generalService.removeMessage()}"></span>
+	<h1>Tutor Home</h1>
+	
+<a href="/logout"> <button>Logout</button> </a>
+</body>
+</html>

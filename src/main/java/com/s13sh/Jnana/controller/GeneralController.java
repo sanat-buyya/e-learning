@@ -45,4 +45,25 @@ public class GeneralController {
 	public String submitOtp(@RequestParam int otp, HttpSession session) {
 		return generalService.confirmOtp(otp, session);
 	}
+
+	@GetMapping("/resend-otp")
+	public String resendOtp(HttpSession session) {
+		return generalService.resendOtp(session);
+	}
+
+	@GetMapping("/login")
+	public String loadLogin() {
+		return "login.html";
+	}
+
+	@PostMapping("/login")
+	public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
+		return generalService.login(email, password, session);
+	}
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		return generalService.logout(session);
+	}
+
 }
