@@ -8,8 +8,16 @@
 	<h3 style="color: green" th:text="${session.pass}"></h3>
 	<h3 style="color: red" th:text="${session.fail}"></h3>
 	<span th:text="${@generalService.removeMessage()}"></span>
+
 	<h1>Tutor Home</h1>
-	
-<a href="/logout"> <button>Logout</button> </a>
+
+	<a href="/tutor/courses"><button>Manage Courses</button></a>
+	<a href="/tutor/sections"><button>Manage Sections</button></a>
+	<a href="/tutor/questions"><button>Manage questions</button></a>
+	<a href="/tutor/learners"><button>View Learners</button></a>
+
+	<a href="/logout">
+		<button>Logout</button>
+	</a>
 </body>
 </html>
