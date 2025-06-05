@@ -30,4 +30,61 @@ public class Course {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	List<QuizQuestion> quizQuestions = new ArrayList<QuizQuestion>();
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+
+	public boolean isPublished() {
+		return published;
+	}
+
+	public void setPublished(boolean published) {
+		this.published = published;
+	}
+
+	public Tutor getTutor() {
+		return tutor;
+	}
+
+	public void setTutor(Tutor tutor) {
+		this.tutor = tutor;
+	}
+
+	public List<QuizQuestion> getQuizQuestions() {
+		return quizQuestions;
+	}
+
+	public void setQuizQuestions(List<QuizQuestion> quizQuestions) {
+		this.quizQuestions = quizQuestions;
+	}
+	
+	
 }

@@ -1,19 +1,90 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
-<title></title>
+    <meta charset="UTF-8">
+    <title>Jnana - Email Verification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --text-color: #2c3e50;
+            --shadow-color: rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px var(--shadow-color);
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        h2 {
+            color: var(--text-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        h4 {
+            color: var(--text-color);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .otp {
+            font-size: 3rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            letter-spacing: 2px;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-	<div align="center">
-		<h2>
-			Hello <span th:text="${name}"></span>
-		</h2>
-		<h3>
-			You are trying to create account as <span th:text="${role}"></span>
-		</h3>
-		<h4>Your OTP is</h4>
-		<h1 th:text="${otp}"></h1>
-	</div>
+    <div class="container">
+        <h2>Hello <span th:text="${name}"></span>!</h2>
+        <h3>You are registering as a <span th:text="${role}"></span></h3>
+        <h4>Your verification OTP is:</h4>
+        <div class="otp" th:text="${otp}"></div>
+        <div class="footer">
+            This OTP is valid for a limited time. Please do not share it with anyone.
+        </div>
+    </div>
 </body>
 </html>

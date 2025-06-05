@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manage Sections - Jnana</title>
+    <title>View Courses - Jnana</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -23,20 +23,17 @@
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            padding: 2rem;
         }
 
         .container {
             background: white;
-            padding: 3rem;
+            padding: 2rem;
             border-radius: 20px;
             box-shadow: 0 15px 30px var(--shadow-color);
             width: 90%;
-            max-width: 800px;
-            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
             animation: fadeIn 0.5s ease-out;
         }
 
@@ -50,36 +47,75 @@
             margin-bottom: 2rem;
             font-size: 2.5rem;
             font-weight: 600;
+            text-align: center;
         }
 
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: var(--text-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
         }
 
         .btn {
-            padding: 12px 25px;
+            padding: 8px 20px;
             border: none;
             border-radius: 30px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
-            text-decoration: none;
             color: white;
-            background: var(--secondary-color);
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-primary {
             background: var(--primary-color);
         }
 
+        .btn-secondary {
+            background: var(--secondary-color);
+        }
+
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge-paid {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .badge-free {
+            background: var(--secondary-color);
+            color: white;
         }
 
         .toast {
@@ -112,17 +148,34 @@
 </head>
 <body>
     <div class="container">
-        <h1>Manage Sections</h1>
-        
+        <h1>View Courses</h1>
+
         <div id="successToast" class="toast success" th:if="${session.pass}" th:text="${session.pass}"></div>
         <div id="errorToast" class="toast error" th:if="${session.fail}" th:text="${session.fail}"></div>
         <th:block th:text="${@generalService.removeMessage()}"></th:block>
 
-        <div class="btn-group">
-            <a href="/tutor/add-section" class="btn btn-primary">Add Section</a>
-            <a href="/tutor/view-sections" class="btn">View All Sections</a>
-            <a href="/tutor/home" class="btn">Back</a>
-        </div>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Action</th>
+            </tr>
+
+            <tr th:each="course:${courses}">
+                <td th:text="${course.title}"></td>
+                <td th:text="${course.description}"></td>
+                <td>
+                    <span class="badge badge-paid" th:if="${course.paid}">Paid</span>
+                    <span class="badge badge-free" th:if="${!course.paid}">Free</span>
+                </td>
+                <td>
+                    <button class="btn btn-primary">Publish</button>
+                </td>
+            </tr>
+        </table>
+
+        <a href="/tutor/courses" class="btn btn-secondary">Back</a>
     </div>
 
     <script>

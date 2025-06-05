@@ -1,34 +1,212 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
- <head>
-<meta charset="UTF-8">
-<title>Register</title>
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Jnana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --text-color: #2c3e50;
+            --shadow-color: rgba(0,0,0,0.1);
+            --error-color: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px var(--shadow-color);
+            width: 90%;
+            max-width: 600px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="text"], 
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        input[type="text"]:focus, 
+        input[type="password"]:focus,
+        input[type="email"]:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+
+        .radio-group {
+            margin: 1rem 0;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .error {
+            color: var(--error-color);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            color: white;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .toast.success {
+            background: var(--primary-color);
+        }
+
+        .toast.error {
+            background: var(--error-color);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
 </head>
 <body>
-	<div align="center">
-		<h1>Account Registration</h1>
+    <div class="container">
+        <h1>Account Registration</h1>
+        
+        <div id="successToast" class="toast success" th:if="${session.pass}" th:text="${session.pass}"></div>
+        <div id="errorToast" class="toast error" th:if="${session.fail}" th:text="${session.fail}"></div>
+        <th:block th:text="${@generalService.removeMessage()}"></th:block>
 
-		<form action="/register" method="post" th:object="${userDto}">
-			<input type="text" th:field="*{name}" placeholder="Enter Name">
-			<span th:errors="*{name}"></span> <br>
-			<br> <input type="text" th:field="*{email}"
-				placeholder="Enter Email"> <span th:errors="*{email}"></span>
-			<br>
-			<br> <input type="text" th:field="*{mobile}"
-				placeholder="Enter Mobile"> <span th:errors="*{mobile}"></span>
-			<br>
-			<br> <input type="text" th:field="*{password}"
-				placeholder="Enter Password"> <span th:errors="*{password}"></span>
-			<br>
-			<br> <input type="text" th:field="*{confirmPassword}"
-				placeholder="Enter Confirm Password"> <span
-				th:errors="*{confirmPassword}"></span> <br>
-			<br> <input type="radio" th:field="*{type}" value="TUTOR">Tutor
-			<input type="radio" th:field="*{type}" value="LEARNER">Learner
-			<span th:errors="*{type}"></span> <br>
-			<br>
-			<button>Register</button>
-		</form>
-	</div>
+        <form action="/register" method="post" th:object="${userDto}">
+            <div class="form-group">
+                <input type="text" th:field="*{name}" placeholder="Enter Name">
+                <span class="error" th:errors="*{name}"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="email" th:field="*{email}" placeholder="Enter Email">
+                <span class="error" th:errors="*{email}"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="text" th:field="*{mobile}" placeholder="Enter Mobile">
+                <span class="error" th:errors="*{mobile}"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="password" th:field="*{password}" placeholder="Enter Password">
+                <span class="error" th:errors="*{password}"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="password" th:field="*{confirmPassword}" placeholder="Enter Confirm Password">
+                <span class="error" th:errors="*{confirmPassword}"></span>
+            </div>
+
+            <div class="radio-group">
+                <label>
+                    <input type="radio" th:field="*{type}" value="TUTOR">
+                    Tutor
+                </label>
+                <label>
+                    <input type="radio" th:field="*{type}" value="LEARNER">
+                    Learner
+                </label>
+            </div>
+            <span class="error" th:errors="*{type}"></span>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>
+        function showToast() {
+            const successToast = document.getElementById('successToast');
+            const errorToast = document.getElementById('errorToast');
+            
+            [successToast, errorToast].forEach(toast => {
+                if (toast && toast.textContent.trim() !== '') {
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 2000);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', showToast);
+    </script>
 </body>
 </html>
