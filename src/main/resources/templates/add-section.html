@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Section</title>
+</head>
+<body>
+	<div align="center">
+		<h1>Add Section</h1>
+
+		<form action="/tutor/add-section" method="post"
+			th:object="${sectionDto}" enctype="multipart/form-data">
+			Title: <input type="text" th:field="*{title}"> <span
+				th:errors="*{title}"></span> <br> <br> Upload Video: <input
+				type="file" th:field="*{video}" accept="video/*"> <span
+				th:errors="*{video}"></span> <br> <br> Upload Notes: <input
+				type="file" th:field="*{notes}" accept="application/pdf"> <span
+				th:errors="*{notes}"></span> <br> <br> Select Course: <select
+				name="courseId">
+				<option th:each="course:${courses}" th:value="${course.id}">
+					<th:block th:text="${course.title}"></th:block>
+				</option>
+
+			</select> <br> <br>
+			<button>Add</button>
+		</form>
+
+		<br> <a href="/tutor/sections"><button>Back</button></a>
+	</div>
+</body>
+</html>

@@ -1,184 +1,193 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>View Courses - Jnana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #2196F3;
-            --text-color: #2c3e50;
-            --shadow-color: rgba(0,0,0,0.1);
-            --error-color: #f44336;
-        }
+<meta charset="UTF-8">
+<title>View Courses - Jnana</title>
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+	rel="stylesheet">
+<style>
+:root {
+	--primary-color: #4CAF50;
+	--secondary-color: #2196F3;
+	--text-color: #2c3e50;
+	--shadow-color: rgba(0, 0, 0, 0.1);
+	--error-color: #f44336;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
 
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 2rem;
-        }
+body {
+	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+	min-height: 100vh;
+	padding: 2rem;
+}
 
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 30px var(--shadow-color);
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            animation: fadeIn 0.5s ease-out;
-        }
+.container {
+	background: white;
+	padding: 2rem;
+	border-radius: 20px;
+	box-shadow: 0 15px 30px var(--shadow-color);
+	width: 90%;
+	max-width: 1200px;
+	margin: 0 auto;
+	animation: fadeIn 0.5s ease-out;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+@keyframes fadeIn {from { opacity:0;
+	transform: translateY(-20px);
+}
 
-        h1 {
-            color: var(--text-color);
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-            font-weight: 600;
-            text-align: center;
-        }
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+}
+h1 {
+	color: var(--text-color);
+	margin-bottom: 2rem;
+	font-size: 2.5rem;
+	font-weight: 600;
+	text-align: center;
+}
 
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 2rem 0;
+	background: white;
+	border-radius: 10px;
+	overflow: hidden;
+}
 
-        th {
-            background: var(--text-color);
-            color: white;
-            font-weight: 500;
-        }
+th, td {
+	padding: 1rem;
+	text-align: left;
+	border-bottom: 1px solid #eee;
+}
 
-        tr:hover {
-            background: #f8f9fa;
-        }
+th {
+	background: var(--text-color);
+	color: white;
+	font-weight: 500;
+}
 
-        .btn {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 500;
-            color: white;
-            text-decoration: none;
-            display: inline-block;
-        }
+tr:hover {
+	background: #f8f9fa;
+}
 
-        .btn-primary {
-            background: var(--primary-color);
-        }
+.btn {
+	padding: 8px 20px;
+	border: none;
+	border-radius: 30px;
+	font-size: 0.9rem;
+	cursor: pointer;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	font-weight: 500;
+	color: white;
+	text-decoration: none;
+	display: inline-block;
+}
 
-        .btn-secondary {
-            background: var(--secondary-color);
-        }
+.btn-primary {
+	background: var(--primary-color);
+}
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+.btn-secondary {
+	background: var(--secondary-color);
+}
 
-        .badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
+.btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
 
-        .badge-paid {
-            background: var(--primary-color);
-            color: white;
-        }
+.badge {
+	padding: 4px 12px;
+	border-radius: 20px;
+	font-size: 0.8rem;
+	font-weight: 500;
+}
 
-        .badge-free {
-            background: var(--secondary-color);
-            color: white;
-        }
+.badge-paid {
+	background: var(--primary-color);
+	color: white;
+}
 
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            color: white;
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(100%);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }
+.badge-free {
+	background: var(--secondary-color);
+	color: white;
+}
 
-        .toast.success {
-            background: var(--primary-color);
-        }
+.toast {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	padding: 1rem 2rem;
+	border-radius: 12px;
+	color: white;
+	opacity: 0;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transform: translateX(100%);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+	z-index: 1000;
+}
 
-        .toast.error {
-            background: var(--error-color);
-        }
+.toast.success {
+	background: var(--primary-color);
+}
 
-        .toast.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    </style>
+.toast.error {
+	background: var(--error-color);
+}
+
+.toast.show {
+	opacity: 1;
+	transform: translateX(0);
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>View Courses</h1>
+	<div class="container">
+		<h1>View Courses</h1>
 
-        <div id="successToast" class="toast success" th:if="${session.pass}" th:text="${session.pass}"></div>
-        <div id="errorToast" class="toast error" th:if="${session.fail}" th:text="${session.fail}"></div>
-        <th:block th:text="${@generalService.removeMessage()}"></th:block>
+		<div id="successToast" class="toast success" th:if="${session.pass}"
+			th:text="${session.pass}"></div>
+		<div id="errorToast" class="toast error" th:if="${session.fail}"
+			th:text="${session.fail}"></div>
+		<th:block th:text="${@generalService.removeMessage()}"></th:block>
 
-        <table>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Type</th>
-                <th>Action</th>
-            </tr>
+		<table>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Type</th>
+				<th>Action</th>
+			</tr>
 
-            <tr th:each="course:${courses}">
-                <td th:text="${course.title}"></td>
-                <td th:text="${course.description}"></td>
-                <td>
-                    <span class="badge badge-paid" th:if="${course.paid}">Paid</span>
-                    <span class="badge badge-free" th:if="${!course.paid}">Free</span>
-                </td>
-                <td>
-                    <button class="btn btn-primary">Publish</button>
-                </td>
-            </tr>
-        </table>
+			<tr th:each="course:${courses}">
+				<td th:text="${course.title}"></td>
+				<td th:text="${course.description}"></td>
+				<td><span class="badge badge-paid" th:if="${course.paid}">Paid</span>
+					<span class="badge badge-free" th:if="${!course.paid}">Free</span>
+				</td>
+				<td th:if="${!course.published}"><a
+					th:href="'/tutor/publish/'+${course.id}"><button
+							class="btn btn-primary">Publish</button></a></td>
+				<td th:if="${course.published}">Published</td>
+			</tr>
+		</table>
 
-        <a href="/tutor/courses" class="btn btn-secondary">Back</a>
-    </div>
+		<a href="/tutor/courses" class="btn btn-secondary">Back</a>
+	</div>
 
-    <script>
+	<script>
         function showToast() {
             const successToast = document.getElementById('successToast');
             const errorToast = document.getElementById('errorToast');

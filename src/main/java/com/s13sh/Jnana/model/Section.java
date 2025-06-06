@@ -27,4 +27,54 @@ public class Section {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	List<QuizQuestion> quizQuestions;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
+	}
+
+	public String getNotesUrl() {
+		return notesUrl;
+	}
+
+	public void setNotesUrl(String notesUrl) {
+		this.notesUrl = notesUrl;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	public List<QuizQuestion> getQuizQuestions() {
+		return quizQuestions;
+	}
+
+	public void setQuizQuestions(List<QuizQuestion> quizQuestions) {
+		this.quizQuestions = quizQuestions;
+	}
+	
+	
 }
