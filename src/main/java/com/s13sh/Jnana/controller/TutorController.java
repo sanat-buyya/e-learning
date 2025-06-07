@@ -75,7 +75,8 @@ public class TutorController {
 	}
 
 	@PostMapping("/add-section")
-	public String addSection(@ModelAttribute @Valid SectionDto sectionDto, BindingResult result, HttpSession session) {
-		return tutorService.addSection(sectionDto, result, session);
+	public String addSection(@ModelAttribute @Valid SectionDto sectionDto, BindingResult result, Model model,
+			HttpSession session) {
+		return tutorService.addSection(sectionDto, result, model, session);
 	}
 }

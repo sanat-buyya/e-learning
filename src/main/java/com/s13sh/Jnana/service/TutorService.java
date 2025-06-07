@@ -1,6 +1,9 @@
 package com.s13sh.Jnana.service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.s13sh.Jnana.dto.CourseDto;
 import com.s13sh.Jnana.dto.SectionDto;
 import com.s13sh.Jnana.model.Course;
@@ -21,6 +26,9 @@ import jakarta.validation.Valid;
 
 @Service
 public class TutorService {
+
+	@Autowired
+	Cloudinary cloudinary;
 
 	@Autowired
 	CourseRepository courseRepository;
@@ -158,17 +166,20 @@ public class TutorService {
 		}
 	}
 
-	public String addSection(@Valid SectionDto sectionDto, BindingResult result, HttpSession session) {
+	public String addSection(@Valid SectionDto sectionDto, BindingResult result, Model model, HttpSession session) {
 		if (session.getAttribute("tutor") != null) {
-			if (result.hasErrors())
+			if (result.hasErrors()) {
+				List<Course> courses = courseRepository.findByTutor((Tutor) session.getAttribute("tutor"));
+				model.addAttribute("courses", courses);
 				return "add-section.html";
-			else {
+			} else {
+				Tutor tutor = (Tutor) session.getAttribute("tutor");
 				Course course = courseRepository.findById(sectionDto.getCourseId()).orElseThrow();
 				Section section = new Section();
 				section.setCourse(course);
 				section.setTitle(sectionDto.getTitle());
-				section.setNotesUrl(saveNotes(sectionDto.getNotes()));
-				section.setVideoUrl(saveVideo(sectionDto.getVideo()));
+				section.setNotesUrl(saveNotes(sectionDto.getNotes(), tutor.getName(), section.getTitle()));
+				section.setVideoUrl(saveVideo(sectionDto.getVideo(), tutor.getName(), section.getTitle()));
 				sectionRepository.save(section);
 				session.setAttribute("pass", "Section Added Success");
 				return "redirect:/tutor/sections";
@@ -179,12 +190,48 @@ public class TutorService {
 		}
 	}
 
-	String saveVideo(MultipartFile multipartFile) {
-		return "";
+	String saveVideo(MultipartFile multipartFile, String tutor, String section) {
+		try {
+			String originalFilename = multipartFile.getOriginalFilename();
+			String extension = originalFilename != null && originalFilename.contains(".")
+					? originalFilename.substring(originalFilename.lastIndexOf('.'))
+					: ".mp4";
+
+			String uniqueId = UUID.randomUUID().toString();
+
+			Map uploadResult = cloudinary.uploader().upload(multipartFile.getBytes(),
+					ObjectUtils.asMap("resource_type", "video", "public_id",
+							"elearning/videos/" + tutor + "_" + section + "_" + uniqueId, "format",
+							extension.replace(".", "")));
+
+			return (String) uploadResult.get("url");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
-	String saveNotes(MultipartFile multipartFile) {
-		return "";
+	String saveNotes(MultipartFile multipartFile, String tutor, String section) {
+		try {
+			String originalFilename = multipartFile.getOriginalFilename();
+			String extension = originalFilename != null && originalFilename.contains(".")
+					? originalFilename.substring(originalFilename.lastIndexOf('.'))
+					: ".pdf";
+
+			String uniqueId = UUID.randomUUID().toString();
+
+			Map uploadResult = cloudinary.uploader().upload(multipartFile.getBytes(),
+					ObjectUtils.asMap("resource_type", "raw", "public_id",
+							"elearning/notes/" + tutor + "_" + section + "_" + uniqueId, "format",
+							extension.replace(".", "")));
+
+			return (String) uploadResult.get("url");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
