@@ -12,6 +12,8 @@ public class CourseDto {
 	private String description;
 	@NotNull(message = "* Select Any One")
 	private boolean paid;
+	@Size(min = 5, max = 500, message = "* Questions Should be 5~500 charecters")
+	private String questions;
 	public String getTitle() {
 		return title;
 	}
@@ -30,9 +32,12 @@ public class CourseDto {
 	public void setPaid(boolean paid) {
 		this.paid = paid;
 	}
-	
-	
-	
+	public String getQuestions() {
+		return questions;
+	}
+	public void setQuestions(String questions) {
+		this.questions = questions;
+	}
 	
 	
 }

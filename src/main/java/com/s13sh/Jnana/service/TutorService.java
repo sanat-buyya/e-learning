@@ -1,9 +1,11 @@
 package com.s13sh.Jnana.service;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.s13sh.Jnana.dto.CourseDto;
 import com.s13sh.Jnana.dto.SectionDto;
 import com.s13sh.Jnana.model.Course;
+import com.s13sh.Jnana.model.QuizQuestion;
 import com.s13sh.Jnana.model.Section;
 import com.s13sh.Jnana.model.Tutor;
 import com.s13sh.Jnana.repository.CourseRepository;
@@ -101,6 +104,11 @@ public class TutorService {
 				course.setPaid(courseDto.isPaid());
 				course.setDescription(courseDto.getDescription());
 				course.setTutor((Tutor) session.getAttribute("tutor"));
+
+				List<QuizQuestion> questions = Arrays.stream(courseDto.getQuestions().split("\\?"))
+						.map(x -> new QuizQuestion(x)).collect(Collectors.toList());
+				course.setQuizQuestions(questions);
+
 				courseRepository.save(course);
 				session.setAttribute("pass", "Course Added Success");
 				return "redirect:/tutor/courses";
@@ -180,6 +188,11 @@ public class TutorService {
 				section.setTitle(sectionDto.getTitle());
 				section.setNotesUrl(saveNotes(sectionDto.getNotes(), tutor.getName(), section.getTitle()));
 				section.setVideoUrl(saveVideo(sectionDto.getVideo(), tutor.getName(), section.getTitle()));
+
+				List<QuizQuestion> questions = Arrays.stream(sectionDto.getQuestions().split("\\?"))
+						.map(x -> new QuizQuestion(x)).collect(Collectors.toList());
+				section.setQuizQuestions(questions);
+
 				sectionRepository.save(section);
 				session.setAttribute("pass", "Section Added Success");
 				return "redirect:/tutor/sections";

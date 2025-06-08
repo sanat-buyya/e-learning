@@ -16,6 +16,8 @@ public class SectionDto {
 	private MultipartFile notes;
 	@NotNull(message = "* It is Required")
 	private Long courseId;
+	@Size(min = 5, max = 500, message = "* Questions Should be 5~500 charecters")
+	private String questions;
 	public String getTitle() {
 		return title;
 	}
@@ -39,6 +41,12 @@ public class SectionDto {
 	}
 	public void setCourseId(Long courseId) {
 		this.courseId = courseId;
+	}
+	public String getQuestions() {
+		return questions;
+	}
+	public void setQuestions(String questions) {
+		this.questions = questions;
 	}
 	
 	
