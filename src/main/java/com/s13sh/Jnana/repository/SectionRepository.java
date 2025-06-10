@@ -11,4 +11,6 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
 
 	List<Section> findByCourse(Course course);
 
+	List<Section> findByCourseIn(List<Course> courses);
+
 }

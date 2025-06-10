@@ -139,7 +139,10 @@ public class TutorService {
 	public String publishCourse(Long id, HttpSession session) {
 		if (session.getAttribute("tutor") != null) {
 			Course course = courseRepository.findById(id).orElseThrow();
-
+			if (course.isPublished()) {
+				session.setAttribute("pass", "Course Already Published");
+				return "redirect:/tutor/courses";
+			}
 			List<Section> sections = sectionRepository.findByCourse(course);
 
 			if (course.getQuizQuestions().isEmpty() || sections.isEmpty()) {
@@ -147,7 +150,8 @@ public class TutorService {
 				return "redirect:/tutor/view-courses";
 			} else {
 				course.setPublished(true);
-				session.setAttribute("success", "Course Published Success");
+				courseRepository.save(course);
+				session.setAttribute("pass", "Course Published Success");
 				return "redirect:/tutor/courses";
 			}
 		} else {
@@ -244,6 +248,24 @@ public class TutorService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	public String viewSections(HttpSession session, Model model) {
+		if (session.getAttribute("tutor") != null) {
+			List<Course> courses = courseRepository.findByTutor((Tutor) session.getAttribute("tutor"));
+			List<Section> sections = sectionRepository.findByCourseIn(courses);
+
+			if (sections.isEmpty()) {
+				session.setAttribute("fail", "No Sections Added Yet");
+				return "redirect:/tutor/sections";
+			} else {
+				model.addAttribute("sections", sections);
+				return "view-sections.html";
+			}
+		} else {
+			session.setAttribute("fail", "Invalid Session, Login First");
+			return "redirect:/login";
 		}
 	}
 

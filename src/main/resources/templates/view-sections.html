@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sections</title>
+</head>
+<body>
+	<div align="center">
+		<table border="1">
+			<tr>
+				<th>Title</th>
+				<th>Course</th>
+				<th>Video</th>
+				<th>Notes</th>
+				<th>Questions</th>
+			</tr>
+
+			<tr th:each="section:${sections}">
+				<td th:text="${section.title}"></td>
+				<td th:text="${section.course.title}"></td>
+				<td><video height="200px" width="200px"
+						th:src="${section.videoUrl}" controls></video></td>
+				<td><iframe th:src="${section.notesUrl}" frameBorder="0"
+						scrolling="auto" height="100%" width="100%"></iframe>
+				</td>
+				<td><th:block th:each="question:${section.quizQuestions}"
+						th:text="${question.question}+' ? '"></th:block></td>
+			</tr>
+
+
+		</table>
+
+		<br> <br> <a href="/tutor/sections">
+			<button>Back</button>
+		</a>
+	</div>
+</body>
+</html>

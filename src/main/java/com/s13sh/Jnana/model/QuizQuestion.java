@@ -6,36 +6,38 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Entity
-@Data
-@NoArgsConstructor
 public class QuizQuestion {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String question;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public QuizQuestion(String x) {
-		this.question = x;
-	}
+    private String question;
 
-	public Long getId() {
-		return id;
-	}
+    // ✅ JPA requires a no-args constructor
+    public QuizQuestion() {
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    // Optional custom constructor
+    public QuizQuestion(String question) {
+        this.question = question;
+    }
 
-	public String getQuestion() {
-		return question;
-	}
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-	public void setQuestion(String question) {
-		this.question = question;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
 }

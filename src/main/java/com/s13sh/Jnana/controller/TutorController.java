@@ -74,4 +74,9 @@ public class TutorController {
 			HttpSession session) {
 		return tutorService.addSection(sectionDto, result, model, session);
 	}
+
+	@GetMapping("/view-sections")
+	public String viewSections(HttpSession session, Model model) {
+		return tutorService.viewSections(session, model);
+	}
 }
