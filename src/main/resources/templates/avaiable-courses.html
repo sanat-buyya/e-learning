@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Available Courses</title>
+</head>
+<body>
+	<div align="center">
+		<h1>Available Courses</h1>
+
+		<table border="1">
+			<tr>
+				<th>Course Title</th>
+				<th>Course Description</th>
+				<th>Total Sections</th>
+				<th>Sections</th>
+				<th>Price</th>
+				<th>Action</th>
+			</tr>
+
+			<tr th:each="course:${courses}">
+				<td th:text="${course.title}"></td>
+				<td th:text="${course.description}"></td>
+				<td th:text="${@sectionRepository.findByCourse(course).size()}"></td>
+				<td><th:block
+						th:each="section:${@sectionRepository.findByCourse(course)}"
+						th:text="${section.title}">
+					</th:block></td>
+				<td th:if="${!course.paid}">Free</td>
+				<td th:if="${course.paid}">199 &#8377</td>
+				<td>
+					<a th:href="'/learner/enroll/'+${course.id}"> <button>Enroll</button></a>
+				</td>
+			</tr>
+
+
+		</table>
+
+		<br> <a href="/learner/home">
+			<button>Back</button>
+		</a>
+	</div>
+</body>
+</html>
