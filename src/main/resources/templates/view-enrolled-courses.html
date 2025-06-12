@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Enrolled Courses</title>
+</head>
+<body>
+	<div align="center">
+		<h1>View Courses</h1>
+
+		<table border="1">
+			<tr>
+				<th>Course Title</th>
+				<th>Course Description</th>
+				<th>View Content</th>
+				<th>Quiz</th>
+				<th>Certificate</th>
+			</tr>
+			<tr th:each="enrolledCourse:${enrolledCourses}">
+				<td th:text="${enrolledCourse.course.title}"></td>
+				<td th:text="${enrolledCourse.course.description}"></td>
+				<td>
+					<a th:href="'/learner/view-enrolled-sections/'+${enrolledCourse.id}"> <button>View Sections</button> </a>
+				</td>
+				<td>
+					<button>Take Quiz</button>
+				</td>
+				<td>
+					<button>View Certificate</button>
+				</td>
+			</tr>
+		</table>
+
+		<br>
+		<br> <a href="/learner/home">
+			<button>Back</button>
+		</a>
+	</div>
+</body>
+</html>

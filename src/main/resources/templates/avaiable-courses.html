@@ -2,43 +2,141 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Available Courses</title>
+<title>Learner Dashboard - Jnana</title>
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+	rel="stylesheet">
+<style>
+:root {
+	--primary-color: #4CAF50;
+	--secondary-color: #2196F3;
+	--text-color: #2c3e50;
+	--shadow-color: rgba(0, 0, 0, 0.1);
+	--error-color: #f44336;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+
+body {
+	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+	min-height: 100vh;
+	padding: 20px;
+}
+
+.container {
+	background: white;
+	padding: 2rem;
+	border-radius: 20px;
+	box-shadow: 0 15px 30px var(--shadow-color);
+	width: 90%;
+	max-width: 1200px;
+	margin: 20px auto;
+	animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {from { opacity:0;
+	transform: translateY(-20px);
+}
+
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+}
+h1 {
+	color: var(--text-color);
+	font-size: 2.5rem;
+	font-weight: 600;
+	margin-bottom: 2rem;
+	text-align: center;
+}
+
+.btn {
+	padding: 12px 25px;
+	border: none;
+	border-radius: 30px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	font-weight: 500;
+	text-decoration: none;
+	letter-spacing: 0.5px;
+	color: white;
+	background: var(--secondary-color);
+	display: inline-block;
+}
+
+.btn:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.toast {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	padding: 1rem 2rem;
+	border-radius: 12px;
+	color: white;
+	opacity: 0;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transform: translateX(100%);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+	z-index: 1000;
+}
+
+.toast.success {
+	background: var(--primary-color);
+}
+
+.toast.error {
+	background: var(--error-color);
+}
+
+.toast.show {
+	opacity: 1;
+	transform: translateX(0);
+}
+</style>
 </head>
 <body>
-	<div align="center">
-		<h1>Available Courses</h1>
+	<div class="container">
+		<h1>Learner Dashboard</h1>
 
-		<table border="1">
-			<tr>
-				<th>Course Title</th>
-				<th>Course Description</th>
-				<th>Total Sections</th>
-				<th>Sections</th>
-				<th>Price</th>
-				<th>Action</th>
-			</tr>
-
-			<tr th:each="course:${courses}">
-				<td th:text="${course.title}"></td>
-				<td th:text="${course.description}"></td>
-				<td th:text="${@sectionRepository.findByCourse(course).size()}"></td>
-				<td><th:block
-						th:each="section:${@sectionRepository.findByCourse(course)}"
-						th:text="${section.title}">
-					</th:block></td>
-				<td th:if="${!course.paid}">Free</td>
-				<td th:if="${course.paid}">199 &#8377</td>
-				<td>
-					<a th:href="'/learner/enroll/'+${course.id}"> <button>Enroll</button></a>
-				</td>
-			</tr>
+		<div id="successToast" class="toast success" th:if="${session.pass}"
+			th:text="${session.pass}"></div>
+		<div id="errorToast" class="toast error" th:if="${session.fail}"
+			th:text="${session.fail}"></div>
+		<th:block th:text="${@generalService.removeMessage()}"></th:block>
 
 
-		</table>
-
-		<br> <a href="/learner/home">
-			<button>Back</button>
-		</a>
+		<a href="/learner/view-courses" class="btn">See Available Courses</a> <a href="/learner/enrolled-courses"
+			class="btn">View Enrolled Courses</a> <a href="" class="btn">View
+			Completed Courses</a> <a href="/logout" class="btn">Logout</a>
 	</div>
+
+	<script>
+        function showToast() {
+            const successToast = document.getElementById('successToast');
+            const errorToast = document.getElementById('errorToast');
+            
+            [successToast, errorToast].forEach(toast => {
+                if (toast && toast.textContent.trim() !== '') {
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 2000);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', showToast);
+    </script>
 </body>
 </html>

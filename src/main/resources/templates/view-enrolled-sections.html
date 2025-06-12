@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>View Sections</title>
+</head>
+<body>
+	<div align="Center">
+		<h1>View Sections</h1>
+
+		<table border="1">
+			<tr>
+				<th>Section Title</th>
+				<th>Video</th>
+				<th>Notes</th>
+				<th>Take Quiz</th>
+			</tr>
+
+			<tr th:each="enrolledSection:${enrolledSections}">
+				<td th:text="${enrolledSection.section.title}"></td>
+				<td>
+					<button>View</button>
+				</td>
+				<td>
+					<button>Download</button>
+				</td>
+				<td>
+					<button>Take Quiz</button>
+				</td>
+			</tr>
+
+		</table>
+
+		<br> <br> <a href="/learner/enrolled-courses">
+			<button>Back</button>
+		</a>
+
+	</div>
+</body>
+</html>
