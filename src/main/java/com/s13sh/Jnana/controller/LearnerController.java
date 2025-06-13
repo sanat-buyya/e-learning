@@ -43,4 +43,13 @@ public class LearnerController {
 		return learnerService.viewEnrolledSections(session, id, model);
 	}
 
+	@GetMapping("/view-video/{id}")
+	public String viewVideo(HttpSession session, @PathVariable Long id, Model model) {
+		return learnerService.viewVideo(session, id, model);
+	}
+
+	@GetMapping("/section/quiz/{id}")
+	public String loadSectionQuiz(@PathVariable Long id, HttpSession session, Model model) {
+		return learnerService.loadSectionQuiz(id, session, model);
+	}
 }

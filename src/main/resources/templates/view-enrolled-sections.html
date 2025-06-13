@@ -18,14 +18,14 @@
 
 			<tr th:each="enrolledSection:${enrolledSections}">
 				<td th:text="${enrolledSection.section.title}"></td>
+				<td><a th:href="'/learner/view-video/'+${enrolledSection.id}">
+						<button>View</button>
+				</a></td>
+				<td><a th:href="${enrolledSection.section.notesUrl}" target="_blank">
+						<button>Download</button>
+				</a></td>
 				<td>
-					<button>View</button>
-				</td>
-				<td>
-					<button>Download</button>
-				</td>
-				<td>
-					<button>Take Quiz</button>
+					<a th:href="'/learner/section/quiz/'+${enrolledSection.id}"> <button>Take Quiz</button> </a>
 				</td>
 			</tr>
 

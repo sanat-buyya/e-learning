@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz</title>
+</head>
+<body>
+	<div align="center">
+		<h1>Quiz</h1>
+
+		<form th:action="'/learner/section/quiz/'+${id}" method="post">
+			<div th:each="question:${questions}">
+				<h3 th:text="${question.question}"></h3>
+				<textarea th:name="${question.id}" rows="5" cols="30" placeholder="Type Answer Here"></textarea>
+			</div>
+
+			<button>Submit</button>
+		</form>
+	</div>
+</body>
+</html>

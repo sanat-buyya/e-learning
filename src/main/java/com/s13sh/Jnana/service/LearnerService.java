@@ -16,9 +16,11 @@ import com.s13sh.Jnana.model.Course;
 import com.s13sh.Jnana.model.EnrolledCourse;
 import com.s13sh.Jnana.model.EnrolledSection;
 import com.s13sh.Jnana.model.Learner;
+import com.s13sh.Jnana.model.QuizQuestion;
 import com.s13sh.Jnana.model.Section;
 import com.s13sh.Jnana.repository.CourseRepository;
 import com.s13sh.Jnana.repository.EnrolledCourseRepository;
+import com.s13sh.Jnana.repository.EnrolledSectionRepository;
 import com.s13sh.Jnana.repository.LearnerRepository;
 import com.s13sh.Jnana.repository.SectionRepository;
 
@@ -32,6 +34,9 @@ public class LearnerService {
 
 	@Autowired
 	LearnerRepository learnerRepository;
+
+	@Autowired
+	EnrolledSectionRepository enrolledSectionRepository;
 
 	@Autowired
 	SectionRepository sectionRepository;
@@ -154,6 +159,46 @@ public class LearnerService {
 
 			model.addAttribute("enrolledSections", enrolledSections);
 			return "view-enrolled-sections.html";
+		} else {
+			session.setAttribute("fail", "Invalid Session, Login First");
+			return "redirect:/login";
+		}
+	}
+
+	public String viewVideo(HttpSession session, Long id, Model model) {
+		if (session.getAttribute("learner") != null) {
+
+			EnrolledSection section = enrolledSectionRepository.findById(id).get();
+			section.setSectionCompleted(true);
+
+			enrolledSectionRepository.save(section);
+
+			String videoUrl = section.getSection().getVideoUrl();
+			model.addAttribute("link", videoUrl);
+			EnrolledCourse course = enrolledCourseRepository.findByEnrolledSections(section);
+			model.addAttribute("id", course.getId());
+			return "play-video.html";
+		} else {
+			session.setAttribute("fail", "Invalid Session, Login First");
+			return "redirect:/login";
+		}
+	}
+
+	public String loadSectionQuiz(Long id, HttpSession session, Model model) {
+		if (session.getAttribute("learner") != null) {
+
+			EnrolledSection section = enrolledSectionRepository.findById(id).get();
+
+			if (!section.isSectionCompleted()) {
+				EnrolledCourse course = enrolledCourseRepository.findByEnrolledSections(section);
+				session.setAttribute("fail", "First Complete the Section to Take Quiz");
+				return "redirect:/learner/view-enrolled-sections/" + course.getId();
+			}
+			List<QuizQuestion> questions = section.getSection().getQuizQuestions();
+			model.addAttribute("questions", questions);
+			model.addAttribute("id", id);
+
+			return "section-quiz.html";
 		} else {
 			session.setAttribute("fail", "Invalid Session, Login First");
 			return "redirect:/login";

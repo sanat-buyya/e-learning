@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VIdeo</title>
+</head>
+<body>
+	<div align="center">
+
+		<iframe height="500px" width="500px" th:src="${link}"></iframe>
+
+		<a th:href="'/learner/view-enrolled-sections/'+${id}">
+			<button>Back</button>
+		</a>
+	</div>
+</body>
+</html>
