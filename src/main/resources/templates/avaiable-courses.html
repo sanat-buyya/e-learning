@@ -1,142 +1,231 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Learner Dashboard - Jnana</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-	rel="stylesheet">
-<style>
-:root {
-	--primary-color: #4CAF50;
-	--secondary-color: #2196F3;
-	--text-color: #2c3e50;
-	--shadow-color: rgba(0, 0, 0, 0.1);
-	--error-color: #f44336;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Poppins', sans-serif;
-}
-
-body {
-	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-	min-height: 100vh;
-	padding: 20px;
-}
-
-.container {
-	background: white;
-	padding: 2rem;
-	border-radius: 20px;
-	box-shadow: 0 15px 30px var(--shadow-color);
-	width: 90%;
-	max-width: 1200px;
-	margin: 20px auto;
-	animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {from { opacity:0;
-	transform: translateY(-20px);
-}
-
-to {
-	opacity: 1;
-	transform: translateY(0);
-}
-
-}
-h1 {
-	color: var(--text-color);
-	font-size: 2.5rem;
-	font-weight: 600;
-	margin-bottom: 2rem;
-	text-align: center;
-}
-
-.btn {
-	padding: 12px 25px;
-	border: none;
-	border-radius: 30px;
-	font-size: 1rem;
-	cursor: pointer;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	font-weight: 500;
-	text-decoration: none;
-	letter-spacing: 0.5px;
-	color: white;
-	background: var(--secondary-color);
-	display: inline-block;
-}
-
-.btn:hover {
-	transform: translateY(-3px);
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.toast {
-	position: fixed;
-	top: 20px;
-	right: 20px;
-	padding: 1rem 2rem;
-	border-radius: 12px;
-	color: white;
-	opacity: 0;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	transform: translateX(100%);
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-	z-index: 1000;
-}
-
-.toast.success {
-	background: var(--primary-color);
-}
-
-.toast.error {
-	background: var(--error-color);
-}
-
-.toast.show {
-	opacity: 1;
-	transform: translateX(0);
-}
-</style>
-</head>
-<body>
-	<div class="container">
-		<h1>Learner Dashboard</h1>
-
-		<div id="successToast" class="toast success" th:if="${session.pass}"
-			th:text="${session.pass}"></div>
-		<div id="errorToast" class="toast error" th:if="${session.fail}"
-			th:text="${session.fail}"></div>
-		<th:block th:text="${@generalService.removeMessage()}"></th:block>
-
-
-		<a href="/learner/view-courses" class="btn">See Available Courses</a> <a href="/learner/enrolled-courses"
-			class="btn">View Enrolled Courses</a> <a href="" class="btn">View
-			Completed Courses</a> <a href="/logout" class="btn">Logout</a>
-	</div>
-
-	<script>
-        function showToast() {
-            const successToast = document.getElementById('successToast');
-            const errorToast = document.getElementById('errorToast');
-            
-            [successToast, errorToast].forEach(toast => {
-                if (toast && toast.textContent.trim() !== '') {
-                    toast.classList.add('show');
-                    setTimeout(() => {
-                        toast.classList.remove('show');
-                    }, 2000);
-                }
-            });
+    <meta charset="UTF-8">
+    <title>Available Courses - Jnana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --text-color: #2c3e50;
+            --shadow-color: rgba(0,0,0,0.1);
+            --error-color: #f44336;
+            --bg-light: #f5f7fa;
+            --accent-color: #ff5722;
         }
 
-        document.addEventListener('DOMContentLoaded', showToast);
-    </script>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-light);
+            min-height: 100vh;
+            padding-top: 100px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.2rem 5%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            margin: 2rem auto;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            transition: transform 0.3s ease;
+            animation: slideUp 0.5s ease-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-title {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .course-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .course-sections {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .price-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+            color: white;
+            margin: 1rem 0;
+        }
+
+        .price-free {
+            background: var(--secondary-color);
+        }
+
+        .price-paid {
+            background: var(--primary-color);
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .btn-enroll {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .btn-enrolled {
+            background: var(--accent-color);
+            cursor: default;
+        }
+
+        .btn-back {
+            background: var(--text-color);
+        }
+
+        .footer {
+            background: linear-gradient(to right, var(--text-color), #1a2634);
+            color: white;
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: auto;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/learner/home" class="logo">Jnana</a>
+    </nav>
+
+    <div class="container">
+        <h1>Available Courses</h1>
+
+        <div class="course-grid">
+            <div class="course-card" th:each="course:${courses}">
+                <h2 class="course-title" th:text="${course.title}"></h2>
+                <p class="course-description" th:text="${course.description}"></p>
+                
+                <div class="course-sections">
+                    <strong>Total Sections: </strong>
+                    <span th:text="${@sectionRepository.findByCourse(course).size()}"></span>
+                    <div>
+                        <strong>Sections: </strong>
+                        <span th:each="section:${@sectionRepository.findByCourse(course)}" 
+                              th:text="${section.title} + ', '">
+                        </span>
+                    </div>
+                </div>
+
+                <span class="price-tag" 
+                      th:classappend="${!course.paid ? 'price-free' : 'price-paid'}"
+                      th:text="${!course.paid ? 'Free' : '199 ₹'}">
+                </span>
+
+                <a th:if="${!session.learner.checkCourse(course.id)}" 
+                   th:href="'/learner/enroll/'+${course.id}" 
+                   class="btn btn-enroll">
+                    <i class="fas fa-graduation-cap"></i>
+                    Enroll Now
+                </a>
+                <span th:if="${session.learner.checkCourse(course.id)}" 
+                      class="btn btn-enrolled">
+                    <i class="fas fa-check-circle"></i>
+                    Already Enrolled
+                </span>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="/learner/home" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Jnana. All rights reserved.</p>
+    </footer>
 </body>
 </html>

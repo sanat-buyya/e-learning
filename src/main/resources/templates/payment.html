@@ -1,39 +1,168 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Payment - Jnana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --text-color: #2c3e50;
+            --shadow-color: rgba(0,0,0,0.1);
+            --bg-light: #f5f7fa;
+            --accent-color: #ff5722;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-light);
+            min-height: 100vh;
+            padding-top: 100px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.2rem 5%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .payment-info {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--bg-light);
+            border-radius: 15px;
+        }
+
+        .amount {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 1rem 0;
+        }
+
+        #rzp-button1 {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: white;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        #rzp-button1:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer {
+            background: linear-gradient(to right, var(--text-color), #1a2634);
+            color: white;
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: auto;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-<button id="rzp-button1">Pay with Razorpay</button>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script th:inline="javascript">
-var options = {
-    "key": [[${key}]], 
-    "amount": [[${amount}]], 
-    "currency": [[${currency}]],
-    "name": "Jnana Elearning App",
-    "description": "Enrollment of Course",
-    "image": "https://example.com/your_logo",
-    "order_id": [[${orderId}]],
-    "callback_url": "/payment",
-    "prefill": {
-        "name": "Gaurav Kumar",
-        "email": "gaurav.kumar@example.com",
-        "contact": "9000090000"
-    },
-    "notes": {
-        "address": "Razorpay Corporate Office"
-    },
-    "theme": {
-        "color": "#3399cc"
-    }
-};
-var rzp1 = new Razorpay(options);
-document.getElementById('rzp-button1').onclick = function(e){
-    rzp1.open();
-    e.preventDefault();
-}
-</script>
+    <nav class="navbar">
+        <a href="/learner/home" class="logo">Jnana</a>
+    </nav>
+
+    <div class="container">
+        <h1>Course Payment</h1>
+        
+        <div class="payment-info">
+            <div class="amount">₹ [[${amount/100}]]</div>
+            <p>Complete your payment to access the course</p>
+        </div>
+
+        <button id="rzp-button1">
+            <i class="fas fa-lock"></i>
+            Pay Securely
+        </button>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Jnana. All rights reserved.</p>
+    </footer>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script th:inline="javascript">
+        var options = {
+            "key": [[${key}]], 
+            "amount": [[${amount}]], 
+            "currency": [[${currency}]],
+            "name": "Jnana E-Learning",
+            "description": "Course Enrollment",
+            "image": "https://yogastudies.org/wp-content/uploads/jnana.jpg",
+            "order_id": [[${orderId}]],
+            "callback_url": "/payment",
+            "prefill": {
+                "name": [[${session.learner.name}]],
+                "email": [[${session.learner.email}]],
+                "contact": [[${session.learner.mobile}]]
+            },
+            "theme": {
+                "color": "#4CAF50"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        document.getElementById('rzp-button1').onclick = function(e){
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
 </body>
 </html>

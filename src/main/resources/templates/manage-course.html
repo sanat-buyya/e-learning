@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Manage Courses - Jnana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #4CAF50;
@@ -11,6 +13,8 @@
             --text-color: #2c3e50;
             --shadow-color: rgba(0,0,0,0.1);
             --error-color: #f44336;
+            --bg-light: #f5f7fa;
+            --accent-color: #ff5722;
         }
 
         * {
@@ -21,27 +25,27 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--bg-light);
             min-height: 100vh;
+            padding-top: 100px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            flex-direction: column;
         }
 
         .container {
+            margin: 2rem auto;
+            padding: 2.5rem;
             background: white;
-            padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 15px 30px var(--shadow-color);
+            box-shadow: 0 8px 30px var(--shadow-color);
             width: 90%;
-            max-width: 800px;
+            max-width: 1000px;
             text-align: center;
-            animation: fadeIn 0.5s ease-out;
+            animation: slideUp 0.5s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -53,23 +57,27 @@
         }
 
         .btn-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
         }
 
         .btn {
-            padding: 12px 25px;
+            padding: 1.2rem;
             border: none;
-            border-radius: 30px;
-            font-size: 1rem;
+            border-radius: 15px;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             font-weight: 500;
-            text-decoration: none;
             color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
         }
 
         .btn-primary {
@@ -111,9 +119,79 @@
             opacity: 1;
             transform: translateX(0);
         }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.2rem 5%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logout {
+            color: white;
+            background: linear-gradient(45deg, var(--error-color), var(--accent-color));
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+        }
+
+        .nav-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .footer {
+            background: linear-gradient(to right, var(--text-color), #1a2634);
+            color: white;
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: auto;
+        }
+
+        .footer p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <a href="/tutor/home" class="logo">Jnana</a>
+        <div class="nav-links">
+            <a href="/logout" class="nav-btn nav-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </div>
+    </nav>
+
     <div class="container">
         <h1>Manage Courses</h1>
         
@@ -122,11 +200,24 @@
         <th:block th:text="${@generalService.removeMessage()}"></th:block>
 
         <div class="btn-group">
-            <a href="/tutor/add-course" class="btn btn-primary">Add Course</a>
-            <a href="/tutor/view-courses" class="btn btn-secondary">View All Courses</a>
-            <a href="/tutor/home" class="btn btn-secondary">Back</a>
+            <a href="/tutor/add-course" class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                Add Course
+            </a>
+            <a href="/tutor/view-courses" class="btn btn-secondary">
+                <i class="fas fa-list"></i>
+                View All Courses
+            </a>
+            <a href="/tutor/home" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
         </div>
     </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Jnana. All rights reserved.</p>
+    </footer>
 
     <script>
         function showToast() {

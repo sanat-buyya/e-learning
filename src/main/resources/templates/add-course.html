@@ -1,218 +1,284 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Add Course - Jnana</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-	rel="stylesheet">
-<style>
-:root {
-	--primary-color: #4CAF50;
-	--secondary-color: #2196F3;
-	--text-color: #2c3e50;
-	--shadow-color: rgba(0, 0, 0, 0.1);
-	--error-color: #f44336;
-}
+    <meta charset="UTF-8">
+    <title>Add Course - Jnana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --text-color: #2c3e50;
+            --shadow-color: rgba(0,0,0,0.1);
+            --error-color: #f44336;
+            --bg-light: #f5f7fa;
+            --accent-color: #ff5722;
+        }
 
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Poppins', sans-serif;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-body {
-	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-	min-height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 20px;
-}
+        body {
+            background: var(--bg-light);
+            min-height: 100vh;
+            padding-top: 100px;
+            display: flex;
+            flex-direction: column;
+        }
 
-.container {
-	background: white;
-	padding: 3rem;
-	border-radius: 20px;
-	box-shadow: 0 15px 30px var(--shadow-color);
-	width: 90%;
-	max-width: 600px;
-	animation: fadeIn 0.5s ease-out;
-}
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.2rem 5%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-@keyframes fadeIn {from { opacity:0;
-	transform: translateY(-20px);
-}
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
 
-to {
-	opacity: 1;
-	transform: translateY(0);
-}
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-}
-h1 {
-	color: var(--text-color);
-	margin-bottom: 2rem;
-	font-size: 2.5rem;
-	font-weight: 600;
-	text-align: center;
-}
+        .nav-logout {
+            color: white;
+            background: linear-gradient(45deg, var(--error-color), var(--accent-color));
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+        }
 
-.form-group {
-	margin-bottom: 1.5rem;
-}
+        .container {
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            width: 90%;
+            max-width: 800px;
+            animation: slideUp 0.5s ease-out;
+        }
 
-.form-group label {
-	display: block;
-	margin-bottom: 0.5rem;
-	color: var(--text-color);
-}
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-input[type="text"], textarea {
-	width: 100%;
-	padding: 12px;
-	border: 2px solid #e0e0e0;
-	border-radius: 8px;
-	font-size: 1rem;
-	transition: border-color 0.3s ease;
-	font-family: 'Poppins', sans-serif;
-}
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
 
-textarea {
-	resize: vertical;
-	min-height: 120px;
-}
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
-input[type="text"]:focus, textarea:focus {
-	border-color: var(--secondary-color);
-	outline: none;
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
 
-.radio-group {
-	margin: 1rem 0;
-	display: flex;
-	gap: 2rem;
-	justify-content: center;
-}
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
 
-.radio-group label {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	cursor: pointer;
-}
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
 
-.btn {
-	padding: 14px 35px;
-	border: none;
-	border-radius: 30px;
-	font-size: 1.1rem;
-	cursor: pointer;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	font-weight: 500;
-	text-decoration: none;
-	letter-spacing: 0.5px;
-}
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
 
-.btn-primary {
-	background: var(--primary-color);
-	color: white;
-	width: 100%;
-	margin-bottom: 1rem;
-}
+        .radio-group {
+            margin: 1rem 0;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+        }
 
-.btn-secondary {
-	background: var(--secondary-color);
-	color: white;
-}
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
 
-.btn:hover {
-	transform: translateY(-3px);
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
+        .btn {
+            padding: 14px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
 
-.error {
-	color: var(--error-color);
-	font-size: 0.875rem;
-	margin-top: 0.25rem;
-}
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
 
-.toast {
-	position: fixed;
-	top: 20px;
-	right: 20px;
-	padding: 1rem 2rem;
-	border-radius: 12px;
-	color: white;
-	opacity: 0;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	transform: translateX(100%);
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-	z-index: 1000;
-}
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
 
-.toast.success {
-	background: var(--primary-color);
-}
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
 
-.toast.error {
-	background: var(--error-color);
-}
+        .error {
+            color: var(--error-color);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
 
-.toast.show {
-	opacity: 1;
-	transform: translateX(0);
-}
-</style>
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            color: white;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .toast.success {
+            background: var(--primary-color);
+        }
+
+        .toast.error {
+            background: var(--error-color);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .footer {
+            background: linear-gradient(to right, var(--text-color), #1a2634);
+            color: white;
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: auto;
+        }
+
+        .footer p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+    </style>
 </head>
 <body>
-	<div class="container">
-		<h1>Add Course</h1>
+    <nav class="navbar">
+        <a href="/tutor/home" class="logo">Jnana</a>
+        <div class="nav-links">
+            <a href="/logout" class="nav-btn nav-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </div>
+    </nav>
 
-		<div id="successToast" class="toast success" th:if="${session.pass}"
-			th:text="${session.pass}"></div>
-		<div id="errorToast" class="toast error" th:if="${session.fail}"
-			th:text="${session.fail}"></div>
-		<th:block th:text="${@generalService.removeMessage()}"></th:block>
+    <div class="container">
+        <h1>Add Course</h1>
 
-		<form action="/tutor/add-course" method="post"
-			th:object="${courseDto}">
-			<div class="form-group">
-				<label>Title</label> <input type="text" th:field="*{title}">
-				<span class="error" th:errors="*{title}"></span>
-			</div>
+        <div id="successToast" class="toast success" th:if="${session.pass}"
+            th:text="${session.pass}"></div>
+        <div id="errorToast" class="toast error" th:if="${session.fail}"
+            th:text="${session.fail}"></div>
+        <th:block th:text="${@generalService.removeMessage()}"></th:block>
 
-			<div class="form-group">
-				<label>Description</label>
-				<textarea th:field="*{description}"></textarea>
-				<span class="error" th:errors="*{description}"></span>
-			</div>
+        <form action="/tutor/add-course" method="post"
+            th:object="${courseDto}">
+            <div class="form-group">
+                <label>Title</label> <input type="text" th:field="*{title}">
+                <span class="error" th:errors="*{title}"></span>
+            </div>
 
-			<div class="form-group">
-				<label>Type</label>
-				<div class="radio-group">
-					<label> <input type="radio" th:field="*{paid}" value="true">
-						Paid
-					</label> <label> <input type="radio" th:field="*{paid}"
-						value="false"> Free
-					</label>
-				</div>
-			</div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea th:field="*{description}"></textarea>
+                <span class="error" th:errors="*{description}"></span>
+            </div>
 
-			Enter Quiz QUestions (If Multiple questions use full stop(?) to
-			seperate):
-			<textarea rows="5" cols="30" th:field="*{questions}">
-            	
+            <div class="form-group">
+                <label>Type</label>
+                <div class="radio-group">
+                    <label> <input type="radio" th:field="*{paid}" value="true">
+                        Paid
+                    </label> <label> <input type="radio" th:field="*{paid}"
+                        value="false"> Free
+                    </label>
+                </div>
+            </div>
+
+            Enter Quiz QUestions (If Multiple questions use full stop(?) to
+            seperate):
+            <textarea rows="5" cols="30" th:field="*{questions}">
+                
             </textarea>
-			<span class="error" th:errors="*{questions}"></span>
+            <span class="error" th:errors="*{questions}"></span>
 
-			<button type="submit" class="btn btn-primary">Add Course</button>
-			<a href="/tutor/courses" class="btn btn-secondary">Back</a>
-		</form>
-	</div>
+            <button type="submit" class="btn btn-primary">Add Course</button>
+            <a href="/tutor/courses" class="btn btn-secondary">Back</a>
+        </form>
+    </div>
 
-	<script>
+    <footer class="footer">
+        <p>&copy; 2025 Jnana. All rights reserved.</p>
+    </footer>
+
+    <script>
         function showToast() {
             const successToast = document.getElementById('successToast');
             const errorToast = document.getElementById('errorToast');

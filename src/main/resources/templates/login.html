@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - Jnana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #4CAF50;
             --secondary-color: #2196F3;
             --text-color: #2c3e50;
-            --shadow-color: rgba(0,0,0,0.1);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --bg-light: #f8f9fa;
+            --accent-color: #ff6b6b;
             --error-color: #f44336;
         }
 
@@ -21,35 +25,55 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--bg-light);
             min-height: 100vh;
+            padding-top: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.2rem 5%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: 1px;
         }
 
         .container {
             background: white;
             padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 15px 30px var(--shadow-color);
+            box-shadow: 0 8px 30px var(--shadow-color);
             width: 90%;
             max-width: 500px;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            animation: slideUp 0.5s ease-out;
         }
 
         h1 {
-            color: var(--text-color);
+            font-size: 2.2rem;
             margin-bottom: 2rem;
-            font-size: 2.5rem;
-            font-weight: 600;
             text-align: center;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .form-group {
@@ -60,55 +84,78 @@
             display: block;
             margin-bottom: 0.5rem;
             color: var(--text-color);
+            font-weight: 500;
         }
 
-        input[type="email"],
-        input[type="password"] {
+        .form-group input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 20px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            background: var(--bg-light);
         }
 
-        input[type="email"]:focus,
-        input[type="password"]:focus {
+        .form-group input:focus {
             border-color: var(--secondary-color);
+            box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.1);
             outline: none;
         }
 
         button {
-            background: var(--primary-color);
-            color: white;
-            padding: 14px 35px;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 500;
             width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
             margin-top: 1rem;
         }
 
         button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1000;
         }
 
         .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
             padding: 1rem 2rem;
             border-radius: 12px;
             color: white;
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(100%);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 0.5rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            line-height: 1;
+        }
+
+        .toast-close:hover {
+            opacity: 1;
         }
 
         .toast.success {
@@ -119,20 +166,47 @@
             background: var(--error-color);
         }
 
-        .toast.show {
-            opacity: 1;
-            transform: translateX(0);
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Login</h1>
-        
-        <div id="successToast" class="toast success" th:if="${session.pass}" th:text="${session.pass}"></div>
-        <div id="errorToast" class="toast error" th:if="${session.fail}" th:text="${session.fail}"></div>
-        <th:block th:text="${@generalService.removeMessage()}"></th:block>
+    <nav class="navbar">
+        <a href="/" class="logo">Jnana</a>
+    </nav>
 
+    <div class="container">
+        <h1>Welcome Back</h1>
         <form action="/login" method="post">
             <div class="form-group">
                 <label for="email">Email</label>
@@ -148,17 +222,47 @@
         </form>
     </div>
 
+    <div class="toast-container">
+        <div id="successToast" class="toast success" th:if="${session.pass}">
+            <span th:text="${session.pass}"></span>
+            <button class="toast-close">&times;</button>
+        </div>
+        <div id="errorToast" class="toast error" th:if="${session.fail}">
+            <span th:text="${session.fail}"></span>
+            <button class="toast-close">&times;</button>
+        </div>
+        <th:block th:text="${@generalService.removeMessage()}"></th:block>
+    </div>
+
     <script>
         function showToast() {
-            const successToast = document.getElementById('successToast');
-            const errorToast = document.getElementById('errorToast');
+            const toasts = document.querySelectorAll('.toast');
             
-            [successToast, errorToast].forEach(toast => {
+            toasts.forEach(toast => {
                 if (toast && toast.textContent.trim() !== '') {
-                    toast.classList.add('show');
+                    // Show toast
+                    toast.style.display = 'flex';
+                    
+                    // Add click event for close button
+                    const closeBtn = toast.querySelector('.toast-close');
+                    closeBtn.addEventListener('click', () => {
+                        toast.style.animation = 'slideOut 0.3s ease-out forwards';
+                        setTimeout(() => {
+                            toast.remove();
+                        }, 300);
+                    });
+                    
+                    // Auto hide toast after 3 seconds
                     setTimeout(() => {
-                        toast.classList.remove('show');
-                    }, 2000);
+                        if (toast.isConnected) {
+                            toast.style.animation = 'slideOut 0.3s ease-out forwards';
+                            setTimeout(() => {
+                                if (toast.isConnected) {
+                                    toast.remove();
+                                }
+                            }, 300);
+                        }
+                    }, 3000);
                 }
             });
         }

@@ -1,40 +1,200 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
-<title>View Sections</title>
+    <meta charset="UTF-8">
+    <title>Course Sections - Jnana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --text-color: #2c3e50;
+            --shadow-color: rgba(0,0,0,0.1);
+            --error-color: #f44336;
+            --bg-light: #f5f7fa;
+            --accent-color: #ff5722;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-light);
+            min-height: 100vh;
+            padding-top: 100px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.2rem 5%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            margin: 2rem auto;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            transition: transform 0.3s ease;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-title {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-video {
+            background: var(--primary-color);
+        }
+
+        .btn-notes {
+            background: var(--secondary-color);
+        }
+
+        .btn-quiz {
+            background: var(--accent-color);
+        }
+
+        .btn-back {
+            background: var(--text-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer {
+            background: linear-gradient(to right, var(--text-color), #1a2634);
+            color: white;
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: auto;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-	<div align="Center">
-		<h1>View Sections</h1>
+    <nav class="navbar">
+        <a href="/learner/home" class="logo">Jnana</a>
+    </nav>
 
-		<table border="1">
-			<tr>
-				<th>Section Title</th>
-				<th>Video</th>
-				<th>Notes</th>
-				<th>Take Quiz</th>
-			</tr>
+    <div class="container">
+        <h1>Course Sections</h1>
 
-			<tr th:each="enrolledSection:${enrolledSections}">
-				<td th:text="${enrolledSection.section.title}"></td>
-				<td><a th:href="'/learner/view-video/'+${enrolledSection.id}">
-						<button>View</button>
-				</a></td>
-				<td><a th:href="${enrolledSection.section.notesUrl}" target="_blank">
-						<button>Download</button>
-				</a></td>
-				<td>
-					<a th:href="'/learner/section/quiz/'+${enrolledSection.id}"> <button>Take Quiz</button> </a>
-				</td>
-			</tr>
+        <div class="section-grid">
+            <div class="section-card" th:each="enrolledSection:${enrolledSections}">
+                <h2 class="section-title" th:text="${enrolledSection.section.title}"></h2>
+                
+                <div class="btn-group">
+                    <a th:href="'/learner/view-video/'+${enrolledSection.id}" class="btn btn-video">
+                        <i class="fas fa-play-circle"></i>
+                        Watch Video
+                    </a>
+                    <a th:href="${enrolledSection.section.notesUrl}" target="_blank" class="btn btn-notes">
+                        <i class="fas fa-file-pdf"></i>
+                        View Notes
+                    </a>
+                    <a th:href="'/learner/section/quiz/'+${enrolledSection.id}" class="btn btn-quiz">
+                        <i class="fas fa-question-circle"></i>
+                        Take Quiz
+                    </a>
+                </div>
+            </div>
+        </div>
 
-		</table>
+        <div style="text-align: center;">
+            <a href="/learner/enrolled-courses" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
+        </div>
+    </div>
 
-		<br> <br> <a href="/learner/enrolled-courses">
-			<button>Back</button>
-		</a>
-
-	</div>
+    <footer class="footer">
+        <p>&copy; 2025 Jnana. All rights reserved.</p>
+    </footer>
 </body>
 </html>

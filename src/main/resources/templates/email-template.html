@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Jnana - Email Verification</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #4CAF50;
             --secondary-color: #2196F3;
             --text-color: #2c3e50;
             --shadow-color: rgba(0,0,0,0.1);
+            --bg-light: #f5f7fa;
+            --accent-color: #ff5722;
         }
 
         * {
@@ -23,6 +25,7 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             padding: 20px;
             color: var(--text-color);
+            line-height: 1.6;
         }
 
         .container {
@@ -36,11 +39,23 @@
             text-align: center;
         }
 
+        .logo {
+            margin-bottom: 2rem;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+
         h2 {
             color: var(--text-color);
             font-size: 2rem;
             margin-bottom: 1.5rem;
             font-weight: 600;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         h3 {
@@ -57,33 +72,83 @@
             font-weight: 500;
         }
 
+        .highlight {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .otp-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--bg-light);
+            border-radius: 15px;
+        }
+
         .otp {
             font-size: 3rem;
             color: var(--primary-color);
-            font-weight: 600;
-            letter-spacing: 2px;
+            font-weight: 700;
+            letter-spacing: 4px;
             padding: 1rem;
-            background: #f8f9fa;
+            background: white;
             border-radius: 10px;
             display: inline-block;
             margin: 1rem 0;
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
         .footer {
             margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
             font-size: 0.9rem;
             color: #666;
+        }
+
+        .warning {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .social-links {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Hello <span th:text="${name}"></span>!</h2>
-        <h3>You are registering as a <span th:text="${role}"></span></h3>
-        <h4>Your verification OTP is:</h4>
-        <div class="otp" th:text="${otp}"></div>
+        <div class="logo">
+            <img src="https://yogastudies.org/wp-content/uploads/jnana.jpg" alt="Jnana Logo">
+        </div>
+
+        <h2>Welcome to Jnana!</h2>
+        <h3>Hello <span class="highlight" th:text="${name}"></span>!</h3>
+        
+        <div class="otp-container">
+            <h4>You are registering as a <span class="highlight" th:text="${role}"></span></h4>
+            <p>Please use the following OTP to verify your account:</p>
+            <div class="otp" th:text="${otp}"></div>
+        </div>
+
         <div class="footer">
-            This OTP is valid for a limited time. Please do not share it with anyone.
+            <p>This OTP is valid for 10 minutes.</p>
+            <p class="warning">For security reasons, please do not share this OTP with anyone.</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-link">Website</a>
+                <a href="#" class="social-link">Support</a>
+                <a href="#" class="social-link">Privacy Policy</a>
+            </div>
         </div>
     </div>
 </body>

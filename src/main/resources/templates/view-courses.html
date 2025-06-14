@@ -1,193 +1,268 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
-<title>View Courses - Jnana</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-	rel="stylesheet">
-<style>
-:root {
-	--primary-color: #4CAF50;
-	--secondary-color: #2196F3;
-	--text-color: #2c3e50;
-	--shadow-color: rgba(0, 0, 0, 0.1);
-	--error-color: #f44336;
-}
+    <meta charset="UTF-8">
+    <title>View Courses - Jnana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --text-color: #2c3e50;
+            --shadow-color: rgba(0,0,0,0.1);
+            --error-color: #f44336;
+            --bg-light: #f5f7fa;
+            --accent-color: #ff5722;
+        }
 
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Poppins', sans-serif;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-body {
-	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-	min-height: 100vh;
-	padding: 2rem;
-}
+        body {
+            background: var(--bg-light);
+            min-height: 100vh;
+            padding-top: 100px;
+            display: flex;
+            flex-direction: column;
+        }
 
-.container {
-	background: white;
-	padding: 2rem;
-	border-radius: 20px;
-	box-shadow: 0 15px 30px var(--shadow-color);
-	width: 90%;
-	max-width: 1200px;
-	margin: 0 auto;
-	animation: fadeIn 0.5s ease-out;
-}
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.2rem 5%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-@keyframes fadeIn {from { opacity:0;
-	transform: translateY(-20px);
-}
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
 
-to {
-	opacity: 1;
-	transform: translateY(0);
-}
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-}
-h1 {
-	color: var(--text-color);
-	margin-bottom: 2rem;
-	font-size: 2.5rem;
-	font-weight: 600;
-	text-align: center;
-}
+        .nav-logout {
+            color: white;
+            background: linear-gradient(45deg, var(--error-color), var(--accent-color));
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+        }
 
-table {
-	width: 100%;
-	border-collapse: collapse;
-	margin: 2rem 0;
-	background: white;
-	border-radius: 10px;
-	overflow: hidden;
-}
+        .container {
+            margin: 2rem auto;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 1200px;
+        }
 
-th, td {
-	padding: 1rem;
-	text-align: left;
-	border-bottom: 1px solid #eee;
-}
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
 
-th {
-	background: var(--text-color);
-	color: white;
-	font-weight: 500;
-}
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            transition: transform 0.3s ease;
+            animation: slideUp 0.5s ease-out;
+        }
 
-tr:hover {
-	background: #f8f9fa;
-}
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
 
-.btn {
-	padding: 8px 20px;
-	border: none;
-	border-radius: 30px;
-	font-size: 0.9rem;
-	cursor: pointer;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	font-weight: 500;
-	color: white;
-	text-decoration: none;
-	display: inline-block;
-}
+        .course-title {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
 
-.btn-primary {
-	background: var(--primary-color);
-}
+        .course-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
 
-.btn-secondary {
-	background: var(--secondary-color);
-}
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
 
-.btn:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
 
-.badge {
-	padding: 4px 12px;
-	border-radius: 20px;
-	font-size: 0.8rem;
-	font-weight: 500;
-}
+        .badge-paid {
+            background: var(--primary-color);
+            color: white;
+        }
 
-.badge-paid {
-	background: var(--primary-color);
-	color: white;
-}
+        .badge-free {
+            background: var(--secondary-color);
+            color: white;
+        }
 
-.badge-free {
-	background: var(--secondary-color);
-	color: white;
-}
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-.toast {
-	position: fixed;
-	top: 20px;
-	right: 20px;
-	padding: 1rem 2rem;
-	border-radius: 12px;
-	color: white;
-	opacity: 0;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	transform: translateX(100%);
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-	z-index: 1000;
-}
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
 
-.toast.success {
-	background: var(--primary-color);
-}
+        .btn-secondary {
+            background: var(--secondary-color);
+        }
 
-.toast.error {
-	background: var(--error-color);
-}
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-.toast.show {
-	opacity: 1;
-	transform: translateX(0);
-}
-</style>
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            color: white;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .toast.success {
+            background: var(--primary-color);
+        }
+
+        .toast.error {
+            background: var(--error-color);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .footer {
+            background: linear-gradient(to right, var(--text-color), #1a2634);
+            color: white;
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: auto;
+        }
+
+        .footer p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-	<div class="container">
-		<h1>View Courses</h1>
+    <nav class="navbar">
+        <a href="/tutor/home" class="logo">Jnana</a>
+        <div class="nav-links">
+            <a href="/logout" class="nav-btn nav-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </div>
+    </nav>
 
-		<div id="successToast" class="toast success" th:if="${session.pass}"
+    <div class="container">
+        <h1>View Courses</h1>
+
+        <div class="course-grid">
+            <div class="course-card" th:each="course:${courses}">
+                <h2 class="course-title" th:text="${course.title}"></h2>
+                <p class="course-description" th:text="${course.description}"></p>
+                <div class="card-footer">
+                    <span class="badge badge-paid" th:if="${course.paid}">Paid</span>
+                    <span class="badge badge-free" th:if="${!course.paid}">Free</span>
+                    
+                    <a th:if="${!course.published}" th:href="'/tutor/publish/'+${course.id}" class="btn btn-primary">
+                        <i class="fas fa-upload"></i>
+                        Publish
+                    </a>
+                    <span th:if="${course.published}" class="badge badge-paid">
+                        <i class="fas fa-check"></i>
+                        Published
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <a href="/tutor/courses" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            Back
+        </a>
+    </div>
+
+    <div id="successToast" class="toast success" th:if="${session.pass}"
 			th:text="${session.pass}"></div>
 		<div id="errorToast" class="toast error" th:if="${session.fail}"
 			th:text="${session.fail}"></div>
 		<th:block th:text="${@generalService.removeMessage()}"></th:block>
 
-		<table>
-			<tr>
-				<th>Title</th>
-				<th>Description</th>
-				<th>Type</th>
-				<th>Action</th>
-			</tr>
+    <footer class="footer">
+        <p>&copy; 2025 Jnana. All rights reserved.</p>
+    </footer>
 
-			<tr th:each="course:${courses}">
-				<td th:text="${course.title}"></td>
-				<td th:text="${course.description}"></td>
-				<td><span class="badge badge-paid" th:if="${course.paid}">Paid</span>
-					<span class="badge badge-free" th:if="${!course.paid}">Free</span>
-				</td>
-				<td th:if="${!course.published}"><a
-					th:href="'/tutor/publish/'+${course.id}"><button
-							class="btn btn-primary">Publish</button></a></td>
-				<td th:if="${course.published}">Published</td>
-			</tr>
-		</table>
-
-		<a href="/tutor/courses" class="btn btn-secondary">Back</a>
-	</div>
-
-	<script>
+    <script>
         function showToast() {
             const successToast = document.getElementById('successToast');
             const errorToast = document.getElementById('errorToast');
