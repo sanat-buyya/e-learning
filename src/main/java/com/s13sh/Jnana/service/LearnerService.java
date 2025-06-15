@@ -116,6 +116,7 @@ public class LearnerService {
 					model.addAttribute("currency", "INR");
 					model.addAttribute("leaner", learner);
 					model.addAttribute("key", key);
+					model.addAttribute("path", "/learner/enroll-paidcourse/" + course.getId());
 
 					return "payment.html";
 
@@ -244,8 +245,39 @@ public class LearnerService {
 			} else {
 				session.setAttribute("fail", "Quiz did not Clear try again");
 			}
+			EnrolledCourse course = enrolledCourseRepository.findByEnrolledSections(section);
 
-			return "redirect:/learner/view-enrolled-sections/" + id;
+			return "redirect:/learner/view-enrolled-sections/" + course.getId();
+		} else {
+			session.setAttribute("fail", "Invalid Session, Login First");
+			return "redirect:/login";
+		}
+	}
+
+	public String enrollPaidCourse(HttpSession session, Long id, Model model) {
+		if (session.getAttribute("learner") != null) {
+			Learner learner = (Learner) session.getAttribute("learner");
+			Course course = courseRepository.findById(id).get();
+			List<Section> sections = sectionRepository.findByCourse(course);
+			List<EnrolledSection> enrolledSections = new ArrayList<EnrolledSection>();
+			for (Section section : sections) {
+				EnrolledSection enrolledSection = new EnrolledSection();
+				enrolledSection.setSection(section);
+				enrolledSections.add(enrolledSection);
+			}
+
+			EnrolledCourse enrolledCourse = new EnrolledCourse();
+			enrolledCourse.setCourse(course);
+			enrolledCourse.setEnrolledSections(enrolledSections);
+
+			learner.getEnrolledCourses().add(enrolledCourse);
+
+			learnerRepository.save(learner);
+
+			session.setAttribute("pass", "Courses Enrolled Success, Thanks " + learner.getName());
+			session.setAttribute("learner", learnerRepository.findById(learner.getId()).get());
+			return "redirect:/learner/home";
+
 		} else {
 			session.setAttribute("fail", "Invalid Session, Login First");
 			return "redirect:/login";

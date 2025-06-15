@@ -42,6 +42,11 @@ public class LearnerController {
 		return learnerService.viewEnrolledCourses(session, model);
 	}
 
+	@PostMapping("/enroll-paidcourse/{id}")
+	public String enrollPaidCourse(HttpSession session, @PathVariable Long id, Model model) {
+		return learnerService.enrollPaidCourse(session, id, model);
+	}
+	
 	@GetMapping("/view-enrolled-sections/{id}")
 	public String viewEnrolledSections(HttpSession session, @PathVariable Long id, Model model) {
 		return learnerService.viewEnrolledSections(session, id, model);
