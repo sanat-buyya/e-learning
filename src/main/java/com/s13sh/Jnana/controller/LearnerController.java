@@ -1,11 +1,15 @@
 package com.s13sh.Jnana.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.s13sh.Jnana.service.LearnerService;
 
@@ -52,4 +56,11 @@ public class LearnerController {
 	public String loadSectionQuiz(@PathVariable Long id, HttpSession session, Model model) {
 		return learnerService.loadSectionQuiz(id, session, model);
 	}
+
+	@PostMapping("/section/quiz/{id}")
+	public String sectionQuizSubmit(@PathVariable Long id, HttpSession session,
+			@RequestParam Map<String, String> quiz) {
+		return learnerService.submitQuiz(id, session, quiz);
+	}
+
 }
