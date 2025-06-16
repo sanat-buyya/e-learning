@@ -1,413 +1,853 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Jnana - E-learning Platform</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-	rel="stylesheet">
-<link rel="shortcut icon"
-	href="https://yogastudies.org/wp-content/uploads/jnana.jpg"
-	type="image/x-icon">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<style>
-:root {
-	--primary-color: #4CAF50;
-	--secondary-color: #2196F3;
-	--text-color: #2c3e50;
-	--shadow-color: rgba(0, 0, 0, 0.1);
-	--bg-light: #f8f9fa;
-	--accent-color: #ff6b6b;
-}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Jnana</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="https://yogastudies.org/wp-content/uploads/jnana.jpg"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --secondary: #06b6d4;
+        --accent: #f59e0b;
+        --success: #10b981;
+        --error: #ef4444;
+        --text-primary: #0f172a;
+        --text-secondary: #64748b;
+        --text-muted: #94a3b8;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --border: #e2e8f0;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+          0 8px 10px -6px rgb(0 0 0 / 0.1);
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
 
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Poppins', sans-serif;
-}
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-body {
-	background: var(--bg-light);
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-}
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background: var(--bg-secondary);
+        min-height: 100vh;
+        padding-top: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-.navbar {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	background: rgba(255, 255, 255, 0.95);
-	padding: 1.2rem 5%;
-	backdrop-filter: blur(10px);
-	box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-	z-index: 1000;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
+      /* Navigation - Matching home.html */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
 
-.logo {
-	font-size: 2rem;
-	font-weight: 700;
-	background: linear-gradient(45deg, var(--primary-color),
-		var(--secondary-color));
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	text-decoration: none;
-	letter-spacing: 1px;
-}
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-.nav-links {
-	display: flex;
-	gap: 2.5rem;
-	align-items: center;
-}
+      .logo {
+        font-size: 1.75rem;
+        font-weight: 800;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-decoration: none;
+        letter-spacing: -0.025em;
+      }
 
-.nav-btn {
-	padding: 0.8rem 1.5rem;
-	border-radius: 25px;
-	font-weight: 500;
-	text-decoration: none;
-	transition: all 0.3s ease;
-}
+      .nav-links {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
 
-.nav-login {
-	color: var(--text-color);
-}
+      .nav-btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 0.875rem;
+        background: var(--primary);
+        color: white;
+      }
 
-.nav-login:hover {
-	color: var(--primary-color);
-}
+      .nav-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+      }
 
-.nav-register {
-	background: linear-gradient(45deg, var(--primary-color),
-		var(--secondary-color));
-	color: white;
-	box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
-}
+      /* Login Form Container */
+      .login-section {
+        background: white;
+        padding: 3rem;
+        border-radius: 1rem;
+        box-shadow: var(--shadow-xl);
+        border: 1px solid var(--border);
+        width: 90%;
+        max-width: 450px;
+        animation: fadeInUp 0.6s ease-out;
+        position: relative;
+        overflow: hidden;
+      }
 
-.nav-register:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
-}
+      .login-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-primary);
+      }
 
-/* Hero Section */
-.hero {
-	padding: 10rem 5% 6rem;
-	text-align: center;
-	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-	position: relative;
-	overflow: hidden;
-}
+      .login-section h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        text-align: center;
+        letter-spacing: -0.025em;
+      }
 
-.hero::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background:
-		url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path fill="%234CAF50" fill-opacity="0.05" d="M45,-78.1C58.3,-71.3,68.7,-58.8,76.4,-44.7C84.1,-30.6,89,-14.8,88.1,0.5C87.1,15.8,80.3,31.6,71.2,45.6C62.1,59.6,50.8,71.8,37,78.1C23.1,84.4,6.7,84.8,-8.9,81.5C-24.4,78.2,-39,71.2,-51.8,62C-64.6,52.8,-75.5,41.4,-82.2,27.4C-88.8,13.5,-91.2,-3,-87.6,-18.1C-84,-33.2,-74.4,-46.8,-62.3,-56.6C-50.2,-66.4,-35.6,-72.4,-21.2,-76.7C-6.8,-81,7.4,-83.7,22.1,-82.5C36.8,-81.3,51.9,-76.3,45,-78.1Z" transform="translate(100 100)"/></svg>')
-		no-repeat center center;
-	opacity: 0.1;
-	animation: rotate 60s linear infinite;
-}
+      .login-subtitle {
+        text-align: center;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-size: 1rem;
+      }
 
-@keyframes rotate {from { transform:rotate(0deg);
-	
-}
+      .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
 
-to {
-	transform: rotate(360deg);
-}
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
 
-}
+      .form-group input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid var(--border);
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+      }
 
-.features {
-	padding: 5rem 5%;
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	gap: 2rem;
-	background: white;
-}
+      .form-group input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        outline: none;
+      }
 
-.feature-card {
-	padding: 2.5rem;
-	text-align: center;
-	border-radius: 20px;
-	background: white;
-	box-shadow: 0 5px 20px var(--shadow-color);
-	transition: all 0.3s ease;
-	border: 1px solid rgba(0, 0, 0, 0.05);
-}
+      .form-group input::placeholder {
+        color: var(--text-muted);
+      }
 
-.feature-card:hover {
-	transform: translateY(-10px);
-	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-	border-color: var(--primary-color);
-}
+      .submit-btn {
+        width: 100%;
+        padding: 0.875rem 2rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: var(--primary);
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 1rem;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
 
-.feature-icon {
-	font-size: 3rem;
-	background: linear-gradient(45deg, var(--primary-color),
-		var(--secondary-color));
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	margin-bottom: 1.5rem;
-}
+      .submit-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-lg);
+      }
 
-.feature-card h3 {
-	color: var(--text-color);
-	margin-bottom: 1rem;
-	font-size: 1.5rem;
-}
+      .submit-btn:active {
+        transform: translateY(0);
+      }
 
-.feature-card p {
-	color: #666;
-	line-height: 1.6;
-}
+      .forgot-password {
+        text-align: center;
+        margin-top: 1.5rem;
+      }
 
-.toast-container {
-	position: fixed;
-	top: 90px;
-	right: 20px;
-	z-index: 1000;
-}
+      .forgot-password a {
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
 
-.toast {
-	padding: 1rem 2rem;
-	border-radius: 12px;
-	color: white;
-	margin-bottom: 1rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-	animation: slideIn 0.3s ease-out forwards;
-}
+      .forgot-password a:hover {
+        color: var(--primary-dark);
+      }
 
-.toast.success {
-	background: var(--primary-color);
-}
+      .register-link {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+      }
 
-.toast.error {
-	background: #f44336;
-}
+      .register-link a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
 
-.toast-close {
-	background: none;
-	border: none;
-	color: white;
-	font-size: 1.5rem;
-	cursor: pointer;
-	padding: 0 0.5rem;
-	opacity: 0.7;
-	transition: opacity 0.2s;
-	line-height: 1;
-}
+      .register-link a:hover {
+        color: var(--primary-dark);
+      }
 
-.toast-close:hover {
-	opacity: 1;
-}
+      /* Toast Notifications - Matching home.html */
+      .toast-container {
+        position: fixed;
+        top: 100px;
+        right: 2rem;
+        z-index: 1001;
+        max-width: 400px;
+      }
 
-@keyframes slideIn {
-	from {
-		transform: translateX(100%);
-		opacity: 0;
-	}
-	to {
-		transform: translateX(0);
-		opacity: 1;
-	}
-}
+      .toast {
+        background: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.75rem;
+        box-shadow: var(--shadow-xl);
+        border: 1px solid var(--border);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        animation: slideInRight 0.3s ease-out forwards;
+        position: relative;
+        overflow: hidden;
+      }
 
-@keyframes slideOut {
-	from {
-		transform: translateX(0);
-		opacity: 1;
-	}
-	to {
-		transform: translateX(100%);
-		opacity: 0;
-	}
-}
+      .toast::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+      }
 
-.footer {
-	background: linear-gradient(to right, var(--text-color), #1a2634);
-	color: white;
-	text-align: center;
-	padding: 2.5rem;
-	margin-top: auto;  /* Changed from margin-top: 4rem */
-}
+      .toast.success::before {
+        background: var(--success);
+      }
 
-.footer p {
-	opacity: 0.9;
-	font-size: 0.9rem;
-	letter-spacing: 0.5px;
-}
+      .toast.error::before {
+        background: var(--error);
+      }
 
-@keyframes slideDown {from { transform:translateY(-50px);
-	opacity: 0;
-}
+      .toast-content {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex: 1;
+      }
 
-to {
-	transform: translateY(0);
-	opacity: 1;
-}
+      .toast-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        color: white;
+      }
 
-}
-@keyframes fadeIn {from { opacity:0;
-	
-}
+      .toast.success .toast-icon {
+        background: var(--success);
+      }
 
-to {
-	opacity: 1;
-}
+      .toast.error .toast-icon {
+        background: var(--error);
+      }
 
-}
-@keyframes slideIn {to { opacity:1;
-	transform: translateX(0);
-}
+      .toast-message {
+        color: var(--text-primary);
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
 
-}
-.btn-group {
-	display: flex;
-	gap: 1.5rem;
-	justify-content: center;
-	margin-top: 2.5rem;
-}
+      .toast-close {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+        transition: all 0.2s ease;
+        line-height: 1;
+      }
 
-.btn {
-	padding: 14px 35px;
-	border: none;
-	border-radius: 30px;
-	font-size: 1.1rem;
-	cursor: pointer;
-	transition: all 0.3s;
-	font-weight: 500;
-	text-decoration: none;
-	letter-spacing: 0.5px;
-}
+      .toast-close:hover {
+        color: var(--text-secondary);
+        background: var(--bg-tertiary);
+      }
 
-.btn-primary {
-	background: var(--primary-color);
-	color: white;
-}
-
-.btn-secondary {
-	background: var(--secondary-color);
-	color: white;
-}
-
-.btn:hover {
-	transform: translateY(-3px);
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsive Improvements */
-@media ( max-width : 768px) {
-	.hero h1 {
-		font-size: 2.5rem;
-	}
-	.hero p {
-		font-size: 1rem;
-	}
-	.features {
-		gap: 1.5rem;
-	}
-	.nav-btn {
-		padding: 0.6rem 1.2rem;
-	}
-}
-</style>
-</head>
-<body>
-	<nav class="navbar">
-		<a href="/" class="logo">Jnana</a>
-		<div class="nav-links">
-			<a href="/login" class="nav-btn nav-login">Login</a> <a
-				href="/register" class="nav-btn nav-register">Register</a>
-		</div>
-	</nav>
-
-	<section class="hero">
-		<h1>Welcome to Jnana</h1>
-		<p>Empowering minds through quality education</p>
-	</section>
-
-	<section class="features">
-		<div class="feature-card">
-			<i class="fas fa-graduation-cap feature-icon"></i>
-			<h3>Expert Teachers</h3>
-			<p>Learn from industry professionals with years of experience.</p>
-		</div>
-		<div class="feature-card">
-			<i class="fas fa-laptop-code feature-icon"></i>
-			<h3>Online Learning</h3>
-			<p>Access course content anytime, anywhere at your convenience.</p>
-		</div>
-		<div class="feature-card">
-			<i class="fas fa-certificate feature-icon"></i>
-			<h3>Certification</h3>
-			<p>Earn certified credentials upon course completion.</p>
-		</div>
-	</section>
-
-	<div class="toast-container">
-		<div id="successToast" class="toast success" th:if="${session.pass}">
-			<span th:text="${session.pass}"></span>
-			<button class="toast-close">&times;</button>
-		</div>
-		<div id="errorToast" class="toast error" th:if="${session.fail}">
-			<span th:text="${session.fail}"></span>
-			<button class="toast-close">&times;</button>
-		</div>
-        <th:block th:text="${@generalService.removeMessage()}"></th:block>
-	</div>
-
-	<footer class="footer">
-		<p>&copy; 2025 Jnana. All rights reserved.</p>
-	</footer>
-
-	<script>
-function showToast() {
-    const toasts = document.querySelectorAll('.toast');
-    
-    toasts.forEach(toast => {
-        if (toast && toast.textContent.trim() !== '') {
-            // Show toast
-            toast.style.display = 'flex';
-            
-            // Add click event for close button
-            const closeBtn = toast.querySelector('.toast-close');
-            closeBtn.addEventListener('click', () => {
-                toast.style.animation = 'slideOut 0.3s ease-out forwards';
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            });
-            
-            // Auto hide toast after 3 seconds
-            setTimeout(() => {
-                if (toast.isConnected) { // Check if toast still exists
-                    toast.style.animation = 'slideOut 0.3s ease-out forwards';
-                    setTimeout(() => {
-                        if (toast.isConnected) {
-                            toast.remove();
-                        }
-                    }, 300);
-                }
-            }, 3000);
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
-    });
-}
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-document.addEventListener('DOMContentLoaded', showToast);
-</script>
-</body>
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOutRight {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 1rem;
+        }
+
+        .login-section {
+          margin: 1rem;
+          padding: 2rem;
+        }
+
+        .toast-container {
+          right: 1rem;
+          left: 1rem;
+          max-width: none;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .login-section {
+          padding: 1.5rem;
+        }
+
+        .login-section h1 {
+          font-size: 1.75rem;
+        }
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--bg-tertiary);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-dark);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="logo">Jnana</a>
+        <div class="nav-links">
+          <a href="/register" class="nav-btn">Get Started</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Login Form -->
+    <div class="login-section">
+      <h1>Welcome Back</h1>
+      <p class="login-subtitle">Sign in to continue your learning journey</p>
+
+      <form action="/login" method="post">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-sign-in-alt"></i>
+          Sign In
+        </button>
+      </form>
+
+      <div class="forgot-password">
+        <a href="/forgot-password">Forgot your password?</a>
+      </div>
+
+      <div class="register-link">
+        <p>Don't have an account? <a href="/register">Create one here</a></p>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container">
+      <div
+        id="successToast"
+        class="toast success"
+        th:if="${session.pass}"
+        style="display: none"
+      >
+        <div class="toast-content">
+          <div class="toast-icon">
+            <i class="fas fa-check"></i>
+          </div>
+          <span class="toast-message" th:text="${session.pass}"
+            >Success message</span
+          >
+        </div>
+        <button class="toast-close">&times;</button>
+      </div>
+      <div
+        id="errorToast"
+        class="toast error"
+        th:if="${session.fail}"
+        style="display: none"
+      >
+        <div class="toast-content">
+          <div class="toast-icon">
+            <i class="fas fa-exclamation"></i>
+          </div>
+          <span class="toast-message" th:text="${session.fail}"
+            >Error message</span
+          >
+        </div>
+        <button class="toast-close">&times;</button>
+      </div>
+      <th:block th:text="${@generalService.removeMessage()}"></th:block>
+    </div>
+
+    <script>
+      // Toast notifications - Matching home.html functionality
+      function showToast(type, message) {
+        const toastContainer = document.querySelector(".toast-container");
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+                <div class="toast-content">
+                    <div class="toast-icon">
+                        <i class="fas fa-${
+                          type === "success" ? "check" : "exclamation"
+                        }"></i>
+                    </div>
+                    <span class="toast-message">${message}</span>
+                </div>
+                <button class="toast-close">&times;</button>
+            `;
+
+        toastContainer.appendChild(toast);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.parentNode.removeChild(toast);
+            }
+          }, 300);
+        }, 5000);
+
+        // Close button functionality
+        toast.querySelector(".toast-close").addEventListener("click", () => {
+          toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.parentNode.removeChild(toast);
+            }
+          }, 300);
+        });
+      }
+
+      // Show existing toasts if they exist
+      document.addEventListener("DOMContentLoaded", function () {
+        const successToast = document.getElementById("successToast");
+        const errorToast = document.getElementById("errorToast");
+
+        if (
+          successToast &&
+          successToast.querySelector(".toast-message").textContent.trim()
+        ) {
+          successToast.style.display = "flex";
+          setTimeout(() => {
+            successToast.style.animation =
+              "slideOutRight 0.3s ease-out forwards";
+            setTimeout(() => {
+              successToast.style.display = "none";
+            }, 300);
+          }, 5000);
+        }
+
+        if (
+          errorToast &&
+          errorToast.querySelector(".toast-message").textContent.trim()
+        ) {
+          errorToast.style.display = "flex";
+          setTimeout(() => {
+            errorToast.style.animation = "slideOutRight 0.3s ease-out forwards";
+            setTimeout(() => {
+              errorToast.style.display = "none";
+            }, 300);
+          }, 5000);
+        }
+
+        // Close button functionality for existing toasts
+        document.querySelectorAll(".toast-close").forEach((closeBtn) => {
+          closeBtn.addEventListener("click", function () {
+            const toast = this.closest(".toast");
+            toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+            setTimeout(() => {
+              toast.style.display = "none";
+            }, 300);
+          });
+        });
+      });
+
+      // Form validation and enhancement
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const inputs = form.querySelectorAll("input");
+        const submitBtn = form.querySelector(".submit-btn");
+
+        // Add input validation styling
+        inputs.forEach((input) => {
+          input.addEventListener("blur", function () {
+            if (this.value.trim() !== "") {
+              this.style.borderColor = "var(--success)";
+            } else if (this.hasAttribute("required")) {
+              this.style.borderColor = "var(--error)";
+            }
+          });
+
+          input.addEventListener("focus", function () {
+            this.style.borderColor = "var(--primary)";
+          });
+
+          input.addEventListener("input", function () {
+            if (this.style.borderColor === "rgb(239, 68, 68)") {
+              // error color
+              this.style.borderColor = "var(--border)";
+            }
+          });
+        });
+
+        // Add loading state to submit button
+        form.addEventListener("submit", function (e) {
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value.trim();
+
+          if (!email || !password) {
+            e.preventDefault();
+            showToast("error", "Please fill in all required fields");
+            return;
+          }
+
+          // Email validation
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email)) {
+            e.preventDefault();
+            showToast("error", "Please enter a valid email address");
+            return;
+          }
+
+          submitBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+          submitBtn.disabled = true;
+        });
+
+        // Password visibility toggle
+        const passwordInput = document.getElementById("password");
+        const passwordGroup = passwordInput.parentElement;
+
+        const toggleBtn = document.createElement("button");
+        toggleBtn.type = "button";
+        toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
+        toggleBtn.style.cssText = `
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                color: var(--text-muted);
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 4px;
+                transition: color 0.2s ease;
+            `;
+
+        toggleBtn.addEventListener("click", function () {
+          if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+          } else {
+            passwordInput.type = "password";
+            this.innerHTML = '<i class="fas fa-eye"></i>';
+          }
+        });
+
+        toggleBtn.addEventListener("mouseenter", function () {
+          this.style.color = "var(--text-secondary)";
+        });
+
+        toggleBtn.addEventListener("mouseleave", function () {
+          this.style.color = "var(--text-muted)";
+        });
+
+        passwordGroup.style.position = "relative";
+        passwordGroup.appendChild(toggleBtn);
+        passwordInput.style.paddingRight = "45px";
+      });
+
+      // Navbar scroll effect - Matching home.html
+      let lastScrollTop = 0;
+      const navbar = document.querySelector(".navbar");
+
+      window.addEventListener("scroll", function () {
+        let scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        // Only hide navbar on mobile to prevent overlap issues
+        if (window.innerWidth <= 768) {
+          if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down
+            navbar.style.transform = "translateY(-100%)";
+          } else {
+            // Scrolling up
+            navbar.style.transform = "translateY(0)";
+          }
+        }
+
+        // Add background when scrolled
+        if (scrollTop > 50) {
+          navbar.style.background = "rgba(255, 255, 255, 0.95)";
+          navbar.style.backdropFilter = "blur(20px)";
+        } else {
+          navbar.style.background = "rgba(255, 255, 255, 0.8)";
+          navbar.style.backdropFilter = "blur(20px)";
+        }
+
+        lastScrollTop = scrollTop;
+      });
+
+      // Add ripple effect to submit button
+      function createRipple(event) {
+        const button = event.currentTarget;
+        const circle = document.createElement("span");
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+        circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+        circle.classList.add("ripple");
+
+        const ripple = button.getElementsByClassName("ripple")[0];
+        if (ripple) {
+          ripple.remove();
+        }
+
+        button.appendChild(circle);
+      }
+
+      document
+        .querySelector(".submit-btn")
+        .addEventListener("click", createRipple);
+
+      // Add CSS for ripple effect and additional styles
+      const style = document.createElement("style");
+      style.textContent = `
+            .submit-btn {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            .form-group input:valid {
+                border-color: var(--success);
+            }
+            
+            .form-group input:invalid:not(:focus):not(:placeholder-shown) {
+                border-color: var(--error);
+            }
+            
+            /* Focus ring for better accessibility */
+            .submit-btn:focus-visible {
+                outline: 2px solid var(--primary);
+                outline-offset: 2px;
+            }
+            
+            .nav-btn:focus-visible,
+            .toast-close:focus-visible {
+                outline: 2px solid var(--primary);
+                outline-offset: 2px;
+            }
+            
+            /* Smooth transitions for all interactive elements */
+            a, button, input {
+                transition: all 0.2s ease;
+            }
+            
+            /* Loading spinner animation */
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            .fa-spinner {
+                animation: spin 1s linear infinite;
+            }
+        `;
+      document.head.appendChild(style);
+
+      // Add keyboard navigation support
+      document.addEventListener("keydown", function (e) {
+        // Enter key on form elements
+        if (e.key === "Enter" && e.target.tagName === "INPUT") {
+          const form = e.target.closest("form");
+          const inputs = Array.from(form.querySelectorAll("input[required]"));
+          const currentIndex = inputs.indexOf(e.target);
+
+          if (currentIndex < inputs.length - 1) {
+            e.preventDefault();
+            inputs[currentIndex + 1].focus();
+          }
+        }
+
+        // Escape key to close toasts
+        if (e.key === "Escape") {
+          const visibleToasts = document.querySelectorAll(
+            '.toast[style*="flex"]'
+          );
+          visibleToasts.forEach((toast) => {
+            toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+            setTimeout(() => {
+              toast.style.display = "none";
+            }, 300);
+          });
+        }
+      });
+
+      // Add focus management for better UX
+      window.addEventListener("load", function () {
+        const emailInput = document.getElementById("email");
+        if (emailInput && !emailInput.value) {
+          emailInput.focus();
+        }
+      });
+    </script>
+  </body>
 </html>

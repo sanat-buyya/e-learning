@@ -1,106 +1,944 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>404 - Page Not Found | Jnana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="https://yogastudies.org/wp-content/uploads/jnana.jpg"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #2196F3;
-            --text-color: #2c3e50;
-            --shadow-color: rgba(0,0,0,0.1);
-            --bg-light: #f5f7fa;
-            --accent-color: #ff5722;
+      :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --secondary: #06b6d4;
+        --accent: #f59e0b;
+        --success: #10b981;
+        --error: #ef4444;
+        --warning: #f59e0b;
+        --text-primary: #0f172a;
+        --text-secondary: #64748b;
+        --text-muted: #94a3b8;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --border: #e2e8f0;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+          0 8px 10px -6px rgb(0 0 0 / 0.1);
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background: var(--bg-secondary);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        opacity: 0.1;
+      }
+
+      .floating-shape {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .floating-shape:nth-child(1) {
+        width: 80px;
+        height: 80px;
+        top: 20%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+
+      .floating-shape:nth-child(2) {
+        width: 120px;
+        height: 120px;
+        top: 60%;
+        right: 10%;
+        animation-delay: 2s;
+        background: var(--gradient-secondary);
+      }
+
+      .floating-shape:nth-child(3) {
+        width: 60px;
+        height: 60px;
+        bottom: 20%;
+        left: 20%;
+        animation-delay: 4s;
+      }
+
+      .floating-shape:nth-child(4) {
+        width: 100px;
+        height: 100px;
+        top: 10%;
+        right: 30%;
+        animation-delay: 1s;
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+
+      /* Navigation */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.75rem;
+        font-weight: 800;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-decoration: none;
+        letter-spacing: -0.025em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .nav-btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 0.875rem;
+        background: var(--primary);
+        color: white;
+      }
+
+      .nav-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+      }
+
+      .nav-btn.secondary {
+        background: transparent;
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+      }
+
+      .nav-btn.secondary:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+      }
+
+      /* Main Error Content */
+      .error-section {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6rem 2rem 4rem;
+        text-align: center;
+      }
+
+      .error-container {
+        max-width: 800px;
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      .error-illustration {
+        width: 300px;
+        height: 200px;
+        margin: 0 auto 3rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .error-code {
+        font-size: 8rem;
+        font-weight: 800;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1;
+        position: relative;
+        animation: bounce 2s ease-in-out infinite;
+      }
+
+      .error-code::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120%;
+        height: 120%;
+        background: var(--gradient-primary);
+        border-radius: 50%;
+        opacity: 0.1;
+        z-index: -1;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .error-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        letter-spacing: -0.025em;
+      }
+
+      .error-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .error-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 3rem;
+      }
+
+      .btn {
+        padding: 0.875rem 2rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .btn-secondary {
+        background: var(--bg-primary);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+      }
+
+      .btn-secondary:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+
+      /* Helpful Links Section */
+      .helpful-links {
+        background: var(--bg-primary);
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .helpful-links h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .link-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: var(--bg-secondary);
+        border-radius: 0.5rem;
+        text-decoration: none;
+        color: var(--text-secondary);
+        transition: all 0.2s ease;
+        border: 1px solid var(--border);
+      }
+
+      .link-item:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .link-icon {
+        width: 20px;
+        height: 20px;
+        color: var(--primary);
+      }
+
+      /* Footer */
+      .error-footer {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        border-top: 1px solid var(--border);
+        background: var(--bg-primary);
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 0.1;
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.1);
+          opacity: 0.2;
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 1rem;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+        .nav-links {
+          gap: 0.5rem;
         }
 
-        body {
-            background: var(--bg-light);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
+        .nav-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
         }
 
-        .error-container {
-            max-width: 600px;
-            animation: slideUp 0.5s ease-out;
+        .error-section {
+          padding: 4rem 1rem 2rem;
         }
 
         .error-code {
-            font-size: 8rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-            margin-bottom: 1rem;
+          font-size: 6rem;
         }
 
-        .error-message {
-            font-size: 2rem;
-            color: var(--text-color);
-            margin-bottom: 2rem;
+        .error-title {
+          font-size: 2rem;
         }
 
-        .error-description {
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-            line-height: 1.6;
+        .error-subtitle {
+          font-size: 1.125rem;
+        }
+
+        .error-actions {
+          flex-direction: column;
+          align-items: center;
         }
 
         .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            color: white;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+          width: 100%;
+          max-width: 300px;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        .helpful-links {
+          margin: 0 1rem;
+          padding: 1.5rem;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .links-grid {
+          grid-template-columns: 1fr;
         }
+      }
+
+      @media (max-width: 480px) {
+        .error-code {
+          font-size: 4rem;
+        }
+
+        .error-title {
+          font-size: 1.75rem;
+        }
+
+        .floating-shape {
+          display: none;
+        }
+      }
+
+      /* Dark mode support */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --text-primary: #f8fafc;
+          --text-secondary: #cbd5e1;
+          --text-muted: #64748b;
+          --bg-primary: #1e293b;
+          --bg-secondary: #0f172a;
+          --bg-tertiary: #334155;
+          --border: #334155;
+        }
+      }
+
+      /* Reduced motion support */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* Print styles */
+      @media print {
+        .navbar,
+        .bg-animation,
+        .error-actions {
+          display: none !important;
+        }
+
+        .error-section {
+          padding-top: 2rem;
+        }
+      }
     </style>
-</head>
-<body>
-    <div class="error-container">
-        <div class="error-code">404</div>
-        <h1 class="error-message">Page Not Found</h1>
-        <p class="error-description">
-            The page you are looking for might have been removed, had its name changed, 
-            or is temporarily unavailable.
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+      <div class="floating-shape"></div>
+      <div class="floating-shape"></div>
+      <div class="floating-shape"></div>
+      <div class="floating-shape"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="logo">Jnana</a>
+        <div class="nav-links">
+          <a href="/login" class="nav-btn secondary">Login</a>
+          <a href="/register" class="nav-btn">Get Started</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Error Content -->
+    <main class="error-section">
+      <div class="error-container">
+        <div class="error-illustration">
+          <div class="error-code">404</div>
+        </div>
+
+        <h1 class="error-title">Oops! Page Not Found</h1>
+        <p class="error-subtitle">
+          The page you're looking for seems to have wandered off into the
+          digital wilderness. Don't worry though, we'll help you find your way
+          back to learning!
         </p>
-        <a href="/" class="btn">
+
+        <div class="error-actions">
+          <a href="/" class="btn btn-primary">
             <i class="fas fa-home"></i>
             Back to Home
-        </a>
-    </div>
-</body>
+          </a>
+          <button onclick="history.back()" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            Go Back
+          </button>
+        </div>
+
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="error-footer">
+      <p>
+        &copy; 2024 Jnana. All rights reserved. |
+        <a href="/contact" style="color: var(--primary); text-decoration: none"
+          >Contact Support</a
+        >
+      </p>
+    </footer>
+
+    <script>
+      // Add ripple effect to buttons
+      function createRipple(event) {
+        const button = event.currentTarget;
+        const circle = document.createElement("span");
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+        circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+        circle.classList.add("ripple");
+
+        const ripple = button.getElementsByClassName("ripple")[0];
+        if (ripple) {
+          ripple.remove();
+        }
+
+        button.appendChild(circle);
+      }
+
+      // Add ripple effect to buttons
+      document.querySelectorAll(".btn").forEach((btn) => {
+        btn.addEventListener("click", createRipple);
+      });
+
+      // Navbar scroll effect
+      let lastScrollTop = 0;
+      const navbar = document.querySelector(".navbar");
+
+      window.addEventListener("scroll", function () {
+        let scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        // Add background when scrolled
+        if (scrollTop > 50) {
+          navbar.style.background = "rgba(255, 255, 255, 0.95)";
+          navbar.style.backdropFilter = "blur(20px)";
+        } else {
+          navbar.style.background = "rgba(255, 255, 255, 0.8)";
+          navbar.style.backdropFilter = "blur(20px)";
+        }
+
+        lastScrollTop = scrollTop;
+      });
+
+      // Add keyboard shortcuts
+      document.addEventListener("keydown", function (e) {
+        // Press 'H' to go home
+        if (e.key.toLowerCase() === "h" && !e.ctrlKey && !e.metaKey) {
+          window.location.href = "/";
+        }
+
+        // Press 'B' to go back
+        if (e.key.toLowerCase() === "b" && !e.ctrlKey && !e.metaKey) {
+          history.back();
+        }
+
+        // Press 'R' to reload
+        if (e.key.toLowerCase() === "r" && !e.ctrlKey && !e.metaKey) {
+          location.reload();
+        }
+      });
+
+      // Add CSS for ripple effect and additional enhancements
+      const style = document.createElement("style");
+      style.textContent = `
+            .btn {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            /* Enhanced focus states for accessibility */
+            .btn:focus-visible,
+            .link-item:focus-visible,
+            .nav-btn:focus-visible {
+                outline: 2px solid var(--primary);
+                outline-offset: 2px;
+            }
+            
+            /* Hover effects for floating shapes */
+            .floating-shape:hover {
+                transform: scale(1.1);
+                transition: transform 0.3s ease;
+            }
+            
+            /* Loading state for buttons */
+            .btn.loading {
+                pointer-events: none;
+                opacity: 0.7;
+            }
+            
+            .btn.loading::after {
+                content: '';
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                margin: auto;
+                border: 2px solid transparent;
+                border-top-color: currentColor;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+            
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            
+            /* Error code glow effect */
+            .error-code {
+                text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+            }
+            
+            /* Link item hover animation */
+            .link-item {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .link-item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+                transition: left 0.5s;
+            }
+            
+            .link-item:hover::before {
+                left: 100%;
+            }
+            
+            /* Responsive navigation menu for mobile */
+            @media (max-width: 480px) {
+                .nav-links {
+                    flex-direction: column;
+                    gap: 0.25rem;
+                }
+                
+                .nav-btn {
+                    padding: 0.375rem 0.75rem;
+                    font-size: 0.75rem;
+                }
+            }
+            
+            /* Custom scrollbar */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            ::-webkit-scrollbar-track {
+                background: var(--bg-tertiary);
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background: var(--primary);
+                border-radius: 4px;
+            }
+            
+            ::-webkit-scrollbar-thumb:hover {
+                background: var(--primary-dark);
+            }
+            
+            /* Selection styling */
+            ::selection {
+                background: var(--primary);
+                color: white;
+            }
+            
+            ::-moz-selection {
+                background: var(--primary);
+                color: white;
+            }
+        `;
+      document.head.appendChild(style);
+
+      // Add search functionality
+      function initializeSearch() {
+        const searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Search for pages...";
+        searchInput.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 300px;
+                padding: 1rem;
+                border: 2px solid var(--primary);
+                border-radius: 0.5rem;
+                font-size: 1rem;
+                background: var(--bg-primary);
+                box-shadow: var(--shadow-xl);
+                z-index: 1001;
+                display: none;
+            `;
+
+        const searchOverlay = document.createElement("div");
+        searchOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                display: none;
+            `;
+
+        document.body.appendChild(searchOverlay);
+        document.body.appendChild(searchInput);
+
+        // Show search on Ctrl/Cmd + K
+        document.addEventListener("keydown", function (e) {
+          if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+            e.preventDefault();
+            searchOverlay.style.display = "block";
+            searchInput.style.display = "block";
+            searchInput.focus();
+          }
+
+          if (e.key === "Escape") {
+            searchOverlay.style.display = "none";
+            searchInput.style.display = "none";
+          }
+        });
+
+        searchOverlay.addEventListener("click", function () {
+          searchOverlay.style.display = "none";
+          searchInput.style.display = "none";
+        });
+
+        searchInput.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            const query = e.target.value.trim();
+            if (query) {
+              window.location.href = `/search?q=${encodeURIComponent(query)}`;
+            }
+          }
+        });
+      }
+
+      // Initialize search functionality
+      initializeSearch();
+
+      // Add error reporting functionality
+      function reportError() {
+        const errorData = {
+          url: window.location.href,
+          referrer: document.referrer,
+          userAgent: navigator.userAgent,
+          timestamp: new Date().toISOString(),
+        };
+
+        // Send error report to your analytics service
+        if (typeof gtag !== "undefined") {
+          gtag("event", "404_error", {
+            page_location: errorData.url,
+            page_referrer: errorData.referrer,
+          });
+        }
+
+        // You can also send to your own error tracking service
+        fetch("/api/error-report", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(errorData),
+        }).catch(() => {
+          // Silently fail if error reporting fails
+        });
+      }
+
+      // Report the 404 error
+      reportError();
+
+      // Add helpful keyboard shortcuts info
+      function showKeyboardShortcuts() {
+        const shortcutsInfo = document.createElement("div");
+        shortcutsInfo.innerHTML = `
+                <div style="position: fixed; bottom: 20px; right: 20px; background: var(--bg-primary); padding: 1rem; border-radius: 0.5rem; box-shadow: var(--shadow-lg); border: 1px solid var(--border); font-size: 0.875rem; color: var(--text-secondary); max-width: 200px; z-index: 1000;">
+                    <strong style="color: var(--text-primary);">Keyboard Shortcuts:</strong><br>
+                    <kbd>H</kbd> - Go Home<br>
+                    <kbd>B</kbd> - Go Back<br>
+                    <kbd>R</kbd> - Reload<br>
+                    <kbd>Ctrl+K</kbd> - Search
+                </div>
+            `;
+
+        document.body.appendChild(shortcutsInfo);
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+          shortcutsInfo.style.opacity = "0";
+          shortcutsInfo.style.transition = "opacity 0.3s ease";
+          setTimeout(() => {
+            if (shortcutsInfo.parentNode) {
+              shortcutsInfo.parentNode.removeChild(shortcutsInfo);
+            }
+          }, 300);
+        }, 5000);
+      }
+
+      // Show keyboard shortcuts after page load
+      window.addEventListener("load", () => {
+        setTimeout(showKeyboardShortcuts, 2000);
+      });
+
+      // Add page visibility API to pause animations when tab is not active
+      document.addEventListener("visibilitychange", function () {
+        const shapes = document.querySelectorAll(".floating-shape");
+        if (document.hidden) {
+          shapes.forEach((shape) => {
+            shape.style.animationPlayState = "paused";
+          });
+        } else {
+          shapes.forEach((shape) => {
+            shape.style.animationPlayState = "running";
+          });
+        }
+      });
+
+      // Add performance monitoring
+      if ("performance" in window) {
+        window.addEventListener("load", function () {
+          setTimeout(function () {
+            const perfData = performance.getEntriesByType("navigation")[0];
+            if (perfData) {
+              console.log(
+                "Page load time:",
+                perfData.loadEventEnd - perfData.loadEventStart,
+                "ms"
+              );
+            }
+          }, 0);
+        });
+      }
+
+      // Add service worker registration for offline support
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register("/sw.js")
+            .then(function (registration) {
+              console.log("ServiceWorker registration successful");
+            })
+            .catch(function (err) {
+              console.log("ServiceWorker registration failed");
+            });
+        });
+      }
+    </script>
+  </body>
 </html>

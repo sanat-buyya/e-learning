@@ -1,292 +1,814 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register - Jnana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="https://yogastudies.org/wp-content/uploads/jnana.jpg"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #2196F3;
-            --text-color: #2c3e50;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --bg-light: #f8f9fa;
-            --accent-color: #ff6b6b;
-            --error-color: #f44336;
+      :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --secondary: #06b6d4;
+        --accent: #f59e0b;
+        --success: #10b981;
+        --error: #ef4444;
+        --text-primary: #0f172a;
+        --text-secondary: #64748b;
+        --text-muted: #94a3b8;
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --border: #e2e8f0;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+          0 8px 10px -6px rgb(0 0 0 / 0.1);
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background: var(--bg-secondary);
+        min-height: 100vh;
+        padding-top: 100px;
+      }
+
+      /* Navigation - Matching home.html */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.75rem;
+        font-weight: 800;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-decoration: none;
+        letter-spacing: -0.025em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .nav-btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 0.875rem;
+      }
+
+      .nav-login {
+        color: var(--text-secondary);
+      }
+
+      .nav-login:hover {
+        color: var(--primary);
+        background: var(--bg-tertiary);
+      }
+
+      /* Registration Form Container */
+      .register-section {
+        max-width: 500px;
+        margin: 2rem auto;
+        padding: 3rem;
+        background: white;
+        border-radius: 1rem;
+        box-shadow: var(--shadow-xl);
+        border: 1px solid var(--border);
+        animation: fadeInUp 0.6s ease-out;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .register-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-primary);
+      }
+
+      .register-section h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        text-align: center;
+        letter-spacing: -0.025em;
+      }
+
+      .register-subtitle {
+        text-align: center;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-size: 1rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid var(--border);
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+      }
+
+      .form-group input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        outline: none;
+      }
+
+      .form-group input::placeholder {
+        color: var(--text-muted);
+      }
+
+      .radio-group {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .radio-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        padding: 1rem 1.5rem;
+        border-radius: 0.75rem;
+        transition: all 0.2s ease;
+        background: var(--bg-tertiary);
+        border: 2px solid transparent;
+        font-weight: 500;
+        color: var(--text-secondary);
+        min-width: 120px;
+        justify-content: center;
+      }
+
+      .radio-option:hover {
+        background: rgba(99, 102, 241, 0.1);
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      .radio-option input[type="radio"] {
+        display: none;
+      }
+
+      .radio-option input[type="radio"]:checked + .radio-content {
+        color: var(--primary);
+      }
+
+      .radio-option:has(input[type="radio"]:checked) {
+        background: rgba(99, 102, 241, 0.1);
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      .radio-content {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: color 0.2s ease;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 0.875rem 2rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: var(--primary);
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 1rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .submit-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
+
+      .error {
+        color: var(--error);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        display: block;
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .login-link a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
+
+      .login-link a:hover {
+        color: var(--primary-dark);
+      }
+
+      /* Toast Notifications - Matching home.html */
+      .toast-container {
+        position: fixed;
+        top: 100px;
+        right: 2rem;
+        z-index: 1001;
+        max-width: 400px;
+      }
+
+      .toast {
+        background: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.75rem;
+        box-shadow: var(--shadow-xl);
+        border: 1px solid var(--border);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        animation: slideInRight 0.3s ease-out forwards;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .toast::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+      }
+
+      .toast.success::before {
+        background: var(--success);
+      }
+
+      .toast.error::before {
+        background: var(--error);
+      }
+
+      .toast-content {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex: 1;
+      }
+
+      .toast-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        color: white;
+      }
+
+      .toast.success .toast-icon {
+        background: var(--success);
+      }
+
+      .toast.error .toast-icon {
+        background: var(--error);
+      }
+
+      .toast-message {
+        color: var(--text-primary);
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
+
+      .toast-close {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+        transition: all 0.2s ease;
+        line-height: 1;
+      }
+
+      .toast-close:hover {
+        color: var(--text-secondary);
+        background: var(--bg-tertiary);
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideOutRight {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 1rem;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: var(--bg-light);
-            min-height: 100vh;
-            padding-top: 100px;
-        }
-
-        /* Navbar styles matching home.html */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 1.2rem 5%;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-            letter-spacing: 1px;
-        }
-
-        /* Registration Form Container */
         .register-section {
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 2.5rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px var(--shadow-color);
-            animation: slideUp 0.5s ease-out;
-        }
-
-        .register-section h1 {
-            font-size: 2.2rem;
-            color: var(--text-color);
-            margin-bottom: 2rem;
-            text-align: center;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: var(--bg-light);
-        }
-
-        .form-group input:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.1);
-            outline: none;
+          margin: 1rem;
+          padding: 2rem;
         }
 
         .radio-group {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin: 2rem 0;
+          flex-direction: column;
+          gap: 0.75rem;
         }
 
         .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            padding: 0.8rem 1.5rem;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            background: var(--bg-light);
+          min-width: auto;
         }
 
-        .radio-option:hover {
-            background: rgba(33, 150, 243, 0.1);
-        }
-
-        .radio-option input[type="radio"] {
-            accent-color: var(--primary-color);
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
-        }
-
-        .error {
-            color: var(--error-color);
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Toast styles matching home.html */
         .toast-container {
-            position: fixed;
-            top: 90px;
-            right: 20px;
-            z-index: 1000;
+          right: 1rem;
+          left: 1rem;
+          max-width: none;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .register-section {
+          padding: 1.5rem;
         }
 
-        .toast {
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            color: white;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.3s ease-out forwards;
+        .register-section h1 {
+          font-size: 1.75rem;
         }
+      }
 
-        .toast.success {
-            background: var(--primary-color);
-        }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
 
-        .toast.error {
-            background: var(--error-color);
-        }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-tertiary);
+      }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-dark);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <!-- Navigation -->
     <nav class="navbar">
+      <div class="nav-container">
         <a href="/" class="logo">Jnana</a>
+        <div class="nav-links">
+          <a href="/login" class="nav-btn nav-login">Login</a>
+        </div>
+      </div>
     </nav>
 
+    <!-- Registration Form -->
     <div class="register-section">
-        <h1>Create Account</h1>
-        <form action="/register" method="post" th:object="${userDto}">
-            <div class="form-group">
-                <input type="text" th:field="*{name}" placeholder="Full Name">
-                <span class="error" th:errors="*{name}"></span>
-            </div>
+      <h1>Create Account</h1>
+      <p class="register-subtitle">
+        Join thousands of learners and start your journey today
+      </p>
 
-            <div class="form-group">
-                <input type="email" th:field="*{email}" placeholder="Email Address">
-                <span class="error" th:errors="*{email}"></span>
-            </div>
+      <form action="/register" method="post" th:object="${userDto}">
+        <div class="form-group">
+          <input
+            type="text"
+            th:field="*{name}"
+            placeholder="Full Name"
+            required
+          />
+          <span class="error" th:errors="*{name}"></span>
+        </div>
 
-            <div class="form-group">
-                <input type="text" th:field="*{mobile}" placeholder="Mobile Number">
-                <span class="error" th:errors="*{mobile}"></span>
-            </div>
+        <div class="form-group">
+          <input
+            type="email"
+            th:field="*{email}"
+            placeholder="Email Address"
+            required
+          />
+          <span class="error" th:errors="*{email}"></span>
+        </div>
 
-            <div class="form-group">
-                <input type="password" th:field="*{password}" placeholder="Password">
-                <span class="error" th:errors="*{password}"></span>
-            </div>
+        <div class="form-group">
+          <input
+            type="text"
+            th:field="*{mobile}"
+            placeholder="Mobile Number"
+            required
+          />
+          <span class="error" th:errors="*{mobile}"></span>
+        </div>
 
-            <div class="form-group">
-                <input type="password" th:field="*{confirmPassword}" placeholder="Confirm Password">
-                <span class="error" th:errors="*{confirmPassword}"></span>
-            </div>
+        <div class="form-group">
+          <input
+            type="password"
+            th:field="*{password}"
+            placeholder="Password"
+            required
+          />
+          <span class="error" th:errors="*{password}"></span>
+        </div>
 
-            <div class="radio-group">
-                <label class="radio-option">
-                    <input type="radio" th:field="*{type}" value="TUTOR">
-                    <i class="fas fa-chalkboard-teacher"></i> Tutor
-                </label>
-                <label class="radio-option">
-                    <input type="radio" th:field="*{type}" value="LEARNER">
-                    <i class="fas fa-user-graduate"></i> Learner
-                </label>
-            </div>
-            <span class="error" th:errors="*{type}"></span>
+        <div class="form-group">
+          <input
+            type="password"
+            th:field="*{confirmPassword}"
+            placeholder="Confirm Password"
+            required
+          />
+          <span class="error" th:errors="*{confirmPassword}"></span>
+        </div>
 
-            <button type="submit">Create Account</button>
-        </form>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" th:field="*{type}" value="TUTOR" required />
+            <div class="radio-content">
+              <i class="fas fa-chalkboard-teacher"></i>
+              <span>Tutor</span>
+            </div>
+          </label>
+          <label class="radio-option">
+            <input type="radio" th:field="*{type}" value="LEARNER" required />
+            <div class="radio-content">
+              <i class="fas fa-user-graduate"></i>
+              <span>Learner</span>
+            </div>
+          </label>
+        </div>
+        <span class="error" th:errors="*{type}"></span>
+
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-user-plus"></i>
+          Create Account
+        </button>
+      </form>
+
+      <div class="login-link">
+        <p>Already have an account? <a href="/login">Sign in here</a></p>
+      </div>
     </div>
 
+    <!-- Toast Notifications -->
     <div class="toast-container">
-        <div id="successToast" class="toast success" th:if="${session.pass}" th:text="${session.pass}"></div>
-        <div id="errorToast" class="toast error" th:if="${session.fail}" th:text="${session.fail}"></div>
+      <div
+        id="successToast"
+        class="toast success"
+        th:if="${session.pass}"
+        style="display: none"
+      >
+        <div class="toast-content">
+          <div class="toast-icon">
+            <i class="fas fa-check"></i>
+          </div>
+          <span class="toast-message" th:text="${session.pass}"
+            >Success message</span
+          >
+        </div>
+        <button class="toast-close">&times;</button>
+      </div>
+      <div
+        id="errorToast"
+        class="toast error"
+        th:if="${session.fail}"
+        style="display: none"
+      >
+        <div class="toast-content">
+          <div class="toast-icon">
+            <i class="fas fa-exclamation"></i>
+          </div>
+          <span class="toast-message" th:text="${session.fail}"
+            >Error message</span
+          >
+        </div>
+        <button class="toast-close">&times;</button>
+      </div>
+      <th:block th:text="${@generalService.removeMessage()}"></th:block>
     </div>
 
     <script>
-        function showToast() {
-            const toasts = document.querySelectorAll('.toast');
-            
-            toasts.forEach(toast => {
-                if (toast && toast.textContent.trim() !== '') {
-                    // Show toast
-                    toast.style.display = 'flex';
-                    
-                    // Add click event for close button
-                    const closeBtn = toast.querySelector('.toast-close');
-                    closeBtn.addEventListener('click', () => {
-                        toast.style.animation = 'slideOut 0.3s ease-out forwards';
-                        setTimeout(() => {
-                            toast.remove();
-                        }, 300);
-                    });
-                    
-                    // Auto hide toast after 3 seconds
-                    setTimeout(() => {
-                        if (toast.isConnected) {
-                            toast.style.animation = 'slideOut 0.3s ease-out forwards';
-                            setTimeout(() => {
-                                if (toast.isConnected) {
-                                    toast.remove();
-                                }
-                            }, 300);
-                        }
-                    }, 3000);
-                }
-            });
+      // Toast notifications - Matching home.html functionality
+      function showToast(type, message) {
+        const toastContainer = document.querySelector(".toast-container");
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+                <div class="toast-content">
+                    <div class="toast-icon">
+                        <i class="fas fa-${
+                          type === "success" ? "check" : "exclamation"
+                        }"></i>
+                    </div>
+                    <span class="toast-message">${message}</span>
+                </div>
+                <button class="toast-close">&times;</button>
+            `;
+
+        toastContainer.appendChild(toast);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.parentNode.removeChild(toast);
+            }
+          }, 300);
+        }, 5000);
+
+        // Close button functionality
+        toast.querySelector(".toast-close").addEventListener("click", () => {
+          toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.parentNode.removeChild(toast);
+            }
+          }, 300);
+        });
+      }
+
+      // Show existing toasts if they exist
+      document.addEventListener("DOMContentLoaded", function () {
+        const successToast = document.getElementById("successToast");
+        const errorToast = document.getElementById("errorToast");
+
+        if (
+          successToast &&
+          successToast.querySelector(".toast-message").textContent.trim()
+        ) {
+          successToast.style.display = "flex";
+          setTimeout(() => {
+            successToast.style.animation =
+              "slideOutRight 0.3s ease-out forwards";
+            setTimeout(() => {
+              successToast.style.display = "none";
+            }, 300);
+          }, 5000);
         }
 
-        document.addEventListener('DOMContentLoaded', showToast);
+        if (
+          errorToast &&
+          errorToast.querySelector(".toast-message").textContent.trim()
+        ) {
+          errorToast.style.display = "flex";
+          setTimeout(() => {
+            errorToast.style.animation = "slideOutRight 0.3s ease-out forwards";
+            setTimeout(() => {
+              errorToast.style.display = "none";
+            }, 300);
+          }, 5000);
+        }
+
+        // Close button functionality for existing toasts
+        document.querySelectorAll(".toast-close").forEach((closeBtn) => {
+          closeBtn.addEventListener("click", function () {
+            const toast = this.closest(".toast");
+            toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+            setTimeout(() => {
+              toast.style.display = "none";
+            }, 300);
+          });
+        });
+      });
+
+      // Form validation and enhancement
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const inputs = form.querySelectorAll("input");
+        const submitBtn = form.querySelector(".submit-btn");
+
+        // Add input validation styling
+        inputs.forEach((input) => {
+          input.addEventListener("blur", function () {
+            if (this.value.trim() !== "") {
+              this.style.borderColor = "var(--success)";
+            } else if (this.hasAttribute("required")) {
+              this.style.borderColor = "var(--error)";
+            }
+          });
+
+          input.addEventListener("focus", function () {
+            this.style.borderColor = "var(--primary)";
+          });
+        });
+
+        // Add loading state to submit button
+        form.addEventListener("submit", function () {
+          submitBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+          submitBtn.disabled = true;
+        });
+
+        // Radio button enhancement
+        const radioOptions = document.querySelectorAll(".radio-option");
+        radioOptions.forEach((option) => {
+          option.addEventListener("click", function () {
+            const radio = this.querySelector('input[type="radio"]');
+            radio.checked = true;
+
+            // Update visual state
+            radioOptions.forEach((opt) => opt.classList.remove("selected"));
+            this.classList.add("selected");
+          });
+        });
+      });
+
+      // Navbar scroll effect - Matching home.html
+      let lastScrollTop = 0;
+      const navbar = document.querySelector(".navbar");
+
+      window.addEventListener("scroll", function () {
+        let scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        // Only hide navbar on mobile to prevent overlap issues
+        if (window.innerWidth <= 768) {
+          if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down
+            navbar.style.transform = "translateY(-100%)";
+          } else {
+            // Scrolling up
+            navbar.style.transform = "translateY(0)";
+          }
+        }
+
+        // Add background when scrolled
+        if (scrollTop > 50) {
+          navbar.style.background = "rgba(255, 255, 255, 0.95)";
+          navbar.style.backdropFilter = "blur(20px)";
+        } else {
+          navbar.style.background = "rgba(255, 255, 255, 0.8)";
+          navbar.style.backdropFilter = "blur(20px)";
+        }
+
+        lastScrollTop = scrollTop;
+      });
+
+      // Add ripple effect to submit button
+      function createRipple(event) {
+        const button = event.currentTarget;
+        const circle = document.createElement("span");
+        const diameter = Math.max(button.clientWidth, button.clientHeight);
+        const radius = diameter / 2;
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+        circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+        circle.classList.add("ripple");
+
+        const ripple = button.getElementsByClassName("ripple")[0];
+        if (ripple) {
+          ripple.remove();
+        }
+
+        button.appendChild(circle);
+      }
+
+      document
+        .querySelector(".submit-btn")
+        .addEventListener("click", createRipple);
+
+      // Add CSS for ripple effect
+      const style = document.createElement("style");
+      style.textContent = `
+            .submit-btn {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            .radio-option.selected {
+                background: rgba(99, 102, 241, 0.15) !important;
+                border-color: var(--primary) !important;
+                color: var(--primary) !important;
+            }
+        `;
+      document.head.appendChild(style);
     </script>
-</body>
+  </body>
 </html>

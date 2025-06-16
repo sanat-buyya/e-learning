@@ -18,10 +18,14 @@ import com.cloudinary.utils.ObjectUtils;
 import com.s13sh.Jnana.dto.CourseDto;
 import com.s13sh.Jnana.dto.SectionDto;
 import com.s13sh.Jnana.model.Course;
+import com.s13sh.Jnana.model.EnrolledCourse;
+import com.s13sh.Jnana.model.Learner;
 import com.s13sh.Jnana.model.QuizQuestion;
 import com.s13sh.Jnana.model.Section;
 import com.s13sh.Jnana.model.Tutor;
 import com.s13sh.Jnana.repository.CourseRepository;
+import com.s13sh.Jnana.repository.EnrolledCourseRepository;
+import com.s13sh.Jnana.repository.LearnerRepository;
 import com.s13sh.Jnana.repository.SectionRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -35,6 +39,12 @@ public class TutorService {
 
 	@Autowired
 	CourseRepository courseRepository;
+
+	@Autowired
+	LearnerRepository learnerRepository;
+
+	@Autowired
+	EnrolledCourseRepository enrolledCourseRepository;
 
 	@Autowired
 	SectionRepository sectionRepository;
@@ -75,9 +85,16 @@ public class TutorService {
 		}
 	}
 
-	public String loadLearners(HttpSession session) {
+	public String loadLearners(HttpSession session, Model model) {
 		if (session.getAttribute("tutor") != null) {
-			return "tutor-home.html";
+			Tutor tutor = (Tutor) session.getAttribute("tutor");
+			List<Course> courses = courseRepository.findByTutor(tutor);
+			List<EnrolledCourse> enrolledCourses = enrolledCourseRepository.findByCourseIn(courses);
+
+			List<Learner> learners = learnerRepository.findByEnrolledCoursesIn(enrolledCourses);
+			model.addAttribute("learners", learners);
+			return "display-learners.html";
+
 		} else {
 			session.setAttribute("fail", "Invalid Session, Login First");
 			return "redirect:/login";
