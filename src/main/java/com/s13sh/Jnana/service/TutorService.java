@@ -163,7 +163,7 @@ public class TutorService {
 			List<Section> sections = sectionRepository.findByCourse(course);
 
 			if (course.getQuizQuestions().isEmpty() || sections.isEmpty()) {
-				session.setAttribute("fail", "There Should be atleast one section and Quiz To Publish");
+				session.setAttribute("fail", "There Should be atleast one section To Publish");
 				return "redirect:/tutor/view-courses";
 			} else {
 				course.setPublished(true);

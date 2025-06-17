@@ -1,1238 +1,1300 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>OTP Verification - Jnana</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-	rel="stylesheet" />
-<link rel="shortcut icon"
-	href="https://yogastudies.org/wp-content/uploads/jnana.jpg"
-	type="image/x-icon" />
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<style>
-:root {
-	--primary: #6366f1;
-	--primary-dark: #4f46e5;
-	--secondary: #06b6d4;
-	--accent: #f59e0b;
-	--success: #10b981;
-	--error: #ef4444;
-	--text-primary: #0f172a;
-	--text-secondary: #64748b;
-	--text-muted: #94a3b8;
-	--bg-primary: #ffffff;
-	--bg-secondary: #f8fafc;
-	--bg-tertiary: #f1f5f9;
-	--border: #e2e8f0;
-	--shadow-sm: 0 1px 2px 0 rgb(0 0 0/ 0.05);
-	--shadow-md: 0 4px 6px -1px rgb(0 0 0/ 0.1), 0 2px 4px -2px
-		rgb(0 0 0/ 0.1);
-	--shadow-lg: 0 10px 15px -3px rgb(0 0 0/ 0.1), 0 4px 6px -4px
-		rgb(0 0 0/ 0.1);
-	--shadow-xl: 0 20px 25px -5px rgb(0 0 0/ 0.1), 0 8px 10px -6px
-		rgb(0 0 0/ 0.1);
-	--gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OTP Verification - Jnana</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #7c3aed;
+      --accent: #f59e0b;
+      --success: #059669;
+      --error: #dc2626;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --text-light: #94a3b8;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-dark: #0f172a;
+      --border: #e2e8f0;
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-hero: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
 
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-	font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-	line-height: 1.6;
-	color: var(--text-primary);
-	background: var(--bg-secondary);
-	min-height: 100vh;
-	padding-top: 100px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
+    body {
+      font-family: "Poppins", sans-serif;
+      line-height: 1.4;
+      color: var(--text-primary);
+      background: var(--gradient-hero);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
 
-/* Navigation - Matching other pages */
-.navbar {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	background: rgba(255, 255, 255, 0.8);
-	backdrop-filter: blur(20px);
-	border-bottom: 1px solid var(--border);
-	z-index: 1000;
-	transition: all 0.3s ease;
-}
+    /* Navigation - Compact */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.5rem 0;
+      flex-shrink: 0;
+    }
 
-.nav-container {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 1rem 2rem;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.logo {
-	font-size: 1.75rem;
-	font-weight: 800;
-	background: var(--gradient-primary);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-	text-decoration: none;
-	letter-spacing: -0.025em;
-}
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-.nav-links {
-	display: flex;
-	gap: 1rem;
-	align-items: center;
-}
+    .logo i {
+      font-size: 1.25rem;
+    }
 
-.nav-btn {
-	padding: 0.5rem 1.5rem;
-	border-radius: 0.5rem;
-	font-weight: 500;
-	text-decoration: none;
-	transition: all 0.2s ease;
-	font-size: 0.875rem;
-	background: var(--primary);
-	color: white;
-}
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
 
-.nav-btn:hover {
-	background: var(--primary-dark);
-	transform: translateY(-1px);
-}
+    .nav-btn {
+      padding: 0.5rem 1.25rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+    }
 
-/* OTP Verification Container */
-.otp-section {
-	background: white;
-	padding: 3rem;
-	border-radius: 1rem;
-	box-shadow: var(--shadow-xl);
-	border: 1px solid var(--border);
-	width: 90%;
-	max-width: 500px;
-	text-align: center;
-	animation: fadeInUp 0.6s ease-out;
-	position: relative;
-	overflow: hidden;
-}
+    .nav-btn:hover {
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+    }
 
-.otp-section::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: 4px;
-	background: var(--gradient-primary);
-}
+    /* Main Container */
+    .main-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      min-height: 0;
+    }
 
-.otp-icon {
-	width: 80px;
-	height: 80px;
-	background: var(--gradient-primary);
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 0 auto 2rem;
-	color: white;
-	font-size: 2rem;
-}
+    /* OTP Verification Container */
+    .otp-section {
+      width: 100%;
+      max-width: 450px;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 1rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+      text-align: center;
+      animation: fadeInUp 0.6s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
 
-.otp-section h1 {
-	font-size: 2rem;
-	font-weight: 800;
-	color: var(--text-primary);
-	margin-bottom: 0.5rem;
-	letter-spacing: -0.025em;
-}
+    .otp-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-primary);
+    }
 
-.otp-subtitle {
-	color: var(--text-secondary);
-	margin-bottom: 2.5rem;
-	font-size: 1rem;
-	line-height: 1.5;
-}
+    .otp-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: white;
+      font-size: 1.5rem;
+    }
 
-.otp-form {
-	margin-bottom: 2rem;
-}
+    .otp-section h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
 
-.otp-input-container {
-	display: flex;
-	justify-content: center;
-	gap: 0.75rem;
-	margin-bottom: 2rem;
-}
+    .otp-subtitle {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
 
-.otp-input {
-	width: 60px;
-	height: 60px;
-	border: 2px solid var(--border);
-	border-radius: 0.75rem;
-	font-size: 1.5rem;
-	font-weight: 600;
-	text-align: center;
-	transition: all 0.2s ease;
-	background: var(--bg-primary);
-	color: var(--text-primary);
-}
+    .otp-form {
+      margin-bottom: 1.5rem;
+    }
 
-.otp-input:focus {
-	border-color: var(--primary);
-	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-	outline: none;
-	transform: scale(1.05);
-}
+    .otp-input-container {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
 
-.otp-input.filled {
-	border-color: var(--success);
-	background: rgba(16, 185, 129, 0.05);
-}
+    .otp-input {
+      width: 50px;
+      height: 50px;
+      border: 2px solid var(--border);
+      border-radius: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.2s ease;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: inherit;
+    }
 
-.otp-input.error {
-	border-color: var(--error);
-	background: rgba(239, 68, 68, 0.05);
-	animation: shake 0.5s ease-in-out;
-}
+    .otp-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      outline: none;
+      transform: scale(1.05);
+    }
 
-.btn-group {
-	display: flex;
-	gap: 1rem;
-	justify-content: center;
-	flex-wrap: wrap;
-}
+    .otp-input.filled {
+      border-color: var(--success);
+      background: rgba(5, 150, 105, 0.05);
+    }
 
-.btn {
-	padding: 0.875rem 2rem;
-	border: none;
-	border-radius: 0.5rem;
-	font-size: 1rem;
-	font-weight: 600;
-	cursor: pointer;
-	transition: all 0.2s ease;
-	text-decoration: none;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.5rem;
-	position: relative;
-	overflow: hidden;
-}
+    .otp-input.error {
+      border-color: var(--error);
+      background: rgba(220, 38, 38, 0.05);
+      animation: shake 0.5s ease-in-out;
+    }
 
-.btn-primary {
-	background: var(--primary);
-	color: white;
-}
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-.btn-primary:hover {
-	background: var(--primary-dark);
-	transform: translateY(-1px);
-	box-shadow: var(--shadow-lg);
-}
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+      font-family: inherit;
+    }
 
-.btn-secondary {
-	background: var(--bg-tertiary);
-	color: var(--text-secondary);
-	border: 1px solid var(--border);
-}
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
 
-.btn-secondary:hover {
-	background: var(--bg-secondary);
-	color: var(--text-primary);
-	transform: translateY(-1px);
-}
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
 
-.btn:disabled {
-	opacity: 0.6;
-	cursor: not-allowed;
-	transform: none !important;
-}
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
 
-.resend-info {
-	margin-top: 2rem;
-	padding-top: 2rem;
-	border-top: 1px solid var(--border);
-	color: var(--text-secondary);
-	font-size: 0.875rem;
-}
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
 
-.timer {
-	font-weight: 600;
-	color: var(--primary);
-}
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
 
-/* Toast Notifications - Matching other pages */
-.toast-container {
-	position: fixed;
-	top: 100px;
-	right: 2rem;
-	z-index: 1001;
-	max-width: 400px;
-}
+    .resend-info {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
 
-.toast {
-	background: white;
-	padding: 1rem 1.5rem;
-	border-radius: 0.75rem;
-	box-shadow: var(--shadow-xl);
-	border: 1px solid var(--border);
-	margin-bottom: 1rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
-	animation: slideInRight 0.3s ease-out forwards;
-	position: relative;
-	overflow: hidden;
-}
+    .timer {
+      font-weight: 600;
+      color: var(--primary);
+    }
 
-.toast::before {
-	content: "";
-	position: absolute;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	width: 4px;
-}
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      top: 80px;
+      right: 1rem;
+      z-index: 1001;
+      max-width: 350px;
+    }
 
-.toast.success::before {
-	background: var(--success);
-}
+    .toast {
+      background: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: var(--shadow-lg);
+      border-left: 4px solid var(--success);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      animation: slideInRight 0.3s ease-out forwards;
+      font-size: 0.85rem;
+    }
 
-.toast.error::before {
-	background: var(--error);
-}
+    .toast.error {
+      border-left-color: var(--error);
+    }
 
-.toast-content {
-	display: flex;
-	align-items: center;
-	gap: 0.75rem;
-	flex: 1;
-}
+    .toast-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: white;
+      background: var(--success);
+      flex-shrink: 0;
+    }
 
-.toast-icon {
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 0.75rem;
-	color: white;
-}
+    .toast.error .toast-icon {
+      background: var(--error);
+    }
 
-.toast.success .toast-icon {
-	background: var(--success);
-}
+    .toast-message {
+      flex: 1;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
 
-.toast.error .toast-icon {
-	background: var(--error);
-}
+    .toast-close {
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 0.25rem;
+      transition: all 0.2s ease;
+      line-height: 1;
+      flex-shrink: 0;
+    }
 
-.toast-message {
-	color: var(--text-primary);
-	font-weight: 500;
-	font-size: 0.875rem;
-}
+    .toast-close:hover {
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+    }
 
-.toast-close {
-	background: none;
-	border: none;
-	color: var(--text-muted);
-	font-size: 1.25rem;
-	cursor: pointer;
-	padding: 0.25rem;
-	border-radius: 0.25rem;
-	transition: all 0.2s ease;
-	line-height: 1;
-}
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
 
-.toast-close:hover {
-	color: var(--text-secondary);
-	background: var(--bg-tertiary);
-}
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-/* Animations */
-@keyframes fadeInUp {from { opacity:0;
-	transform: translateY(30px);
-}
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
 
-to {
-	opacity: 1;
-	transform: translateY(0);
-}
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
 
-}
-@keyframes slideInRight {from { transform:translateX(100%);
-	opacity: 0;
-}
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
 
-to {
-	transform: translateX(0);
-	opacity: 1;
-}
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
 
-}
-@keyframes slideOutRight {from { transform:translateX(0);
-	opacity: 1;
-}
+    @keyframes shake {
 
-to {
-	transform: translateX(100%);
-	opacity: 0;
-}
+      0%,
+      100% {
+        transform: translateX(0);
+      }
 
-}
-@keyframes shake { 0%, 100% {
-	transform: translateX(0);
-}
+      25% {
+        transform: translateX(-5px);
+      }
 
-25%
-{
-transform:translateX(-5px);
+      75% {
+        transform: translateX(5px);
+      }
+    }
 
+    @keyframes pulse {
 
-}
-75%
-{
-transform:translateX(5px);
-}
-}
-@keyframes pulse { 0%, 100% {
-	opacity: 1;
-}
+      0%,
+      100% {
+        opacity: 1;
+      }
 
-50%{opacity:0.5;}
-}
+      50% {
+        opacity: 0.5;
+      }
+    }
 
-/* Responsive Design */
-@media ( max-width : 768px) {
-	.nav-container {
-		padding: 1rem;
-	}
-	.otp-section {
-		margin: 1rem;
-		padding: 2rem;
-	}
-	.otp-input-container {
-		gap: 0.5rem;
-	}
-	.otp-input {
-		width: 50px;
-		height: 50px;
-		font-size: 1.25rem;
-	}
-	.btn-group {
-		flex-direction: column;
-	}
-	.toast-container {
-		right: 1rem;
-		left: 1rem;
-		max-width: none;
-	}
-}
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
 
-@media ( max-width : 480px) {
-	.otp-section {
-		padding: 1.5rem;
-	}
-	.otp-section h1 {
-		font-size: 1.75rem;
-	}
-	.otp-input {
-		width: 45px;
-		height: 45px;
-		font-size: 1.125rem;
-	}
-}
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+    }
 
-/* Loading state */
-.loading {
-	animation: pulse 1.5s ease-in-out infinite;
-}
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 0 1rem;
+      }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-	width: 8px;
-}
+      .main-container {
+        padding: 0.5rem;
+      }
 
-::-webkit-scrollbar-track {
-	background: var(--bg-tertiary);
-}
+      .otp-section {
+        max-width: 100%;
+        padding: 1.5rem;
+      }
 
-::-webkit-scrollbar-thumb {
-	background: var(--primary);
-	border-radius: 4px;
-}
+      .otp-input-container {
+        gap: 0.375rem;
+      }
 
-::-webkit-scrollbar-thumb:hover {
-	background: var(--primary-dark);
-}
-</style>
+      .otp-input {
+        width: 45px;
+        height: 45px;
+        font-size: 1.125rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .toast-container {
+        right: 0.5rem;
+        left: 0.5rem;
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-container {
+        padding: 0 0.75rem;
+      }
+
+      .logo {
+        font-size: 1.25rem;
+      }
+
+      .nav-btn {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+      }
+
+      .otp-section {
+        padding: 1.25rem;
+      }
+
+      .otp-section h1 {
+        font-size: 1.75rem;
+      }
+
+      .otp-input {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+
+      .btn {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-height: 700px) {
+      .otp-section {
+        padding: 1.5rem;
+      }
+
+      .otp-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      .otp-section h1 {
+        font-size: 1.75rem;
+        margin-bottom: 0.375rem;
+      }
+
+      .otp-subtitle {
+        margin-bottom: 1.5rem;
+        font-size: 0.85rem;
+      }
+
+      .otp-input-container {
+        margin-bottom: 1.25rem;
+      }
+
+      .otp-input {
+        width: 45px;
+        height: 45px;
+        font-size: 1.125rem;
+      }
+
+      .btn {
+        padding: 0.625rem 1.25rem;
+      }
+
+      .resend-info {
+        margin-top: 1.25rem;
+        padding-top: 1.25rem;
+      }
+    }
+
+    @media (max-height: 600px) {
+      .navbar {
+        padding: 0.25rem 0;
+      }
+
+      .otp-section {
+        padding: 1rem;
+      }
+
+      .otp-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .otp-section h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .otp-subtitle {
+        margin-bottom: 1rem;
+        font-size: 0.8rem;
+      }
+
+      .otp-input-container {
+        margin-bottom: 1rem;
+        gap: 0.25rem;
+      }
+
+      .otp-input {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+
+      .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+      }
+
+      .resend-info {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Custom scrollbar - just in case */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(37, 99, 235, 0.3);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(37, 99, 235, 0.5);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Loading state */
+    .loading {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+  </style>
 </head>
+
 <body>
-	<!-- Navigation -->
-	<nav class="navbar">
-		<div class="nav-container">
-			<a href="/" class="logo">Jnana</a>
-			<div class="nav-links">
-				<a href="/login" class="nav-btn">Back to Login</a>
-			</div>
-		</div>
-	</nav>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        <span>Jnana</span>
+      </a>
+      <div class="nav-links">
+        <a href="/login" class="nav-btn">
+          <i class="fas fa-arrow-left"></i>
+          <span>Back to Login</span>
+        </a>
+      </div>
+    </div>
+  </nav>
 
-	<!-- OTP Verification Section -->
-	<div class="otp-section">
-		<div class="otp-icon">
-			<i class="fas fa-shield-alt"></i>
-		</div>
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- OTP Verification Section -->
+    <div class="otp-section">
+      <div class="otp-icon">
+        <i class="fas fa-shield-alt"></i>
+      </div>
 
-		<h1>Verify Your Account</h1>
-		<p class="otp-subtitle">
-			We've sent a 6-digit verification code to your email address.<br />
-			Please enter the code below to continue.
-		</p>
+      <h1>Verify Your Account</h1>
+      <p class="otp-subtitle">
+        We've sent a 6-digit verification code to your email address.<br />
+        Please enter the code below to continue.
+      </p>
 
-		<form class="otp-form" action="/submit-otp" method="post">
-			<div class="otp-input-container">
-				<input type="text" class="otp-input" maxlength="1" pattern="[0-9]"
-					inputmode="numeric" autocomplete="one-time-code" /> <input
-					type="text" class="otp-input" maxlength="1" pattern="[0-9]"
-					inputmode="numeric" /> <input type="text" class="otp-input"
-					maxlength="1" pattern="[0-9]" inputmode="numeric" /> <input
-					type="text" class="otp-input" maxlength="1" pattern="[0-9]"
-					inputmode="numeric" /> <input type="text" class="otp-input"
-					maxlength="1" pattern="[0-9]" inputmode="numeric" /> <input
-					type="text" class="otp-input" maxlength="1" pattern="[0-9]"
-					inputmode="numeric" />
-			</div>
+      <form class="otp-form" action="/submit-otp" method="post">
+        <div class="otp-input-container">
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric"
+            autocomplete="one-time-code" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" />
+        </div>
 
-			<!-- Hidden input to store complete OTP -->
-			<input type="hidden" name="otp" id="completeOtp" />
+        <!-- Hidden input to store complete OTP -->
+        <input type="hidden" name="otp" id="completeOtp" />
 
-			<div class="btn-group">
-				<button type="submit" class="btn btn-primary" id="verifyBtn"
-					disabled>
-					<i class="fas fa-check-circle"></i> Verify OTP
-				</button>
-				<button type="button" class="btn btn-secondary" id="resendBtn">
-					<i class="fas fa-redo-alt"></i> Resend Code
-				</button>
-			</div>
-		</form>
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary" id="verifyBtn" disabled>
+            <i class="fas fa-check-circle"></i>
+            <span>Verify OTP</span>
+          </button>
+          <button type="button" class="btn btn-secondary" id="resendBtn">
+            <i class="fas fa-redo-alt"></i>
+            <span>Resend Code</span>
+          </button>
+        </div>
+      </form>
 
-		<div class="resend-info">
-			<p>
-				Didn't receive the code? You can resend it in <span class="timer"
-					id="timer">60</span> seconds
-			</p>
-		</div>
-	</div>
+      <div class="resend-info">
+        <p>
+          Didn't receive the code? You can resend it in <span class="timer" id="timer">60</span> seconds
+        </p>
+      </div>
+    </div>
+  </div>
 
-	<!-- Toast Notifications -->
-	<div class="toast-container">
-		<div id="successToast" class="toast success" th:if="${session.pass}"
-			style="display: none">
-			<div class="toast-content">
-				<div class="toast-icon">
-					<i class="fas fa-check"></i>
-				</div>
-				<span class="toast-message" th:text="${session.pass}">Success
-					message</span>
-			</div>
-			<button class="toast-close">&times;</button>
-		</div>
-		<div id="errorToast" class="toast error" th:if="${session.fail}"
-			style="display: none">
-			<div class="toast-content">
-				<div class="toast-icon">
-					<i class="fas fa-exclamation"></i>
-				</div>
-				<span class="toast-message" th:text="${session.fail}">Error
-					message</span>
-			</div>
-			<button class="toast-close">&times;</button>
-		</div>
-		<th:block th:text="${@generalService.removeMessage()}"></th:block>
-	</div>
+  <!-- Toast Notifications -->
+  <div class="toast-container">
+    <div id="successToast" class="toast success" th:if="${session.pass}" style="display: none">
+      <div class="toast-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <span class="toast-message" th:text="${session.pass}">Success message</span>
+      <button class="toast-close">&times;</button>
+    </div>
+    <div id="errorToast" class="toast error" th:if="${session.fail}" style="display: none">
+      <div class="toast-icon">
+        <i class="fas fa-exclamation"></i>
+      </div>
+      <span class="toast-message" th:text="${session.fail}">Error message</span>
+      <button class="toast-close">&times;</button>
+    </div>
+    <th:block th:text="${@generalService.removeMessage()}"></th:block>
+  </div>
 
-	<script>
-      // OTP Input Management
-      class OTPManager {
-        constructor() {
-          this.inputs = document.querySelectorAll(".otp-input");
-          this.completeOtpInput = document.getElementById("completeOtp");
-          this.verifyBtn = document.getElementById("verifyBtn");
-          this.resendBtn = document.getElementById("resendBtn");
-          this.timerElement = document.getElementById("timer");
-          this.form = document.querySelector(".otp-form");
+  <script>
+    // OTP Input Management
+    class OTPManager {
+      constructor() {
+        this.inputs = document.querySelectorAll(".otp-input");
+        this.completeOtpInput = document.getElementById("completeOtp");
+        this.verifyBtn = document.getElementById("verifyBtn");
+        this.resendBtn = document.getElementById("resendBtn");
+        this.timerElement = document.getElementById("timer");
+        this.form = document.querySelector(".otp-form");
 
-          this.timer = 30;
-          this.timerInterval = null;
+        this.timer = 60;
+        this.timerInterval = null;
 
-          this.init();
-        }
+        this.init();
+      }
 
-        init() {
-          this.setupInputHandlers();
-          this.setupFormHandler();
-          this.setupResendHandler();
-          this.startTimer();
-          this.focusFirstInput();
-        }
+      init() {
+        this.setupInputHandlers();
+        this.setupFormHandler();
+        this.setupResendHandler();
+        this.startTimer();
+        this.focusFirstInput();
+      }
 
-        setupInputHandlers() {
-          this.inputs.forEach((input, index) => {
-            // Input event - handle typing
-            input.addEventListener("input", (e) => {
-              const value = e.target.value;
+      setupInputHandlers() {
+        this.inputs.forEach((input, index) => {
+          // Input event - handle typing
+          input.addEventListener("input", (e) => {
+            const value = e.target.value;
 
-              // Only allow numbers
-              if (!/^\d*$/.test(value)) {
-                e.target.value = "";
-                return;
-              }
-
-              if (value) {
-                e.target.classList.add("filled");
-                e.target.classList.remove("error");
-
-                // Move to next input
-                if (index < this.inputs.length - 1) {
-                  this.inputs[index + 1].focus();
-                }
-              } else {
-                e.target.classList.remove("filled");
-              }
-
-              this.updateCompleteOtp();
-              this.updateVerifyButton();
-            });
-
-            // Keydown event - handle backspace and navigation
-            input.addEventListener("keydown", (e) => {
-              if (e.key === "Backspace" && !e.target.value && index > 0) {
-                this.inputs[index - 1].focus();
-                this.inputs[index - 1].value = "";
-                this.inputs[index - 1].classList.remove("filled");
-              }
-
-              if (e.key === "ArrowLeft" && index > 0) {
-                this.inputs[index - 1].focus();
-              }
-
-              if (e.key === "ArrowRight" && index < this.inputs.length - 1) {
-                this.inputs[index + 1].focus();
-              }
-
-              if (e.key === "Enter") {
-                e.preventDefault();
-                if (this.isComplete()) {
-                  this.form.submit();
-                }
-              }
-            });
-
-            // Focus event
-            input.addEventListener("focus", (e) => {
-              e.target.select();
-            });
-
-            // Paste event - handle pasting complete OTP
-            input.addEventListener("paste", (e) => {
-              e.preventDefault();
-              const pastedData = e.clipboardData.getData("text");
-              const digits = pastedData.replace(/\D/g, "").slice(0, 6);
-
-              if (digits.length === 6) {
-                this.fillOtp(digits);
-              }
-            });
-          });
-        }
-
-        setupFormHandler() {
-          this.form.addEventListener("submit", (e) => {
-            if (!this.isComplete()) {
-              e.preventDefault();
-              this.showError("Please enter the complete 6-digit code");
-              this.highlightEmptyInputs();
+            // Only allow numbers
+            if (!/^\d*$/.test(value)) {
+              e.target.value = "";
               return;
             }
 
-            // Show loading state
-            this.verifyBtn.innerHTML =
-              '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-            this.verifyBtn.disabled = true;
+            if (value) {
+              e.target.classList.add("filled");
+              e.target.classList.remove("error");
+
+              // Move to next input
+              if (index < this.inputs.length - 1) {
+                this.inputs[index + 1].focus();
+              }
+            } else {
+              e.target.classList.remove("filled");
+            }
+
+            this.updateCompleteOtp();
+            this.updateVerifyButton();
           });
-        }
 
-        setupResendHandler() {
-          this.resendBtn.addEventListener("click", () => {
-            if (this.timer > 0) return;
+          // Keydown event - handle backspace and navigation
+          input.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && !e.target.value && index > 0) {
+              this.inputs[index - 1].focus();
+              this.inputs[index - 1].value = "";
+              this.inputs[index - 1].classList.remove("filled");
+            }
 
-            // Show loading state
-            this.resendBtn.innerHTML =
-              '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            this.resendBtn.disabled = true;
+            if (e.key === "ArrowLeft" && index > 0) {
+              this.inputs[index - 1].focus();
+            }
 
-            // Simulate API call
-            fetch("/resend-otp", {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                if (data.success) {
-                  this.showSuccess("Verification code sent successfully!");
-                  this.resetTimer();
-                  this.clearInputs();
-                } else {
-                  this.showError(
-                    data.message || "Failed to send code. Please try again."
-                  );
-                }
-              })
-              .catch((error) => {
-            	  this.showSuccess("Verification code sent successfully!");
-                   })
-              .finally(() => {
-                this.resendBtn.innerHTML =
-                  '<i class="fas fa-redo-alt"></i> Resend Code';
-                this.resendBtn.disabled = false;
-              });
-          });
-        }
+            if (e.key === "ArrowRight" && index < this.inputs.length - 1) {
+              this.inputs[index + 1].focus();
+            }
 
-        fillOtp(digits) {
-          for (
-            let i = 0;
-            i < Math.min(digits.length, this.inputs.length);
-            i++
-          ) {
-            this.inputs[i].value = digits[i];
-            this.inputs[i].classList.add("filled");
-            this.inputs[i].classList.remove("error");
-          }
-
-          this.updateCompleteOtp();
-          this.updateVerifyButton();
-
-          if (digits.length === 6) {
-            this.inputs[5].focus();
-          }
-        }
-
-        updateCompleteOtp() {
-          const otp = Array.from(this.inputs)
-            .map((input) => input.value)
-            .join("");
-          this.completeOtpInput.value = otp;
-        }
-
-        updateVerifyButton() {
-          const isComplete = this.isComplete();
-          this.verifyBtn.disabled = !isComplete;
-
-          if (isComplete) {
-            this.verifyBtn.classList.remove("loading");
-          }
-        }
-
-        isComplete() {
-          return Array.from(this.inputs).every(
-            (input) => input.value.length === 1
-          );
-        }
-
-        clearInputs() {
-          this.inputs.forEach((input) => {
-            input.value = "";
-            input.classList.remove("filled", "error");
-          });
-          this.updateCompleteOtp();
-          this.updateVerifyButton();
-          this.focusFirstInput();
-        }
-
-        highlightEmptyInputs() {
-          this.inputs.forEach((input) => {
-            if (!input.value) {
-              input.classList.add("error");
-              setTimeout(() => {
-                input.classList.remove("error");
-              }, 2000);
+            if (e.key === "Enter") {
+              e.preventDefault();
+              if (this.isComplete()) {
+                this.form.submit();
+              }
             }
           });
-        }
 
-        focusFirstInput() {
-          this.inputs[0].focus();
-        }
-
-        startTimer() {
-          this.updateTimerDisplay();
-          this.timerInterval = setInterval(() => {
-            this.timer--;
-            this.updateTimerDisplay();
-
-            if (this.timer <= 0) {
-              clearInterval(this.timerInterval);
-              this.resendBtn.disabled = false;
-            }
-          }, 1000);
-        }
-
-        resetTimer() {
-          this.timer = 60;
-          this.resendBtn.disabled = true;
-          clearInterval(this.timerInterval);
-          this.startTimer();
-        }
-
-        updateTimerDisplay() {
-          this.timerElement.textContent = this.timer;
-          this.timerElement.style.color =
-            this.timer <= 10 ? "var(--error)" : "var(--primary)";
-        }
-
-        showSuccess(message) {
-          this.showToast("success", message);
-        }
-
-        showError(message) {
-          this.showToast("error", message);
-        }
-
-        showToast(type, message) {
-          const toastContainer = document.querySelector(".toast-container");
-          const toast = document.createElement("div");
-          toast.className = `toast ${type}`;
-          toast.innerHTML = `
-                    <div class="toast-content">
-                        <div class="toast-icon">
-                            <i class="fas fa-${
-                              type === "success" ? "check" : "exclamation"
-                            }"></i>
-                        </div>
-                        <span class="toast-message">${message}</span>
-                    </div>
-                    <button class="toast-close">&times;</button>
-                `;
-
-          toastContainer.appendChild(toast);
-
-          // Auto remove after 5 seconds
-          setTimeout(() => {
-            toast.style.animation = "slideOutRight 0.3s ease-out forwards";
-            setTimeout(() => {
-              if (toast.parentNode) {
-                toast.parentNode.removeChild(toast);
-              }
-            }, 300);
-          }, 5000);
-
-          // Close button functionality
-          toast.querySelector(".toast-close").addEventListener("click", () => {
-            toast.style.animation = "slideOutRight 0.3s ease-out forwards";
-            setTimeout(() => {
-              if (toast.parentNode) {
-                toast.parentNode.removeChild(toast);
-              }
-            }, 300);
+          // Focus event
+          input.addEventListener("focus", (e) => {
+            e.target.select();
           });
-        }
-      }
 
-      // Toast Management - Matching other pages
-      document.addEventListener("DOMContentLoaded", function () {
-        // Initialize OTP Manager
-        new OTPManager();
+          // Paste event - handle pasting complete OTP
+          input.addEventListener("paste", (e) => {
+            e.preventDefault();
+            const pastedData = e.clipboardData.getData("text");
+            const digits = pastedData.replace(/\D/g, "").slice(0, 6);
 
-        // Handle existing toasts
-        const successToast = document.getElementById("successToast");
-        const errorToast = document.getElementById("errorToast");
-
-        if (
-          successToast &&
-          successToast.querySelector(".toast-message").textContent.trim()
-        ) {
-          successToast.style.display = "flex";
-          setTimeout(() => {
-            successToast.style.animation =
-              "slideOutRight 0.3s ease-out forwards";
-            setTimeout(() => {
-              successToast.style.display = "none";
-            }, 300);
-          }, 5000);
-        }
-
-        if (
-          errorToast &&
-          errorToast.querySelector(".toast-message").textContent.trim()
-        ) {
-          errorToast.style.display = "flex";
-          setTimeout(() => {
-            errorToast.style.animation = "slideOutRight 0.3s ease-out forwards";
-            setTimeout(() => {
-              errorToast.style.display = "none";
-            }, 300);
-          }, 5000);
-        }
-
-        // Close button functionality for existing toasts
-        document.querySelectorAll(".toast-close").forEach((closeBtn) => {
-          closeBtn.addEventListener("click", function () {
-            const toast = this.closest(".toast");
-            toast.style.animation = "slideOutRight 0.3s ease-out forwards";
-            setTimeout(() => {
-              toast.style.display = "none";
-            }, 300);
+            if (digits.length === 6) {
+              this.fillOtp(digits);
+            }
           });
         });
-      });
-
-      // Navbar scroll effect - Matching other pages
-      let lastScrollTop = 0;
-      const navbar = document.querySelector(".navbar");
-
-      window.addEventListener("scroll", function () {
-        let scrollTop =
-          window.pageYOffset || document.documentElement.scrollTop;
-
-        // Only hide navbar on mobile to prevent overlap issues
-        if (window.innerWidth <= 768) {
-          if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // Scrolling down
-            navbar.style.transform = "translateY(-100%)";
-          } else {
-            // Scrolling up
-            navbar.style.transform = "translateY(0)";
-          }
-        }
-
-        // Add background when scrolled
-        if (scrollTop > 50) {
-          navbar.style.background = "rgba(255, 255, 255, 0.95)";
-          navbar.style.backdropFilter = "blur(20px)";
-        } else {
-          navbar.style.background = "rgba(255, 255, 255, 0.8)";
-          navbar.style.backdropFilter = "blur(20px)";
-        }
-
-        lastScrollTop = scrollTop;
-      });
-
-      // Add ripple effect to buttons
-      function createRipple(event) {
-        const button = event.currentTarget;
-        const circle = document.createElement("span");
-        const diameter = Math.max(button.clientWidth, button.clientHeight);
-        const radius = diameter / 2;
-
-        circle.style.width = circle.style.height = `${diameter}px`;
-
-        circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-        circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
-        circle.classList.add("ripple");
-
-        const ripple = button.getElementsByClassName("ripple")[0];
-        if (ripple) {
-          ripple.remove();
-        }
-
-        button.appendChild(circle);
       }
 
-      // Add ripple effect to buttons
-      document.querySelectorAll(".btn").forEach((btn) => {
-        btn.addEventListener("click", createRipple);
-      });
-
-      // Add CSS for ripple effect and additional enhancements
-      const style = document.createElement("style");
-      style.textContent = `
-            .btn {
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .ripple {
-                position: absolute;
-                border-radius: 50%;
-                background-color: rgba(255, 255, 255, 0.6);
-                transform: scale(0);
-                animation: ripple-animation 0.6s linear;
-                pointer-events: none;
-            }
-            
-            @keyframes ripple-animation {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-            
-            /* Enhanced focus states for accessibility */
-            .btn:focus-visible,
-            .otp-input:focus-visible,
-            .toast-close:focus-visible {
-                outline: 2px solid var(--primary);
-                outline-offset: 2px;
-            }
-            
-            /* Loading spinner animation */
-            @keyframes spin {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-            
-            .fa-spinner {
-                animation: spin 1s linear infinite;
-            }
-            
-            /* Enhanced hover effects */
-            .otp-input:hover:not(:focus) {
-                border-color: var(--text-muted);
-            }
-            
-            /* Success state animation */
-            .otp-input.success {
-                border-color: var(--success);
-                background: rgba(16, 185, 129, 0.05);
-                animation: successPulse 0.3s ease-out;
-            }
-            
-            @keyframes successPulse {
-                0% { transform: scale(1); }
-                50% { transform: scale(1.05); }
-                100% { transform: scale(1); }
-            }
-            
-            /* Timer warning state */
-            .timer.warning {
-                color: var(--error);
-                animation: pulse 1s ease-in-out infinite;
-            }
-            
-            /* Mobile optimizations */
-            @media (max-width: 480px) {
-                .otp-input-container {
-                    gap: 0.25rem;
-                }
-                
-                .otp-input {
-                    width: 40px;
-                    height: 40px;
-                    font-size: 1rem;
-                }
-                
-                .btn {
-                    padding: 0.75rem 1.5rem;
-                    font-size: 0.875rem;
-                }
-            }
-            
-            /* Dark mode support (future enhancement) */
-            @media (prefers-color-scheme: dark) {
-                :root {
-                    --text-primary: #f8fafc;
-                    --text-secondary: #cbd5e1;
-                    --text-muted: #64748b;
-                    --bg-primary: #1e293b;
-                    --bg-secondary: #0f172a;
-                    --bg-tertiary: #334155;
-                    --border: #334155;
-                }
-            }
-            
-            /* High contrast mode support */
-            @media (prefers-contrast: high) {
-                .otp-input {
-                    border-width: 3px;
-                }
-                
-                .btn {
-                    border: 2px solid currentColor;
-                }
-            }
-            
-            /* Reduced motion support */
-            @media (prefers-reduced-motion: reduce) {
-                * {
-                    animation-duration: 0.01ms !important;
-                    animation-iteration-count: 1 !important;
-                    transition-duration: 0.01ms !important;
-                }
-            }
-            
-            /* Print styles */
-            @media print {
-                .navbar,
-                .toast-container,
-                .btn-group {
-                    display: none !important;
-                }
-                
-                .otp-section {
-                    box-shadow: none;
-                    border: 2px solid #000;
-                }
-            }
-        `;
-      document.head.appendChild(style);
-
-      // Keyboard shortcuts
-      document.addEventListener("keydown", function (e) {
-        // Ctrl/Cmd + R to resend (when timer is 0)
-        if ((e.ctrlKey || e.metaKey) && e.key === "r") {
-          const resendBtn = document.getElementById("resendBtn");
-          if (!resendBtn.disabled) {
+      setupFormHandler() {
+        this.form.addEventListener("submit", (e) => {
+          if (!this.isComplete()) {
             e.preventDefault();
-            resendBtn.click();
-          }
-        }
-
-        // Escape key to clear inputs
-        if (e.key === "Escape") {
-          const otpManager = window.otpManager;
-          if (otpManager) {
-            otpManager.clearInputs();
+            this.showError("Please enter the complete 6-digit code");
+            this.highlightEmptyInputs();
+            return;
           }
 
-          // Also close any visible toasts
-          const visibleToasts = document.querySelectorAll(
-            '.toast[style*="flex"]'
-          );
-          visibleToasts.forEach((toast) => {
-            toast.style.animation = "slideOutRight 0.3s ease-out forwards";
-            setTimeout(() => {
-              toast.style.display = "none";
-            }, 300);
-          });
-        }
-      });
+          // Show loading state
+          this.verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Verifying...</span>';
+          this.verifyBtn.disabled = true;
+        });
+      }
 
-      // Auto-submit when OTP is complete (optional feature)
-      let autoSubmitTimeout;
-      function handleAutoSubmit() {
-        const inputs = document.querySelectorAll(".otp-input");
-        const isComplete = Array.from(inputs).every(
-          (input) => input.value.length === 1
-        );
+      setupResendHandler() {
+        this.resendBtn.addEventListener("click", () => {
+          if (this.timer > 0) return;
+
+          // Show loading state
+          this.resendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Sending...</span>';
+          this.resendBtn.disabled = true;
+
+          // Simulate API call
+          fetch("/resend-otp", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                this.showSuccess("Verification code sent successfully!");
+                this.resetTimer();
+                this.clearInputs();
+              } else {
+                this.showError(data.message || "Failed to send code. Please try again.");
+              }
+            })
+            .catch((error) => {
+              this.showSuccess("Verification code sent successfully!");
+            })
+            .finally(() => {
+              this.resendBtn.innerHTML = '<i class="fas fa-redo-alt"></i><span>Resend Code</span>';
+              this.resendBtn.disabled = false;
+            });
+        });
+      }
+
+      fillOtp(digits) {
+        for (let i = 0; i < Math.min(digits.length, this.inputs.length); i++) {
+          this.inputs[i].value = digits[i];
+          this.inputs[i].classList.add("filled");
+          this.inputs[i].classList.remove("error");
+        }
+
+        this.updateCompleteOtp();
+        this.updateVerifyButton();
+
+        if (digits.length === 6) {
+          this.inputs[5].focus();
+        }
+      }
+
+      updateCompleteOtp() {
+        const otp = Array.from(this.inputs).map((input) => input.value).join("");
+        this.completeOtpInput.value = otp;
+      }
+
+      updateVerifyButton() {
+        const isComplete = this.isComplete();
+        this.verifyBtn.disabled = !isComplete;
 
         if (isComplete) {
-          // Clear any existing timeout
-          clearTimeout(autoSubmitTimeout);
-
-          // Set a short delay before auto-submit to allow user to review
-          autoSubmitTimeout = setTimeout(() => {
-            const form = document.querySelector(".otp-form");
-            const submitEvent = new Event("submit", {
-              bubbles: true,
-              cancelable: true,
-            });
-            form.dispatchEvent(submitEvent);
-          }, 1000);
+          this.verifyBtn.classList.remove("loading");
         }
       }
 
-      // Add auto-submit listeners (uncomment if you want auto-submit feature)
-      // document.querySelectorAll('.otp-input').forEach(input => {
-      //     input.addEventListener('input', handleAutoSubmit);
-      // });
+      isComplete() {
+        return Array.from(this.inputs).every((input) => input.value.length === 1);
+      }
 
-      // Performance optimization: Debounce resize events
-      let resizeTimeout;
-      window.addEventListener("resize", function () {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function () {
-          // Handle any resize-specific logic here
-          const isMobile = window.innerWidth <= 768;
-          document.body.classList.toggle("mobile", isMobile);
-        }, 250);
-      });
+      clearInputs() {
+        this.inputs.forEach((input) => {
+          input.value = "";
+          input.classList.remove("filled", "error");
+        });
+        this.updateCompleteOtp();
+        this.updateVerifyButton();
+        this.focusFirstInput();
+      }
 
-      // Initialize mobile class
-      document.body.classList.toggle("mobile", window.innerWidth <= 768);
-
-      // Add service worker registration for PWA support (optional)
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          navigator.serviceWorker
-            .register("/sw.js")
-            .then(function (registration) {
-              console.log("ServiceWorker registration successful");
-            })
-            .catch(function (err) {
-              console.log("ServiceWorker registration failed");
-            });
+      highlightEmptyInputs() {
+        this.inputs.forEach((input) => {
+          if (!input.value) {
+            input.classList.add("error");
+            setTimeout(() => {
+              input.classList.remove("error");
+            }, 2000);
+          }
         });
       }
 
-      // Analytics tracking (replace with your analytics service)
-      function trackEvent(eventName, properties = {}) {
-        // Example: Google Analytics 4
-        if (typeof gtag !== "undefined") {
-          gtag("event", eventName, properties);
-        }
+      focusFirstInput() {
+        this.inputs[0].focus();
+      }
 
-        // Example: Custom analytics
-        if (typeof analytics !== "undefined") {
-          analytics.track(eventName, properties);
+      startTimer() {
+        this.updateTimerDisplay();
+        this.timerInterval = setInterval(() => {
+          this.timer--;
+          this.updateTimerDisplay();
+
+          if (this.timer <= 0) {
+            clearInterval(this.timerInterval);
+            this.resendBtn.disabled = false;
+          }
+        }, 1000);
+      }
+
+      resetTimer() {
+        this.timer = 30;
+        this.resendBtn.disabled = true;
+        clearInterval(this.timerInterval);
+        this.startTimer();
+      }
+
+      updateTimerDisplay() {
+        this.timerElement.textContent = this.timer;
+        this.timerElement.style.color = this.timer <= 10 ? "var(--error)" : "var(--primary)";
+      }
+
+      showSuccess(message) {
+        this.showToast("success", message);
+      }
+
+      showError(message) {
+        this.showToast("error", message);
+      }
+
+      showToast(type, message) {
+        const toastContainer = document.querySelector(".toast-container");
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+          <div class="toast-icon">
+            <i class="fas fa-${type === "success" ? "check" : "exclamation"}"></i>
+          </div>
+          <span class="toast-message">${message}</span>
+          <button class="toast-close">&times;</button>
+        `;
+
+        toastContainer.appendChild(toast);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.parentNode.removeChild(toast);
+            }
+          }, 300);
+        }, 5000);
+
+        // Close button functionality
+        toast.querySelector(".toast-close").addEventListener("click", () => {
+          toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.parentNode.removeChild(toast);
+            }
+          }, 300);
+        });
+      }
+    }
+
+    // Toast Management
+    function removeToast(toast) {
+      toast.style.animation = "slideOutRight 0.3s ease forwards";
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast);
+        }
+      }, 300);
+    }
+
+    // Initialize everything
+    document.addEventListener("DOMContentLoaded", function () {
+      // Initialize OTP Manager
+      new OTPManager();
+
+      // Handle existing toasts
+      const successToast = document.getElementById("successToast");
+      const errorToast = document.getElementById("errorToast");
+
+      if (successToast && successToast.querySelector(".toast-message").textContent.trim()) {
+        successToast.style.display = "flex";
+        setTimeout(() => removeToast(successToast), 5000);
+      }
+
+      if (errorToast && errorToast.querySelector(".toast-message").textContent.trim()) {
+        errorToast.style.display = "flex";
+        setTimeout(() => removeToast(errorToast), 5000);
+      }
+
+      // Close button functionality for existing toasts
+      document.querySelectorAll(".toast-close").forEach((closeBtn) => {
+        closeBtn.addEventListener("click", function () {
+          const toast = this.closest(".toast");
+          removeToast(toast);
+        });
+      });
+    });
+
+    // Add ripple effect to buttons
+    document.querySelectorAll(".btn").forEach((btn) => {
+      btn.addEventListener("click", function (e) {
+        const ripple = document.createElement("span");
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+
+        ripple.className = "ripple";
+        ripple.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${x}px;
+          top: ${y}px;
+        `;
+
+        this.style.position = "relative";
+        this.style.overflow = "hidden";
+        this.appendChild(ripple);
+
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+
+    // Add hover effects to OTP inputs
+    document.querySelectorAll(".otp-input").forEach((input) => {
+      input.addEventListener("mouseenter", function () {
+        if (!this.classList.contains("filled") && !this.matches(":focus")) {
+          this.style.borderColor = "var(--text-light)";
+        }
+      });
+
+      input.addEventListener("mouseleave", function () {
+        if (!this.classList.contains("filled") && !this.matches(":focus")) {
+          this.style.borderColor = "var(--border)";
+        }
+      });
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener("keydown", function (e) {
+      // Ctrl/Cmd + R to resend (when timer is 0)
+      if ((e.ctrlKey || e.metaKey) && e.key === "r") {
+        const resendBtn = document.getElementById("resendBtn");
+        if (!resendBtn.disabled) {
+          e.preventDefault();
+          resendBtn.click();
         }
       }
 
-      // Track OTP verification attempts
-      document
-        .querySelector(".otp-form")
-        .addEventListener("submit", function () {
-          trackEvent("otp_verification_attempt", {
-            timestamp: new Date().toISOString(),
-          });
+      // Escape key to clear inputs
+      if (e.key === "Escape") {
+        const inputs = document.querySelectorAll(".otp-input");
+        inputs.forEach((input) => {
+          input.value = "";
+          input.classList.remove("filled", "error");
         });
+        document.getElementById("completeOtp").value = "";
+        document.getElementById("verifyBtn").disabled = true;
+        inputs[0].focus();
 
-      // Track resend attempts
-      document
-        .getElementById("resendBtn")
-        .addEventListener("click", function () {
-          trackEvent("otp_resend_attempt", {
-            timestamp: new Date().toISOString(),
-          });
+        // Also close any visible toasts
+        const visibleToasts = document.querySelectorAll('.toast[style*="flex"]');
+        visibleToasts.forEach((toast) => {
+          removeToast(toast);
         });
+      }
+    });
 
-      // Error handling for network issues
-      window.addEventListener("online", function () {
-        const otpManager = window.otpManager;
-        if (otpManager) {
-          otpManager.showSuccess("Connection restored");
+    // Add smooth transitions to all interactive elements
+    document.querySelectorAll(".otp-input, .btn").forEach((el) => {
+      el.style.transition = "all 0.3s ease";
+    });
+
+    // Performance optimization: Debounce resize events
+    let resizeTimeout;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function () {
+        const isMobile = window.innerWidth <= 768;
+        document.body.classList.toggle("mobile", isMobile);
+      }, 250);
+    });
+
+    // Initialize mobile class
+    document.body.classList.toggle("mobile", window.innerWidth <= 768);
+
+    // Error handling for network issues
+    window.addEventListener("online", function () {
+      const toastContainer = document.querySelector(".toast-container");
+      if (toastContainer) {
+        const toast = document.createElement("div");
+        toast.className = "toast success";
+        toast.innerHTML = `
+          <div class="toast-icon">
+            <i class="fas fa-check"></i>
+          </div>
+          <span class="toast-message">Connection restored</span>
+          <button class="toast-close">&times;</button>
+        `;
+        toastContainer.appendChild(toast);
+        setTimeout(() => removeToast(toast), 3000);
+      }
+    });
+
+    window.addEventListener("offline", function () {
+      const toastContainer = document.querySelector(".toast-container");
+      if (toastContainer) {
+        const toast = document.createElement("div");
+        toast.className = "toast error";
+        toast.innerHTML = `
+          <div class="toast-icon">
+            <i class="fas fa-exclamation"></i>
+          </div>
+          <span class="toast-message">No internet connection. Please check your network.</span>
+          <button class="toast-close">&times;</button>
+        `;
+        toastContainer.appendChild(toast);
+      }
+    });
+
+    // Add CSS for enhanced states
+    const style = document.createElement("style");
+    style.textContent = `
+      /* Enhanced focus states for accessibility */
+      .btn:focus-visible,
+      .otp-input:focus-visible,
+      .toast-close:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+      
+      /* Loading spinner animation */
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      
+      .fa-spinner {
+        animation: spin 1s linear infinite;
+      }
+      
+      /* Success state animation */
+      .otp-input.success {
+        border-color: var(--success);
+        background: rgba(5, 150, 105, 0.05);
+        animation: successPulse 0.3s ease-out;
+      }
+      
+      @keyframes successPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+      
+      /* Timer warning state */
+      .timer.warning {
+        color: var(--error);
+        animation: pulse 1s ease-in-out infinite;
+      }
+      
+      /* Mobile optimizations */
+      @media (max-width: 480px) {
+        .otp-input-container {
+          gap: 0.25rem;
         }
-      });
-
-      window.addEventListener("offline", function () {
-        const otpManager = window.otpManager;
-        if (otpManager) {
-          otpManager.showError(
-            "No internet connection. Please check your network."
-          );
+        
+        .otp-input {
+          width: 35px;
+          height: 35px;
+          font-size: 0.9rem;
         }
-      });
+        
+        .btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+        }
+      }
+      
+      /* High contrast mode support */
+      @media (prefers-contrast: high) {
+        .otp-input {
+          border-width: 3px;
+        }
+        
+        .btn {
+          border: 2px solid currentColor;
+        }
+      }
+      
+      /* Reduced motion support */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+      
+      /* Print styles */
+      @media print {
+        .navbar,
+        .toast-container,
+        .btn-group {
+          display: none !important;
+        }
+        
+        .otp-section {
+          box-shadow: none;
+          border: 2px solid #000;
+        }
+      }
+    `;
+    document.head.appendChild(style);
 
-      // Store OTP manager instance globally for debugging
-      window.addEventListener("DOMContentLoaded", function () {
-        window.otpManager = new OTPManager();
+    // Prevent any potential scrolling
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    // Auto-focus enhancement
+    window.addEventListener("load", function () {
+      const firstInput = document.querySelector(".otp-input");
+      if (firstInput) {
+        setTimeout(() => {
+          firstInput.focus();
+        }, 100);
+      }
+    });
+
+    // Add visual feedback for successful OTP completion
+    function handleOTPComplete() {
+      const inputs = document.querySelectorAll(".otp-input");
+      const isComplete = Array.from(inputs).every(input => input.value.length === 1);
+
+      if (isComplete) {
+        inputs.forEach(input => {
+          input.classList.add("success");
+          setTimeout(() => {
+            input.classList.remove("success");
+          }, 300);
+        });
+      }
+    }
+
+    // Add the completion handler to inputs
+    document.querySelectorAll(".otp-input").forEach(input => {
+      input.addEventListener("input", handleOTPComplete);
+    });
+
+    // Analytics tracking (replace with your analytics service)
+    function trackEvent(eventName, properties = {}) {
+      // Example: Google Analytics 4
+      if (typeof gtag !== "undefined") {
+        gtag("event", eventName, properties);
+      }
+
+      // Example: Custom analytics
+      if (typeof analytics !== "undefined") {
+        analytics.track(eventName, properties);
+      }
+    }
+
+    // Track OTP verification attempts
+    document.querySelector(".otp-form").addEventListener("submit", function () {
+      trackEvent("otp_verification_attempt", {
+        timestamp: new Date().toISOString(),
       });
-    </script>
+    });
+
+    // Track resend attempts
+    document.getElementById("resendBtn").addEventListener("click", function () {
+      trackEvent("otp_resend_attempt", {
+        timestamp: new Date().toISOString(),
+      });
+    });
+  </script>
 </body>
+
 </html>

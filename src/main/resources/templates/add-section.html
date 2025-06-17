@@ -1,59 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Section - Jnana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #2196F3;
-            --text-color: #2c3e50;
-            --shadow-color: rgba(0,0,0,0.1);
-            --error-color: #f44336;
-            --bg-light: #f5f7fa;
-            --accent-color: #ff5722;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --error: #ef4444;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-hero: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background: var(--bg-light);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
             min-height: 100vh;
             padding-top: 100px;
             display: flex;
             flex-direction: column;
         }
 
+        /* Navigation */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
-            padding: 1.2rem 5%;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 1.2rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-decoration: none;
-            letter-spacing: 1px;
+            letter-spacing: -0.025em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
         }
 
         .nav-btn {
@@ -69,94 +95,466 @@
 
         .nav-logout {
             color: white;
-            background: linear-gradient(45deg, var(--error-color), var(--accent-color));
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+            background: var(--error);
+            box-shadow: var(--shadow-md);
         }
 
-        .container {
-            margin: 2rem auto;
-            padding: 2.5rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px var(--shadow-color);
-            width: 90%;
-            max-width: 800px;
-            animation: slideUp 0.5s ease-out;
+        .nav-logout:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
-        h1 {
-            color: var(--text-color);
-            margin-bottom: 2rem;
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-hero);
+            padding: 3rem 5% 2rem;
             text-align: center;
-            font-size: 2rem;
+            position: relative;
+            margin-bottom: 2rem;
+            overflow: hidden;
         }
 
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="80" r="1.5" fill="white" opacity="0.1"/></svg>') repeat;
+            background-size: 100px 100px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            color: white;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 3rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
+            animation: fadeInUp 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+            width: 90%;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        /* Form Styles */
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-color);
-            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
         }
 
         .form-control {
             width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            transition: all 0.2s ease;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
         }
 
         .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
             outline: none;
-            border-color: var(--primary-color);
         }
 
-        .error {
-            color: var(--error-color);
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
+        .form-control::placeholder {
+            color: var(--text-muted);
         }
 
-        .btn {
-            padding: 0.8rem 1.5rem;
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        /* File Input Styling */
+        input[type="file"].form-control {
+            padding: 0.75rem;
+            cursor: pointer;
+        }
+
+        input[type="file"].form-control::-webkit-file-upload-button {
+            background: var(--primary);
+            color: white;
             border: none;
-            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            margin-right: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        input[type="file"].form-control::-webkit-file-upload-button:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Error Messages */
+        .error {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: block;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            transition: all 0.2s ease;
+            font-weight: 600;
             color: white;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
         }
 
-        .btn:hover {
+        .btn-primary {
+            background: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-lg);
         }
 
         .btn-secondary {
-            background: var(--secondary-color);
+            background: var(--text-secondary);
         }
 
+        .btn-secondary:hover {
+            background: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Button Group */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            z-index: 1001;
+            max-width: 400px;
+        }
+
+        .toast {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            animation: slideInRight 0.3s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toast::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .toast.success::before {
+            background: var(--success);
+        }
+
+        .toast.error::before {
+            background: var(--error);
+        }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: white;
+        }
+
+        .toast.success .toast-icon {
+            background: var(--success);
+        }
+
+        .toast.error .toast-icon {
+            background: var(--error);
+        }
+
+        .toast-message {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .toast-close:hover {
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+        }
+
+        /* Footer */
         .footer {
-            background: linear-gradient(to right, var(--text-color), #1a2634);
+            background: var(--text-primary);
             color: white;
             text-align: center;
             padding: 2.5rem;
             margin-top: auto;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .footer p {
+            opacity: 0.9;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                margin-right: 0;
+                justify-content: center;
+            }
+
+            .toast-container {
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            .form-control {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+                padding: 0.75rem 1.5rem;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Form validation states */
+        .form-control.is-valid {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .form-control.is-invalid {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        /* Loading state */
+        .btn.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            margin: auto;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <a href="/tutor/home" class="logo">Jnana</a>
@@ -168,49 +566,614 @@
         </div>
     </nav>
 
+    <section class="hero">
+        <h1>Add New Section</h1>
+        <p>Create a new section for your course with content and resources</p>
+    </section>
+
     <div class="container">
-        <h1>Add Section</h1>
+        <form action="/tutor/add-section" method="post" enctype="multipart/form-data" th:object="${sectionDto}">
 
-        <form action="/tutor/add-section" method="post" th:object="${sectionDto}" enctype="multipart/form-data">
+            <!-- Course Selection -->
             <div class="form-group">
-                <label>Title</label>
-                <input type="text" th:field="*{title}" class="form-control">
-                <span th:errors="*{title}" class="error"></span>
-            </div>
-
-            <div class="form-group">
-                <label>Upload Video</label>
-                <input type="file" th:field="*{video}" accept="video/*" class="form-control">
-                <span th:errors="*{video}" class="error"></span>
-            </div>
-
-            <div class="form-group">
-                <label>Upload Notes</label>
-                <input type="file" th:field="*{notes}" accept="application/pdf" class="form-control">
-                <span th:errors="*{notes}" class="error"></span>
-            </div>
-
-            <div class="form-group">
-                <label>Select Course</label>
-                <select name="courseId" class="form-control">
-                    <option th:each="course:${courses}" th:value="${course.id}">
-                        <th:block th:text="${course.title}"></th:block>
+                <label for="courseId">
+                    <i class="fas fa-book"></i>
+                    Select Course
+                </label>
+                <select th:field="*{courseId}" class="form-control" required>
+                    <option value="">Choose a course...</option>
+                    <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.title}">
+                        Course Title
                     </option>
                 </select>
+                <span class="error" th:errors="*{courseId}"></span>
             </div>
 
+            <!-- Section Title -->
             <div class="form-group">
-                <label>Enter Quiz Questions (Separate multiple questions with full stop)</label>
-                <textarea rows="5" th:field="*{questions}" class="form-control"></textarea>
+                <label for="title">
+                    <i class="fas fa-heading"></i>
+                    Section Title
+                </label>
+                <input type="text" th:field="*{title}" class="form-control" placeholder="Enter section title..."
+                    required>
+                <span class="error" th:errors="*{title}"></span>
             </div>
 
-            <button type="submit" class="btn">Add Section</button>
-            <a href="/tutor/sections" class="btn btn-secondary">Back</a>
+
+            <!-- Video File Upload -->
+            <div class="form-group">
+                <label for="video">
+                    <i class="fas fa-video"></i>
+                    Upload Video
+                </label>
+                <input type="file" th:field="*{video}" class="form-control" accept="video/*" required>
+                <small style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem; display: block;">
+                    <i class="fas fa-info-circle"></i>
+                    Supported formats: MP4, AVI, MOV, WMV (Max size: 100MB)
+                </small>
+                <span class="error" th:errors="*{video}"></span>
+            </div>
+
+            <!-- Notes File Upload (Optional) -->
+            <div class="form-group">
+                <label for="notes">
+                    <i class="fas fa-file-alt"></i>
+                    Upload Notes (Optional)
+                </label>
+                <input type="file" th:field="*{notes}" class="form-control" accept=".pdf,.doc,.docx,.txt">
+                <small style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem; display: block;">
+                    <i class="fas fa-info-circle"></i>
+                    Supported formats: PDF, DOC, DOCX, TXT (Max size: 10MB)
+                </small>
+                <span class="error" th:errors="*{notes}"></span>
+            </div>
+
+            <!-- Questions Text Field -->
+                        <div class="form-group">
+                            <label for="questions">
+                                <i class="fas fa-question-circle"></i>
+                                Questions
+                            </label>
+                            <textarea th:field="*{questions}" class="form-control" rows="4" 
+                                placeholder="Enter questions for this section..." required></textarea>
+                            <span class="error" th:errors="*{questions}"></span>
+                        </div>
+            <!-- Form Actions -->
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fas fa-plus-circle"></i>
+                    Add Section
+                </button>
+                <a href="/tutor/sections" class="btn btn-secondary">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </a>
+            </div>
+
+            
         </form>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container">
+        <div id="successToast" class="toast success" th:if="${session.pass}" style="display: none">
+            <div class="toast-content">
+                <div class="toast-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <span class="toast-message" th:text="${session.pass}">Success message</span>
+            </div>
+            <button class="toast-close">&times;</button>
+        </div>
+        <div id="errorToast" class="toast error" th:if="${session.fail}" style="display: none">
+            <div class="toast-content">
+                <div class="toast-icon">
+                    <i class="fas fa-exclamation"></i>
+                </div>
+                <span class="toast-message" th:text="${session.fail}">Error message</span>
+            </div>
+            <button class="toast-close">&times;</button>
+        </div>
+        <th:block th:text="${@generalService.removeMessage()}"></th:block>
     </div>
 
     <footer class="footer">
         <p>&copy; 2025 Jnana. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Toast functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const successToast = document.getElementById('successToast');
+            const errorToast = document.getElementById('errorToast');
+
+            function showToast(toast) {
+                if (toast && toast.querySelector('.toast-message').textContent.trim()) {
+                    toast.style.display = 'flex';
+
+                    const closeBtn = toast.querySelector('.toast-close');
+                    closeBtn.addEventListener('click', () => {
+                        toast.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                        setTimeout(() => {
+                            toast.style.display = 'none';
+                        }, 300);
+                    });
+
+                    setTimeout(() => {
+                        if (toast.style.display === 'flex') {
+                            toast.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                            setTimeout(() => {
+                                toast.style.display = 'none';
+                            }, 300);
+                        }
+                    }, 5000);
+                }
+            }
+
+            if (successToast) {
+                showToast(successToast);
+            }
+
+            if (errorToast) {
+                showToast(errorToast);
+            }
+        });
+
+        // Form validation and enhancement
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('.form-control');
+            const submitBtn = document.getElementById('submitBtn');
+
+            // Add input validation styling
+            inputs.forEach(input => {
+                input.addEventListener('blur', function () {
+                    if (this.checkValidity()) {
+                        this.classList.add('is-valid');
+                        this.classList.remove('is-invalid');
+                    } else if (this.value.trim() !== '') {
+                        this.classList.add('is-invalid');
+                        this.classList.remove('is-valid');
+                    }
+                });
+
+                input.addEventListener('focus', function () {
+                    this.style.borderColor = 'var(--primary)';
+                });
+
+                input.addEventListener('input', function () {
+                    this.classList.remove('is-valid', 'is-invalid');
+                });
+            });
+
+            // File input validation
+            const videoInput = document.querySelector('input[type="file"][accept*="video"]');
+            const notesInput = document.querySelector('input[type="file"]:not([accept*="video"])');
+
+            if (videoInput) {
+                videoInput.addEventListener('change', function () {
+                    const file = this.files[0];
+                    if (file) {
+                        const maxSize = 100 * 1024 * 1024; // 100MB
+                        if (file.size > maxSize) {
+                            alert('Video file size must be less than 100MB');
+                            this.value = '';
+                            return;
+                        }
+
+                        // Show file info
+                        const fileInfo = document.createElement('div');
+                        fileInfo.style.cssText = 'margin-top: 0.5rem; padding: 0.5rem; background: var(--bg-tertiary); border-radius: 0.375rem; font-size: 0.875rem;';
+                        fileInfo.innerHTML = `
+                            <i class="fas fa-file-video"></i>
+                            <strong>${file.name}</strong> (${(file.size / (1024 * 1024)).toFixed(2)} MB)
+                        `;
+
+                        // Remove existing file info
+                        const existingInfo = this.parentNode.querySelector('.file-info');
+                        if (existingInfo) {
+                            existingInfo.remove();
+                        }
+
+                        fileInfo.className = 'file-info';
+                        this.parentNode.appendChild(fileInfo);
+                    }
+                });
+            }
+
+            if (notesInput) {
+                notesInput.addEventListener('change', function () {
+                    const file = this.files[0];
+                    if (file) {
+                        const maxSize = 10 * 1024 * 1024; // 10MB
+                        if (file.size > maxSize) {
+                            alert('Notes file size must be less than 10MB');
+                            this.value = '';
+                            return;
+                        }
+
+                        // Show file info
+                        const fileInfo = document.createElement('div');
+                        fileInfo.style.cssText = 'margin-top: 0.5rem; padding: 0.5rem; background: var(--bg-tertiary); border-radius: 0.375rem; font-size: 0.875rem;';
+                        fileInfo.innerHTML = `
+                            <i class="fas fa-file-alt"></i>
+                            <strong>${file.name}</strong> (${(file.size / 1024).toFixed(2)} KB)
+                        `;
+
+                        // Remove existing file info
+                        const existingInfo = this.parentNode.querySelector('.file-info');
+                        if (existingInfo) {
+                            existingInfo.remove();
+                        }
+
+                        fileInfo.className = 'file-info';
+                        this.parentNode.appendChild(fileInfo);
+                    }
+                });
+            }
+
+            // Form submission handling
+            form.addEventListener('submit', function (e) {
+                // Show loading state
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding Section...';
+                submitBtn.classList.add('loading');
+
+                // Validate required fields
+                let isValid = true;
+                const requiredFields = form.querySelectorAll('[required]');
+
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    }
+                });
+
+                if (!isValid) {
+                    e.preventDefault();
+                    submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add Section';
+                    submitBtn.classList.remove('loading');
+
+                    // Show error toast
+                    showToastMessage('error', 'Please fill in all required fields');
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.querySelector(".navbar");
+        window.addEventListener("scroll", function () {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollTop > 50) {
+                navbar.style.background = "rgba(255, 255, 255, 0.98)";
+                navbar.style.boxShadow = "0 2px 20px rgba(0, 0, 0, 0.1)";
+            } else {
+                navbar.style.background = "rgba(255, 255, 255, 0.95)";
+                navbar.style.boxShadow = "none";
+            }
+        });
+
+        // Show toast message function
+        function showToastMessage(type, message) {
+            const toastContainer = document.querySelector(".toast-container");
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <div class="toast-icon">
+                        <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}"></i>
+                    </div>
+                    <span class="toast-message">${message}</span>
+                </div>
+                <button class="toast-close">&times;</button>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 5000);
+
+            toast.querySelector(".toast-close").addEventListener("click", () => {
+                toast.style.animation = "slideOutRight 0.3s ease-out forwards";
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener("keydown", function (e) {
+            // Ctrl/Cmd + S to save (submit form)
+            if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+                e.preventDefault();
+                document.querySelector('form').submit();
+            }
+            // Escape key to cancel
+            if (e.key === "Escape") {
+                if (confirm("Are you sure you want to cancel? Any unsaved changes will be lost.")) {
+                    window.location.href = "/tutor/sections";
+                }
+            }
+        });
+
+        // Auto-save draft functionality (optional)
+        let autoSaveTimeout;
+        function autoSaveDraft() {
+            clearTimeout(autoSaveTimeout);
+            autoSaveTimeout = setTimeout(() => {
+                const formData = new FormData(document.querySelector('form'));
+                const draftData = {};
+
+                // Only save text fields to localStorage (not files)
+                for (let [key, value] of formData.entries()) {
+                    if (typeof value === 'string') {
+                        draftData[key] = value;
+                    }
+                }
+
+                localStorage.setItem('sectionDraft', JSON.stringify(draftData));
+                console.log('Draft saved automatically');
+            }, 2000);
+        }
+
+        // Load draft on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedDraft = localStorage.getItem('sectionDraft');
+            if (savedDraft) {
+                try {
+                    const draftData = JSON.parse(savedDraft);
+
+                    // Ask user if they want to restore draft
+                    if (confirm('Found a saved draft. Would you like to restore it?')) {
+                        Object.keys(draftData).forEach(key => {
+                            const field = document.querySelector(`[name="${key}"]`);
+                            if (field && field.type !== 'file') {
+                                field.value = draftData[key];
+                            }
+                        });
+                        showToastMessage('success', 'Draft restored successfully');
+                    } else {
+                        localStorage.removeItem('sectionDraft');
+                    }
+                } catch (e) {
+                    console.warn('Failed to restore draft');
+                    localStorage.removeItem('sectionDraft');
+                }
+            }
+        });
+
+        // Add auto-save listeners to text inputs
+        document.addEventListener('DOMContentLoaded', function () {
+            const textInputs = document.querySelectorAll('input[type="text"], textarea, select');
+            textInputs.forEach(input => {
+                input.addEventListener('input', autoSaveDraft);
+                input.addEventListener('change', autoSaveDraft);
+            });
+        });
+
+        // Clear draft on successful submission
+        document.querySelector('form').addEventListener('submit', function () {
+            localStorage.removeItem('sectionDraft');
+        });
+
+        // Drag and drop functionality for file inputs
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+
+            fileInputs.forEach(input => {
+                const container = input.parentNode;
+
+                // Add drag and drop styling
+                container.addEventListener('dragover', function (e) {
+                    e.preventDefault();
+                    this.style.background = 'rgba(99, 102, 241, 0.1)';
+                    this.style.borderColor = 'var(--primary)';
+                });
+
+                container.addEventListener('dragleave', function (e) {
+                    e.preventDefault();
+                    this.style.background = '';
+                    this.style.borderColor = '';
+                });
+
+                container.addEventListener('drop', function (e) {
+                    e.preventDefault();
+                    this.style.background = '';
+                    this.style.borderColor = '';
+
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        input.files = files;
+
+                        // Trigger change event
+                        const event = new Event('change', { bubbles: true });
+                        input.dispatchEvent(event);
+                    }
+                });
+            });
+        });
+
+        // Form progress indicator
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            const requiredFields = form.querySelectorAll('[required]');
+
+            function updateProgress() {
+                let filledFields = 0;
+                requiredFields.forEach(field => {
+                    if (field.value.trim() !== '') {
+                        filledFields++;
+                    }
+                });
+
+                const progress = (filledFields / requiredFields.length) * 100;
+
+                // Create or update progress bar
+                let progressBar = document.querySelector('.form-progress');
+                if (!progressBar) {
+                    progressBar = document.createElement('div');
+                    progressBar.className = 'form-progress';
+                    progressBar.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: ${progress}%;
+                        height: 3px;
+                        background: var(--primary);
+                        transition: width 0.3s ease;
+                        z-index: 1001;
+                    `;
+                    document.body.appendChild(progressBar);
+                } else {
+                    progressBar.style.width = `${progress}%`;
+                }
+
+                // Update submit button state
+                const submitBtn = document.getElementById('submitBtn');
+                if (progress === 100) {
+                    submitBtn.style.background = 'var(--success)';
+                } else {
+                    submitBtn.style.background = 'var(--primary)';
+                }
+            }
+
+            // Add listeners to required fields
+            requiredFields.forEach(field => {
+                field.addEventListener('input', updateProgress);
+                field.addEventListener('change', updateProgress);
+            });
+
+            // Initial progress update
+            updateProgress();
+        });
+
+        // Enhanced file validation with preview
+        function createFilePreview(file, container) {
+            const preview = document.createElement('div');
+            preview.className = 'file-preview';
+            preview.style.cssText = `
+                margin-top: 1rem;
+                padding: 1rem;
+                background: var(--bg-tertiary);
+                border-radius: 0.5rem;
+                border: 1px solid var(--border);
+            `;
+
+            if (file.type.startsWith('video/')) {
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(file);
+                video.controls = true;
+                video.style.cssText = 'width: 100%; max-height: 200px; border-radius: 0.375rem;';
+                preview.appendChild(video);
+            } else if (file.type === 'application/pdf') {
+                preview.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-file-pdf" style="color: var(--error); font-size: 2rem;"></i>
+                        <div>
+                            <div style="font-weight: 600;">${file.name}</div>
+                            <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                                PDF Document • ${(file.size / (1024 * 1024)).toFixed(2)} MB
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                preview.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-file-alt" style="color: var(--primary); font-size: 2rem;"></i>
+                        <div>
+                            <div style="font-weight: 600;">${file.name}</div>
+                            <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                                ${file.type || 'Unknown'} • ${(file.size / 1024).toFixed(2)} KB
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Remove existing preview
+            const existingPreview = container.querySelector('.file-preview');
+            if (existingPreview) {
+                existingPreview.remove();
+            }
+
+            container.appendChild(preview);
+        }
+
+        // Update file input handlers with preview
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    const file = this.files[0];
+                    if (file) {
+                        createFilePreview(file, this.parentNode);
+                    }
+                });
+            });
+        });
+
+        // Network status handling
+        window.addEventListener('online', function () {
+            showToastMessage('success', 'Connection restored');
+        });
+
+        window.addEventListener('offline', function () {
+            showToastMessage('error', 'No internet connection. Form will be saved locally.');
+        });
+
+        // Performance monitoring
+        window.addEventListener('load', function () {
+            const loadTime = performance.now();
+            console.log(`Page loaded in ${loadTime.toFixed(2)}ms`);
+
+            if (loadTime > 3000) {
+                console.warn('Page load time is slow');
+            }
+        });
+
+        // Accessibility enhancements
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add ARIA labels
+            const form = document.querySelector('form');
+            form.setAttribute('aria-label', 'Add new section form');
+
+            // Add keyboard navigation for custom elements
+            const customElements = document.querySelectorAll('.btn, .toast-close');
+            customElements.forEach(element => {
+                element.setAttribute('tabindex', '0');
+
+                element.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+
+            // Announce form errors to screen readers
+            const errorElements = document.querySelectorAll('.error');
+            errorElements.forEach(error => {
+                if (error.textContent.trim()) {
+                    error.setAttribute('role', 'alert');
+                    error.setAttribute('aria-live', 'polite');
+                }
+            });
+        });
+
+        console.log('Add Section page initialized successfully');
+    </script>
 </body>
+
 </html>

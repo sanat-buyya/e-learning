@@ -1,59 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Courses - Jnana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #2196F3;
-            --text-color: #2c3e50;
-            --shadow-color: rgba(0,0,0,0.1);
-            --error-color: #f44336;
-            --bg-light: #f5f7fa;
-            --accent-color: #ff5722;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --error: #ef4444;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-hero: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background: var(--bg-light);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
             min-height: 100vh;
             padding-top: 100px;
             display: flex;
             flex-direction: column;
         }
 
+        /* Navigation */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
-            padding: 1.2rem 5%;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 1.2rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-decoration: none;
-            letter-spacing: 1px;
+            letter-spacing: -0.025em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
         }
 
         .nav-btn {
@@ -69,131 +95,295 @@
 
         .nav-logout {
             color: white;
-            background: linear-gradient(45deg, var(--error-color), var(--accent-color));
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+            background: var(--error);
+            box-shadow: var(--shadow-md);
         }
 
+        .nav-logout:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-hero);
+            padding: 4rem 5% 2rem;
+            text-align: center;
+            position: relative;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="80" r="1.5" fill="white" opacity="0.1"/></svg>') repeat;
+            background-size: 100px 100px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            color: white;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Container */
         .container {
+            max-width: 1200px;
             margin: 2rem auto;
             padding: 2.5rem;
             width: 90%;
-            max-width: 1200px;
         }
 
+        /* Course Grid */
         .course-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin: 2rem 0;
         }
 
         .course-card {
             background: white;
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: 0 8px 30px var(--shadow-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
             transition: transform 0.3s ease;
-            animation: slideUp 0.5s ease-out;
         }
 
         .course-card:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .course-card:hover::before {
+            transform: scaleX(1);
         }
 
         .course-title {
-            color: var(--text-color);
-            font-size: 1.25rem;
-            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
             margin-bottom: 1rem;
+            line-height: 1.3;
         }
 
         .course-description {
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
             line-height: 1.6;
+            font-size: 0.95rem;
         }
 
         .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            gap: 1rem;
         }
 
         .badge {
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-size: 0.875rem;
-            font-weight: 500;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .badge-paid {
-            background: var(--primary-color);
-            color: white;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         .badge-free {
-            background: var(--secondary-color);
-            color: white;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(99, 102, 241, 0.2);
         }
 
         .btn {
-            padding: 0.8rem 1.5rem;
+            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 30px;
-            font-size: 0.9rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            transition: all 0.2s ease;
+            font-weight: 600;
             color: white;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            background: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .btn-secondary {
-            background: var(--secondary-color);
+            background: var(--text-secondary);
         }
 
-        .btn:hover {
+        .btn-secondary:hover {
+            background: var(--text-primary);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Back Button */
+        .back-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            z-index: 1001;
+            max-width: 400px;
         }
 
         .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 2rem;
-            border-radius: 12px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            animation: slideInRight 0.3s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toast::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .toast.success::before {
+            background: var(--success);
+        }
+
+        .toast.error::before {
+            background: var(--error);
+        }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
             color: white;
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: translateX(100%);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
         }
 
-        .toast.success {
-            background: var(--primary-color);
+        .toast.success .toast-icon {
+            background: var(--success);
         }
 
-        .toast.error {
-            background: var(--error-color);
+        .toast.error .toast-icon {
+            background: var(--error);
         }
 
-        .toast.show {
-            opacity: 1;
-            transform: translateX(0);
+        .toast-message {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.875rem;
         }
 
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .toast-close:hover {
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
+        }
+
+        /* Footer */
         .footer {
-            background: linear-gradient(to right, var(--text-color), #1a2634);
+            background: var(--text-primary);
             color: white;
             text-align: center;
             padding: 2.5rem;
@@ -202,16 +392,151 @@
 
         .footer p {
             opacity: 0.9;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             letter-spacing: 0.5px;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Animations */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 3rem 2rem 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .course-card {
+                padding: 1.5rem;
+            }
+
+            .card-footer {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .toast-container {
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 1.25rem;
+            }
+
+            .course-card {
+                padding: 1.25rem;
+            }
+
+            .course-title {
+                font-size: 1.25rem;
+            }
+
+            .btn {
+                font-size: 0.8rem;
+                padding: 0.625rem 1.25rem;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <a href="/tutor/home" class="logo">Jnana</a>
@@ -223,61 +548,152 @@
         </div>
     </nav>
 
-    <div class="container">
-        <h1>View Courses</h1>
+    <section class="hero">
+        <h1>My Courses</h1>
+        <p>Manage and view all your created courses</p>
+    </section>
 
+    <div class="container">
+        <!-- Courses Grid -->
         <div class="course-grid">
-            <div class="course-card" th:each="course:${courses}">
-                <h2 class="course-title" th:text="${course.title}"></h2>
-                <p class="course-description" th:text="${course.description}"></p>
+            <div th:if="${courses.empty}" class="empty-state">
+                <i class="fas fa-book-open"></i>
+                <h3>No Courses Yet</h3>
+                <p>You haven't created any courses yet. Start by creating your first course!</p>
+                <a href="/tutor/add-course" class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Create Your First Course
+                </a>
+            </div>
+
+            <div th:each="course : ${courses}" class="course-card">
+                <h3 class="course-title" th:text="${course.title}">Course Title</h3>
+                <p class="course-description" th:text="${course.description}">Course Description</p>
+
                 <div class="card-footer">
-                    <span class="badge badge-paid" th:if="${course.paid}">Paid</span>
-                    <span class="badge badge-free" th:if="${!course.paid}">Free</span>
-                    
-                    <a th:if="${!course.published}" th:href="'/tutor/publish/'+${course.id}" class="btn btn-primary">
-                        <i class="fas fa-upload"></i>
-                        Publish
-                    </a>
-                    <span th:if="${course.published}" class="badge badge-paid">
-                        <i class="fas fa-check"></i>
-                        Published
+                    <span class="badge" th:classappend="${course.paid} ? 'badge-paid' : 'badge-free'">
+                        <i th:class="${course.paid} ? 'fas fa-credit-card' : 'fas fa-gift'"></i>
+                        <span th:if="${course.paid}">Paid</span>
+                        <span th:if="${!course.paid}">Free</span>
                     </span>
+
+                    <div style="display: flex; gap: 0.5rem;">
+                        
+                        <form th:if="${!course.published}"
+                            th:action="'/tutor/publish/'+${course.id}"
+                            style="display: inline;">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-upload"></i>
+                                Publish
+                            </button>
+                        </form>
+                        <span th:if="${course.published}" class="btn btn-secondary"
+                            style="cursor: default;">
+                            <i class="fas fa-check-circle"></i>
+                            Published
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <a href="/tutor/courses" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i>
-            Back
-        </a>
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="/tutor/home" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
     </div>
 
-    <div id="successToast" class="toast success" th:if="${session.pass}"
-			th:text="${session.pass}"></div>
-		<div id="errorToast" class="toast error" th:if="${session.fail}"
-			th:text="${session.fail}"></div>
-		<th:block th:text="${@generalService.removeMessage()}"></th:block>
+    <!-- Toast Notifications -->
+    <div class="toast-container">
+        <div id="successToast" class="toast success" th:if="${session.pass}" style="display: none">
+            <div class="toast-content">
+                <div class="toast-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <span class="toast-message" th:text="${session.pass}">Success message</span>
+            </div>
+            <button class="toast-close">&times;</button>
+        </div>
+        <div id="errorToast" class="toast error" th:if="${session.fail}" style="display: none">
+            <div class="toast-content">
+                <div class="toast-icon">
+                    <i class="fas fa-exclamation"></i>
+                </div>
+                <span class="toast-message" th:text="${session.fail}">Error message</span>
+            </div>
+            <button class="toast-close">&times;</button>
+        </div>
+        <th:block th:text="${@generalService.removeMessage()}"></th:block>
+    </div>
 
     <footer class="footer">
         <p>&copy; 2025 Jnana. All rights reserved.</p>
     </footer>
 
     <script>
-        function showToast() {
+        // Toast functionality
+        document.addEventListener('DOMContentLoaded', function () {
             const successToast = document.getElementById('successToast');
             const errorToast = document.getElementById('errorToast');
-            
-            [successToast, errorToast].forEach(toast => {
-                if (toast && toast.textContent.trim() !== '') {
-                    toast.classList.add('show');
+
+            function showToast(toast) {
+                if (toast && toast.querySelector('.toast-message').textContent.trim()) {
+                    toast.style.display = 'flex';
+
+                    const closeBtn = toast.querySelector('.toast-close');
+                    closeBtn.addEventListener('click', () => {
+                        toast.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                        setTimeout(() => {
+                            toast.style.display = 'none';
+                        }, 300);
+                    });
+
                     setTimeout(() => {
-                        toast.classList.remove('show');
-                    }, 2000);
+                        if (toast.style.display === 'flex') {
+                            toast.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                            setTimeout(() => {
+                                toast.style.display = 'none';
+                            }, 300);
+                        }
+                    }, 5000);
+                }
+            }
+
+            if (successToast) {
+                showToast(successToast);
+            }
+
+            if (errorToast) {
+                showToast(errorToast);
+            }
+        });
+
+        // Navbar scroll effect
+        const navbar = document.querySelector(".navbar");
+        window.addEventListener("scroll", function () {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollTop > 50) {
+                navbar.style.background = "rgba(255, 255, 255, 0.98)";
+                navbar.style.boxShadow = "0 2px 20px rgba(0, 0, 0, 0.1)";
+            } else {
+                navbar.style.background = "rgba(255, 255, 255, 0.95)";
+                navbar.style.boxShadow = "none";
+            }
+        });
+
+        // Publish confirmation
+        document.querySelectorAll('form[action*="/publish"]').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                if (!confirm('Are you sure you want to publish this course? Once published, it will be visible to all learners.')) {
+                    e.preventDefault();
                 }
             });
-        }
-
-        document.addEventListener('DOMContentLoaded', showToast);
+        });
     </script>
 </body>
+
 </html>

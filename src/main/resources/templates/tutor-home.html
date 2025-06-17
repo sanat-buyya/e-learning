@@ -1,59 +1,79 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutor Dashboard - Jnana</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #2196F3;
-            --text-color: #2c3e50;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --bg-light: #f8f9fa;
-            --accent-color: #ff6b6b;
-            --error-color: #f44336;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --error: #ef4444;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-hero: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background: var(--bg-light);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
             min-height: 100vh;
             padding-top: 100px;
             display: flex;
             flex-direction: column;
         }
 
+        /* Navigation */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
             background: rgba(255, 255, 255, 0.95);
-            padding: 1.2rem 5%;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 1.2rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-decoration: none;
-            letter-spacing: 1px;
+            letter-spacing: -0.025em;
         }
 
         .nav-links {
@@ -75,21 +95,24 @@
 
         .nav-logout {
             color: white;
-            background: linear-gradient(45deg, var(--error-color), var(--accent-color));
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+            background: var(--error);
+            box-shadow: var(--shadow-md);
         }
 
         .nav-logout:hover {
+            background: #dc2626;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+            box-shadow: var(--shadow-lg);
         }
 
+        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--gradient-hero);
             padding: 4rem 5% 2rem;
             text-align: center;
             position: relative;
             margin-bottom: 2rem;
+            overflow: hidden;
         }
 
         .hero::before {
@@ -99,44 +122,42 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path fill="%234CAF50" fill-opacity="0.05" d="M45,-78.1C58.3,-71.3,68.7,-58.8,76.4,-44.7C84.1,-30.6,89,-14.8,88.1,0.5C87.1,15.8,80.3,31.6,71.2,45.6C62.1,59.6,50.8,71.8,37,78.1C23.1,84.4,6.7,84.8,-8.9,81.5C-24.4,78.2,-39,71.2,-51.8,62C-64.6,52.8,-75.5,41.4,-82.2,27.4C-88.8,13.5,-91.2,-3,-87.6,-18.1C-84,-33.2,-74.4,-46.8,-62.3,-56.6C-50.2,-66.4,-35.6,-72.4,-21.2,-76.7C-6.8,-81,7.4,-83.7,22.1,-82.5C36.8,-81.3,51.9,-76.3,45,-78.1Z" transform="translate(100 100)"/></svg>') no-repeat center center;
-            opacity: 0.1;
-            animation: rotate 60s linear infinite;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="80" r="1.5" fill="white" opacity="0.1"/></svg>') repeat;
+            background-size: 100px 100px;
         }
 
         .hero h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
             position: relative;
+            color: white;
+            font-weight: 800;
+            letter-spacing: -0.025em;
         }
 
         .hero p {
             font-size: 1.2rem;
-            color: var(--text-color);
+            color: rgba(255, 255, 255, 0.9);
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto;
         }
 
         .welcome-text {
-            color: var(--text-color);
-            opacity: 0.8;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
+        /* Container */
         .container {
             max-width: 1000px;
             margin: 2rem auto;
             padding: 2.5rem;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 8px 30px var(--shadow-color);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
             animation: slideUp 0.5s ease-out;
         }
 
@@ -144,9 +165,10 @@
             font-size: 2.2rem;
             margin-bottom: 2.5rem;
             text-align: center;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .btn-grid {
@@ -170,7 +192,8 @@
             align-items: center;
             justify-content: center;
             gap: 0.8rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            background: var(--gradient-primary);
+            box-shadow: var(--shadow-md);
         }
 
         .btn i {
@@ -179,84 +202,174 @@
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+            box-shadow: var(--shadow-lg);
+            text-decoration: none;
+            color: white;
         }
 
         .logout-btn {
-            background: linear-gradient(45deg, var(--error-color), var(--accent-color));
+            background: var(--error);
             width: 200px;
             margin: 0 auto;
         }
 
+        /* Toast Notifications */
         .toast-container {
             position: fixed;
-            top: 90px;
-            right: 20px;
-            z-index: 1000;
+            top: 100px;
+            right: 2rem;
+            z-index: 1001;
+            max-width: 400px;
         }
 
         .toast {
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            color: white;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             animation: slideIn 0.3s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toast::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .toast.success::before {
+            background: var(--success);
+        }
+
+        .toast.error::before {
+            background: var(--error);
+        }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: white;
+        }
+
+        .toast.success .toast-icon {
+            background: var(--success);
+        }
+
+        .toast.error .toast-icon {
+            background: var(--error);
+        }
+
+        .toast-message {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.875rem;
         }
 
         .toast-close {
             background: none;
             border: none;
-            color: white;
-            font-size: 1.5rem;
+            color: var(--text-muted);
+            font-size: 1.25rem;
             cursor: pointer;
-            padding: 0 0.5rem;
-            opacity: 0.7;
-            transition: opacity 0.2s;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s ease;
             line-height: 1;
         }
 
         .toast-close:hover {
-            opacity: 1;
+            color: var(--text-secondary);
+            background: var(--bg-tertiary);
         }
 
-        .toast.success {
-            background: var(--primary-color);
-        }
-
-        .toast.error {
-            background: var(--error-color);
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* Footer */
         .footer {
-            background: linear-gradient(to right, var(--text-color), #1a2634);
+            background: var(--text-primary);
             color: white;
             text-align: center;
             padding: 2.5rem;
-            margin-top: auto;  /* Changed from margin-top: 4rem */
+            margin-top: auto;
         }
 
         .footer p {
             opacity: 0.9;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             letter-spacing: 0.5px;
         }
 
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 3rem 2rem 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
             .container {
                 margin: 1rem;
                 padding: 1.5rem;
@@ -269,9 +382,52 @@
             .btn {
                 padding: 1rem;
             }
+
+            .btn-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .toast-container {
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <a href="/tutor/home" class="logo">Jnana</a>
@@ -284,7 +440,8 @@
     </nav>
 
     <section class="hero">
-        <p class="welcome-text">Welcome back, <span th:if="${session.tutor.name}" th:text="${session.tutor.name}">Tutor</span></p>
+        <p class="welcome-text">Welcome back, <span th:if="${session.tutor.name}"
+                th:text="${session.tutor.name}">Tutor</span></p>
         <h1>Tutor Dashboard</h1>
         <p>Manage your courses, sections, and view your learners all in one place</p>
     </section>
@@ -307,12 +464,22 @@
     </div>
 
     <div class="toast-container">
-        <div id="successToast" class="toast success" th:if="${session.pass}">
-            <span th:text="${session.pass}"></span>
+        <div id="successToast" class="toast success" th:if="${session.pass}" style="display: none">
+            <div class="toast-content">
+                <div class="toast-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <span class="toast-message" th:text="${session.pass}">Success message</span>
+            </div>
             <button class="toast-close">&times;</button>
         </div>
-        <div id="errorToast" class="toast error" th:if="${session.fail}">
-            <span th:text="${session.fail}"></span>
+        <div id="errorToast" class="toast error" th:if="${session.fail}" style="display: none">
+            <div class="toast-content">
+                <div class="toast-icon">
+                    <i class="fas fa-exclamation"></i>
+                </div>
+                <span class="toast-message" th:text="${session.fail}">Error message</span>
+            </div>
             <button class="toast-close">&times;</button>
         </div>
         <th:block th:text="${@generalService.removeMessage()}"></th:block>
@@ -323,13 +490,14 @@
     </footer>
 
     <script>
+        // Toast notification functionality - keeping original logic
         function showToast() {
             const toasts = document.querySelectorAll('.toast');
-            
+
             toasts.forEach(toast => {
-                if (toast && toast.textContent.trim() !== '') {
+                if (toast && toast.querySelector('.toast-message').textContent.trim() !== '') {
                     toast.style.display = 'flex';
-                    
+
                     const closeBtn = toast.querySelector('.toast-close');
                     closeBtn.addEventListener('click', () => {
                         toast.style.animation = 'slideOut 0.3s ease-out forwards';
@@ -337,7 +505,7 @@
                             toast.remove();
                         }, 300);
                     });
-                    
+
                     setTimeout(() => {
                         if (toast.isConnected) {
                             toast.style.animation = 'slideOut 0.3s ease-out forwards';
@@ -352,7 +520,256 @@
             });
         }
 
+        // Initialize toasts when DOM is loaded - keeping original logic
         document.addEventListener('DOMContentLoaded', showToast);
+
+        // Navbar scroll effect - matching other pages
+        const navbar = document.querySelector(".navbar");
+        window.addEventListener("scroll", function () {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollTop > 50) {
+                navbar.style.background = "rgba(255, 255, 255, 0.98)";
+                navbar.style.boxShadow = "0 2px 20px rgba(0, 0, 0, 0.1)";
+            } else {
+                navbar.style.background = "rgba(255, 255, 255, 0.95)";
+                navbar.style.boxShadow = "none";
+            }
+        });
+
+        // Add hover effects to buttons
+        document.querySelectorAll(".btn").forEach((btn) => {
+            btn.addEventListener("mouseenter", function () {
+                this.style.transform = "translateY(-3px) scale(1.02)";
+            });
+
+            btn.addEventListener("mouseleave", function () {
+                this.style.transform = "translateY(0) scale(1)";
+            });
+        });
+
+        // Add ripple effect to buttons
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement("span");
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+            circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+            circle.classList.add("ripple");
+
+            const ripple = button.getElementsByClassName("ripple")[0];
+            if (ripple) {
+                ripple.remove();
+            }
+
+            button.appendChild(circle);
+        }
+
+        document.querySelectorAll(".btn").forEach((btn) => {
+            btn.addEventListener("click", createRipple);
+        });
+
+        // Add CSS for ripple effect
+        const style = document.createElement("style");
+        style.textContent = `
+            .btn {
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+                pointer-events: none;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+
+            /* Enhanced focus states for accessibility */
+            .btn:focus-visible,
+            .nav-btn:focus-visible,
+            .toast-close:focus-visible {
+                outline: 2px solid var(--primary);
+                outline-offset: 2px;
+            }
+
+            /* Loading spinner animation */
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            .fa-spinner {
+                animation: spin 1s linear infinite;
+            }
+
+            /* Enhanced mobile responsiveness */
+            @media (max-width: 320px) {
+                .hero h1 {
+                    font-size: 1.75rem;
+                }
+                
+                .btn {
+                    padding: 1rem;
+                    font-size: 1rem;
+                }
+                
+                .container {
+                    padding: 1.25rem;
+                }
+            }
+            
+            /* High contrast mode support */
+            @media (prefers-contrast: high) {
+                .btn, .toast {
+                    border: 2px solid currentColor;
+                }
+            }
+            
+            /* Reduced motion support */
+            @media (prefers-reduced-motion: reduce) {
+                * {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
+            
+            /* Print styles */
+            @media print {
+                .navbar,
+                .toast-container {
+                    display: none !important;
+                }
+                
+                .hero {
+                    background: white !important;
+                    color: black !important;
+                }
+                
+                .btn, .container {
+                    box-shadow: none;
+                    border: 2px solid #000;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Loading states for navigation links
+        document.querySelectorAll("a[href]").forEach((link) => {
+            link.addEventListener("click", function (e) {
+                // Don't add loading state to logout link
+                if (this.href && !this.href.includes("logout")) {
+                    const icon = this.querySelector("i");
+                    if (icon && !icon.classList.contains("fa-spinner")) {
+                        const originalClass = icon.className;
+                        icon.className = "fas fa-spinner fa-spin";
+
+                        // Reset after 3 seconds as fallback
+                        setTimeout(() => {
+                            icon.className = originalClass;
+                        }, 3000);
+                    }
+                }
+            });
+        });
+
+        // Error handling for network issues
+        window.addEventListener("online", function () {
+            const toastContainer = document.querySelector(".toast-container");
+            const toast = document.createElement("div");
+            toast.className = "toast success";
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <div class="toast-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="toast-message">Connection restored</span>
+                </div>
+                <button class="toast-close">&times;</button>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = "slideOut 0.3s ease-out forwards";
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+
+            toast.querySelector(".toast-close").addEventListener("click", () => {
+                toast.style.animation = "slideOut 0.3s ease-out forwards";
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            });
+        });
+
+        window.addEventListener("offline", function () {
+            const toastContainer = document.querySelector(".toast-container");
+            const toast = document.createElement("div");
+            toast.className = "toast error";
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <div class="toast-icon">
+                        <i class="fas fa-exclamation"></i>
+                    </div>
+                    <span class="toast-message">No internet connection</span>
+                </div>
+                <button class="toast-close">&times;</button>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = "slideOut 0.3s ease-out forwards";
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 5000);
+
+            toast.querySelector(".toast-close").addEventListener("click", () => {
+                toast.style.animation = "slideOut 0.3s ease-out forwards";
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            });
+        });
+
+        // Performance monitoring
+        if ("performance" in window) {
+            window.addEventListener("load", function () {
+                setTimeout(() => {
+                    const perfData = performance.getEntriesByType("navigation")[0];
+                    if (perfData) {
+                        console.log(`Dashboard loaded in ${Math.round(perfData.loadEventEnd - perfData.loadEventStart)}ms`);
+                    }
+                }, 0);
+            });
+        }
+
+        console.log("Tutor dashboard initialized successfully");
     </script>
 </body>
+
 </html>

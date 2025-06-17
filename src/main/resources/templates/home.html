@@ -1,853 +1,877 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - Jnana</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="shortcut icon"
-      href="https://yogastudies.org/wp-content/uploads/jnana.jpg"
-      type="image/x-icon"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <style>
-      :root {
-        --primary: #6366f1;
-        --primary-dark: #4f46e5;
-        --secondary: #06b6d4;
-        --accent: #f59e0b;
-        --success: #10b981;
-        --error: #ef4444;
-        --text-primary: #0f172a;
-        --text-secondary: #64748b;
-        --text-muted: #94a3b8;
-        --bg-primary: #ffffff;
-        --bg-secondary: #f8fafc;
-        --bg-tertiary: #f1f5f9;
-        --border: #e2e8f0;
-        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-          0 2px 4px -2px rgb(0 0 0 / 0.1);
-        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-          0 4px 6px -4px rgb(0 0 0 / 0.1);
-        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-          0 8px 10px -6px rgb(0 0 0 / 0.1);
-        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jnana - Modern E-learning Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #7c3aed;
+      --accent: #f59e0b;
+      --success: #059669;
+      --error: #dc2626;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --text-light: #94a3b8;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-dark: #0f172a;
+      --border: #e2e8f0;
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-hero: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      padding: 0.75rem 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo i {
+      font-size: 1.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      padding: 0.625rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-login {
+      color: var(--text-secondary);
+    }
+
+    .nav-login:hover {
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+    }
+
+    .nav-register {
+      background: var(--primary);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-register:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      background: var(--gradient-hero);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="80" r="1.5" fill="white" opacity="0.1"/></svg>') repeat;
+      background-size: 100px 100px;
+    }
+
+    .hero-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .hero .highlight {
+      background: linear-gradient(45deg, #fbbf24, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2.5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--primary);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 6rem 2rem;
+      background: white;
+      position: relative;
+    }
+
+    .features::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(to bottom, var(--bg-secondary), white);
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 4rem;
+      color: var(--text-primary);
+      position: relative;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient-primary);
+      border-radius: 2px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .feature-card {
+      background: var(--bg-secondary);
+      padding: 2.5rem 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      transition: all 0.4s ease;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-primary);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+      background: white;
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1);
+    }
+
+    .feature-icon i {
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--text-primary);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-bottom p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      top: 100px;
+      right: 2rem;
+      z-index: 1001;
+      max-width: 400px;
+    }
+
+    .toast {
+      background: white;
+      padding: 1.25rem;
+      border-radius: 0.75rem;
+      box-shadow: var(--shadow-lg);
+      border-left: 4px solid var(--success);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: slideIn 0.4s ease;
+    }
+
+    .toast.error {
+      border-left-color: var(--error);
+    }
+
+    .toast-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      color: white;
+      background: var(--success);
+      flex-shrink: 0;
+    }
+
+    .toast.error .toast-icon {
+      background: var(--error);
+    }
+
+    .toast-message {
+      flex: 1;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .toast-close {
+      background: none;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 1.25rem;
+      padding: 0.25rem;
+      border-radius: 0.25rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .toast-close:hover {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
       }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
       }
 
-      body {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-        line-height: 1.6;
-        color: var(--text-primary);
-        background: var(--bg-secondary);
-        min-height: 100vh;
-        padding-top: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      to {
+        transform: translateX(100%);
+        opacity: 0;
       }
+    }
 
-      /* Navigation - Matching home.html */
-      .navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--border);
-        z-index: 1000;
-        transition: all 0.3s ease;
-      }
+    /* Smooth animations */
+    .animate-fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
 
+    .animate-fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
       .nav-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        padding: 0 1.5rem;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero p {
+        font-size: 1.125rem;
+      }
+
+      .hero-actions {
+        gap: 1rem;
+      }
+
+      .btn {
+        padding: 0.875rem 1.75rem;
+        font-size: 0.9rem;
+      }
+
+      .features {
+        padding: 4rem 1.5rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .feature-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .toast-container {
+        left: 1rem;
+        right: 1rem;
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-container {
+        padding: 0 1rem;
       }
 
       .logo {
-        font-size: 1.75rem;
-        font-weight: 800;
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-decoration: none;
-        letter-spacing: -0.025em;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
+        font-size: 1.5rem;
       }
 
       .nav-btn {
-        padding: 0.5rem 1.5rem;
-        border-radius: 0.5rem;
-        font-weight: 500;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        font-size: 0.875rem;
-        background: var(--primary);
-        color: white;
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
       }
 
-      .nav-btn:hover {
-        background: var(--primary-dark);
-        transform: translateY(-1px);
-      }
-
-      /* Login Form Container */
-      .login-section {
-        background: white;
-        padding: 3rem;
-        border-radius: 1rem;
-        box-shadow: var(--shadow-xl);
-        border: 1px solid var(--border);
-        width: 90%;
-        max-width: 450px;
-        animation: fadeInUp 0.6s ease-out;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .login-section::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: var(--gradient-primary);
-      }
-
-      .login-section h1 {
+      .hero h1 {
         font-size: 2rem;
-        font-weight: 800;
-        color: var(--text-primary);
-        margin-bottom: 0.5rem;
-        text-align: center;
-        letter-spacing: -0.025em;
       }
 
-      .login-subtitle {
-        text-align: center;
-        color: var(--text-secondary);
-        margin-bottom: 2rem;
+      .hero p {
         font-size: 1rem;
       }
 
-      .form-group {
-        margin-bottom: 1.5rem;
-        position: relative;
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
       }
 
-      .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        color: var(--text-primary);
-        font-weight: 500;
-        font-size: 0.875rem;
-      }
-
-      .form-group input {
+      .btn {
         width: 100%;
-        padding: 0.875rem 1rem;
-        border: 2px solid var(--border);
-        border-radius: 0.5rem;
-        font-size: 1rem;
-        transition: all 0.2s ease;
-        background: var(--bg-primary);
-        color: var(--text-primary);
-      }
-
-      .form-group input:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        outline: none;
-      }
-
-      .form-group input::placeholder {
-        color: var(--text-muted);
-      }
-
-      .submit-btn {
-        width: 100%;
-        padding: 0.875rem 2rem;
-        border: none;
-        border-radius: 0.5rem;
-        background: var(--primary);
-        color: white;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        margin-top: 1rem;
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
+        max-width: 280px;
         justify-content: center;
-        gap: 0.5rem;
       }
 
-      .submit-btn:hover {
-        background: var(--primary-dark);
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-lg);
+      .section-title {
+        font-size: 1.75rem;
       }
 
-      .submit-btn:active {
-        transform: translateY(0);
+      .feature-card {
+        padding: 1.5rem;
       }
 
-      .forgot-password {
-        text-align: center;
-        margin-top: 1.5rem;
+      .feature-icon {
+        width: 60px;
+        height: 60px;
       }
 
-      .forgot-password a {
-        color: var(--primary);
-        text-decoration: none;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: color 0.2s ease;
-      }
-
-      .forgot-password a:hover {
-        color: var(--primary-dark);
-      }
-
-      .register-link {
-        text-align: center;
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 1px solid var(--border);
-      }
-
-      .register-link a {
-        color: var(--primary);
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s ease;
-      }
-
-      .register-link a:hover {
-        color: var(--primary-dark);
-      }
-
-      /* Toast Notifications - Matching home.html */
-      .toast-container {
-        position: fixed;
-        top: 100px;
-        right: 2rem;
-        z-index: 1001;
-        max-width: 400px;
-      }
-
-      .toast {
-        background: white;
-        padding: 1rem 1.5rem;
-        border-radius: 0.75rem;
-        box-shadow: var(--shadow-xl);
-        border: 1px solid var(--border);
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        animation: slideInRight 0.3s ease-out forwards;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .toast::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-      }
-
-      .toast.success::before {
-        background: var(--success);
-      }
-
-      .toast.error::before {
-        background: var(--error);
-      }
-
-      .toast-content {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        flex: 1;
-      }
-
-      .toast-icon {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        color: white;
-      }
-
-      .toast.success .toast-icon {
-        background: var(--success);
-      }
-
-      .toast.error .toast-icon {
-        background: var(--error);
-      }
-
-      .toast-message {
-        color: var(--text-primary);
-        font-weight: 500;
-        font-size: 0.875rem;
-      }
-
-      .toast-close {
-        background: none;
-        border: none;
-        color: var(--text-muted);
+      .feature-icon i {
         font-size: 1.25rem;
-        cursor: pointer;
-        padding: 0.25rem;
-        border-radius: 0.25rem;
-        transition: all 0.2s ease;
-        line-height: 1;
       }
+    }
 
-      .toast-close:hover {
-        color: var(--text-secondary);
-        background: var(--bg-tertiary);
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Ripple effect */
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
       }
+    }
 
-      /* Animations */
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+    }
+  </style>
+</head>
 
-      @keyframes slideInRight {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-
-      @keyframes slideOutRight {
-        from {
-          transform: translateX(0);
-          opacity: 1;
-        }
-        to {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .nav-container {
-          padding: 1rem;
-        }
-
-        .login-section {
-          margin: 1rem;
-          padding: 2rem;
-        }
-
-        .toast-container {
-          right: 1rem;
-          left: 1rem;
-          max-width: none;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .login-section {
-          padding: 1.5rem;
-        }
-
-        .login-section h1 {
-          font-size: 1.75rem;
-        }
-      }
-
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      ::-webkit-scrollbar-track {
-        background: var(--bg-tertiary);
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background: var(--primary);
-        border-radius: 4px;
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: var(--primary-dark);
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-      <div class="nav-container">
-        <a href="/" class="logo">Jnana</a>
-        <div class="nav-links">
-          <a href="/register" class="nav-btn">Get Started</a>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Login Form -->
-    <div class="login-section">
-      <h1>Welcome Back</h1>
-      <p class="login-subtitle">Sign in to continue your learning journey</p>
-
-      <form action="/login" method="post">
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-
-        <button type="submit" class="submit-btn">
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        <span>Jnana</span>
+      </a>
+      <div class="nav-links">
+        <a href="/login" class="nav-btn nav-login">
           <i class="fas fa-sign-in-alt"></i>
-          Sign In
-        </button>
-      </form>
-
-      <div class="forgot-password">
-        <a href="/forgot-password">Forgot your password?</a>
-      </div>
-
-      <div class="register-link">
-        <p>Don't have an account? <a href="/register">Create one here</a></p>
+          <span>Login</span>
+        </a>
+        <a href="/register" class="nav-btn nav-register">
+          <i class="fas fa-user-plus"></i>
+          <span>Sign Up</span>
+        </a>
       </div>
     </div>
+  </nav>
 
-    <!-- Toast Notifications -->
-    <div class="toast-container">
-      <div
-        id="successToast"
-        class="toast success"
-        th:if="${session.pass}"
-        style="display: none"
-      >
-        <div class="toast-content">
-          <div class="toast-icon">
-            <i class="fas fa-check"></i>
-          </div>
-          <span class="toast-message" th:text="${session.pass}"
-            >Success message</span
-          >
-        </div>
-        <button class="toast-close">&times;</button>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <h1 class="animate-fade-up">
+        Learn Smarter with <span class="highlight">Jnana</span>
+      </h1>
+      <p class="animate-fade-up">
+        Master new skills with our interactive courses, expert instructors, and hands-on projects.
+        Start your learning journey today and unlock your potential.
+      </p>
+      <div class="hero-actions animate-fade-up">
+        <a href="/register" class="btn btn-primary">
+          <i class="fas fa-rocket"></i>
+          <span>Get Started Free</span>
+        </a>
+        <a href="#features" class="btn btn-secondary">
+          <i class="fas fa-play"></i>
+          <span>Learn More</span>
+        </a>
       </div>
-      <div
-        id="errorToast"
-        class="toast error"
-        th:if="${session.fail}"
-        style="display: none"
-      >
-        <div class="toast-content">
-          <div class="toast-icon">
-            <i class="fas fa-exclamation"></i>
-          </div>
-          <span class="toast-message" th:text="${session.fail}"
-            >Error message</span
-          >
-        </div>
-        <button class="toast-close">&times;</button>
-      </div>
-      <th:block th:text="${@generalService.removeMessage()}"></th:block>
     </div>
+  </section>
 
-    <script>
-      // Toast notifications - Matching home.html functionality
-      function showToast(type, message) {
-        const toastContainer = document.querySelector(".toast-container");
-        const toast = document.createElement("div");
-        toast.className = `toast ${type}`;
-        toast.innerHTML = `
-                <div class="toast-content">
-                    <div class="toast-icon">
-                        <i class="fas fa-${
-                          type === "success" ? "check" : "exclamation"
-                        }"></i>
-                    </div>
-                    <span class="toast-message">${message}</span>
-                </div>
-                <button class="toast-close">&times;</button>
-            `;
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="features-container">
+      <h2 class="section-title animate-fade-up">Why Choose Jnana?</h2>
+      <div class="features-grid">
+        <div class="feature-card animate-fade-up">
+          <div class="feature-icon">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <h3>Expert Instructors</h3>
+          <p>Learn from industry professionals with years of real-world experience and proven expertise</p>
+        </div>
+        <div class="feature-card animate-fade-up">
+          <div class="feature-icon">
+            <i class="fas fa-certificate"></i>
+          </div>
+          <h3>Industry Certifications</h3>
+          <p>Earn recognized certificates that boost your career prospects and validate your skills</p>
+        </div>
+        <div class="feature-card animate-fade-up">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>Community Support</h3>
+          <p>Connect with fellow learners, share knowledge, and get help when you need it most</p>
+        </div>
+        <div class="feature-card animate-fade-up">
+          <div class="feature-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h3>Mobile Learning</h3>
+          <p>Access courses on any device, anywhere, anytime with our responsive platform</p>
+        </div>
+        <div class="feature-card animate-fade-up">
+          <div class="feature-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <h3>Self-Paced Learning</h3>
+          <p>Study at your own pace with flexible schedules and lifetime access to course materials</p>
+        </div>
+        <div class="feature-card animate-fade-up">
+          <div class="feature-icon">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <h3>Hands-on Projects</h3>
+          <p>Build your portfolio with real-world projects and practical assignments that showcase your skills</p>
+        </div>
 
-        toastContainer.appendChild(toast);
+      </div>
+  </section>
 
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-          toast.style.animation = "slideOutRight 0.3s ease-out forwards";
-          setTimeout(() => {
-            if (toast.parentNode) {
-              toast.parentNode.removeChild(toast);
-            }
-          }, 300);
-        }, 5000);
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>&copy; 2025 Jnana. All rights reserved. Made with ❤️ for learners worldwide.</p>
+    </div>
+  </footer>
 
-        // Close button functionality
-        toast.querySelector(".toast-close").addEventListener("click", () => {
-          toast.style.animation = "slideOutRight 0.3s ease-out forwards";
-          setTimeout(() => {
-            if (toast.parentNode) {
-              toast.parentNode.removeChild(toast);
-            }
-          }, 300);
-        });
+  <!-- Toast Notifications -->
+  <div class="toast-container">
+    <div id="successToast" class="toast success" th:if="${session.pass}" style="display: none">
+      <div class="toast-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <span class="toast-message" th:text="${session.pass}">Success message</span>
+      <button class="toast-close">&times;</button>
+    </div>
+    <div id="errorToast" class="toast error" th:if="${session.fail}" style="display: none">
+      <div class="toast-icon">
+        <i class="fas fa-exclamation"></i>
+      </div>
+      <span class="toast-message" th:text="${session.fail}">Error message</span>
+      <button class="toast-close">&times;</button>
+    </div>
+    <th:block th:text="${@generalService.removeMessage()}"></th:block>
+  </div>
+
+  <script>
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with animation class
+    document.querySelectorAll(".animate-fade-up").forEach((el) => {
+      observer.observe(el);
+    });
+
+    // Toast notification functionality
+    function removeToast(toast) {
+      toast.style.animation = "slideOut 0.3s ease forwards";
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast);
+        }
+      }, 300);
+    }
+
+    // Show existing toasts
+    document.addEventListener("DOMContentLoaded", function () {
+      const successToast = document.getElementById("successToast");
+      const errorToast = document.getElementById("errorToast");
+
+      if (successToast && successToast.querySelector(".toast-message").textContent.trim()) {
+        successToast.style.display = "flex";
+        setTimeout(() => removeToast(successToast), 5000);
       }
 
-      // Show existing toasts if they exist
-      document.addEventListener("DOMContentLoaded", function () {
-        const successToast = document.getElementById("successToast");
-        const errorToast = document.getElementById("errorToast");
-
-        if (
-          successToast &&
-          successToast.querySelector(".toast-message").textContent.trim()
-        ) {
-          successToast.style.display = "flex";
-          setTimeout(() => {
-            successToast.style.animation =
-              "slideOutRight 0.3s ease-out forwards";
-            setTimeout(() => {
-              successToast.style.display = "none";
-            }, 300);
-          }, 5000);
-        }
-
-        if (
-          errorToast &&
-          errorToast.querySelector(".toast-message").textContent.trim()
-        ) {
-          errorToast.style.display = "flex";
-          setTimeout(() => {
-            errorToast.style.animation = "slideOutRight 0.3s ease-out forwards";
-            setTimeout(() => {
-              errorToast.style.display = "none";
-            }, 300);
-          }, 5000);
-        }
-
-        // Close button functionality for existing toasts
-        document.querySelectorAll(".toast-close").forEach((closeBtn) => {
-          closeBtn.addEventListener("click", function () {
-            const toast = this.closest(".toast");
-            toast.style.animation = "slideOutRight 0.3s ease-out forwards";
-            setTimeout(() => {
-              toast.style.display = "none";
-            }, 300);
-          });
-        });
-      });
-
-      // Form validation and enhancement
-      document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector("form");
-        const inputs = form.querySelectorAll("input");
-        const submitBtn = form.querySelector(".submit-btn");
-
-        // Add input validation styling
-        inputs.forEach((input) => {
-          input.addEventListener("blur", function () {
-            if (this.value.trim() !== "") {
-              this.style.borderColor = "var(--success)";
-            } else if (this.hasAttribute("required")) {
-              this.style.borderColor = "var(--error)";
-            }
-          });
-
-          input.addEventListener("focus", function () {
-            this.style.borderColor = "var(--primary)";
-          });
-
-          input.addEventListener("input", function () {
-            if (this.style.borderColor === "rgb(239, 68, 68)") {
-              // error color
-              this.style.borderColor = "var(--border)";
-            }
-          });
-        });
-
-        // Add loading state to submit button
-        form.addEventListener("submit", function (e) {
-          const email = document.getElementById("email").value.trim();
-          const password = document.getElementById("password").value.trim();
-
-          if (!email || !password) {
-            e.preventDefault();
-            showToast("error", "Please fill in all required fields");
-            return;
-          }
-
-          // Email validation
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(email)) {
-            e.preventDefault();
-            showToast("error", "Please enter a valid email address");
-            return;
-          }
-
-          submitBtn.innerHTML =
-            '<i class="fas fa-spinner fa-spin"></i> Signing In...';
-          submitBtn.disabled = true;
-        });
-
-        // Password visibility toggle
-        const passwordInput = document.getElementById("password");
-        const passwordGroup = passwordInput.parentElement;
-
-        const toggleBtn = document.createElement("button");
-        toggleBtn.type = "button";
-        toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
-        toggleBtn.style.cssText = `
-                position: absolute;
-                right: 12px;
-                top: 50%;
-                transform: translateY(-50%);
-                background: none;
-                border: none;
-                color: var(--text-muted);
-                cursor: pointer;
-                padding: 4px;
-                border-radius: 4px;
-                transition: color 0.2s ease;
-            `;
-
-        toggleBtn.addEventListener("click", function () {
-          if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            this.innerHTML = '<i class="fas fa-eye-slash"></i>';
-          } else {
-            passwordInput.type = "password";
-            this.innerHTML = '<i class="fas fa-eye"></i>';
-          }
-        });
-
-        toggleBtn.addEventListener("mouseenter", function () {
-          this.style.color = "var(--text-secondary)";
-        });
-
-        toggleBtn.addEventListener("mouseleave", function () {
-          this.style.color = "var(--text-muted)";
-        });
-
-        passwordGroup.style.position = "relative";
-        passwordGroup.appendChild(toggleBtn);
-        passwordInput.style.paddingRight = "45px";
-      });
-
-      // Navbar scroll effect - Matching home.html
-      let lastScrollTop = 0;
-      const navbar = document.querySelector(".navbar");
-
-      window.addEventListener("scroll", function () {
-        let scrollTop =
-          window.pageYOffset || document.documentElement.scrollTop;
-
-        // Only hide navbar on mobile to prevent overlap issues
-        if (window.innerWidth <= 768) {
-          if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // Scrolling down
-            navbar.style.transform = "translateY(-100%)";
-          } else {
-            // Scrolling up
-            navbar.style.transform = "translateY(0)";
-          }
-        }
-
-        // Add background when scrolled
-        if (scrollTop > 50) {
-          navbar.style.background = "rgba(255, 255, 255, 0.95)";
-          navbar.style.backdropFilter = "blur(20px)";
-        } else {
-          navbar.style.background = "rgba(255, 255, 255, 0.8)";
-          navbar.style.backdropFilter = "blur(20px)";
-        }
-
-        lastScrollTop = scrollTop;
-      });
-
-      // Add ripple effect to submit button
-      function createRipple(event) {
-        const button = event.currentTarget;
-        const circle = document.createElement("span");
-        const diameter = Math.max(button.clientWidth, button.clientHeight);
-        const radius = diameter / 2;
-
-        circle.style.width = circle.style.height = `${diameter}px`;
-        circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-        circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
-        circle.classList.add("ripple");
-
-        const ripple = button.getElementsByClassName("ripple")[0];
-        if (ripple) {
-          ripple.remove();
-        }
-
-        button.appendChild(circle);
+      if (errorToast && errorToast.querySelector(".toast-message").textContent.trim()) {
+        errorToast.style.display = "flex";
+        setTimeout(() => removeToast(errorToast), 5000);
       }
 
-      document
-        .querySelector(".submit-btn")
-        .addEventListener("click", createRipple);
+      // Close button functionality for existing toasts
+      document.querySelectorAll(".toast-close").forEach((closeBtn) => {
+        closeBtn.addEventListener("click", function () {
+          const toast = this.closest(".toast");
+          removeToast(toast);
+        });
+      });
+    });
 
-      // Add CSS for ripple effect and additional styles
-      const style = document.createElement("style");
-      style.textContent = `
-            .submit-btn {
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .ripple {
-                position: absolute;
-                border-radius: 50%;
-                background-color: rgba(255, 255, 255, 0.6);
-                transform: scale(0);
-                animation: ripple-animation 0.6s linear;
-                pointer-events: none;
-            }
-            
-            @keyframes ripple-animation {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-            
-            .form-group input:valid {
-                border-color: var(--success);
-            }
-            
-            .form-group input:invalid:not(:focus):not(:placeholder-shown) {
-                border-color: var(--error);
-            }
-            
-            /* Focus ring for better accessibility */
-            .submit-btn:focus-visible {
-                outline: 2px solid var(--primary);
-                outline-offset: 2px;
-            }
-            
-            .nav-btn:focus-visible,
-            .toast-close:focus-visible {
-                outline: 2px solid var(--primary);
-                outline-offset: 2px;
-            }
-            
-            /* Smooth transitions for all interactive elements */
-            a, button, input {
-                transition: all 0.2s ease;
-            }
-            
-            /* Loading spinner animation */
-            @keyframes spin {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-            
-            .fa-spinner {
-                animation: spin 1s linear infinite;
-            }
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute("href"));
+        if (target) {
+          const offsetTop = target.offsetTop - 80;
+          window.scrollTo({
+            top: offsetTop,
+            behavior: "smooth",
+          });
+        }
+      });
+    });
+
+    // Navbar scroll effect
+    const navbar = document.querySelector(".navbar");
+    window.addEventListener("scroll", function () {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (scrollTop > 50) {
+        navbar.style.background = "rgba(255, 255, 255, 0.98)";
+        navbar.style.boxShadow = "0 2px 20px rgba(0, 0, 0, 0.1)";
+      } else {
+        navbar.style.background = "rgba(255, 255, 255, 0.95)";
+        navbar.style.boxShadow = "none";
+      }
+    });
+
+    // Add hover effects to feature cards
+    document.querySelectorAll(".feature-card").forEach((card) => {
+      card.addEventListener("mouseenter", function () {
+        this.style.transform = "translateY(-10px)";
+      });
+
+      card.addEventListener("mouseleave", function () {
+        this.style.transform = "translateY(0)";
+      });
+    });
+
+    // Add ripple effect to buttons
+    document.querySelectorAll(".btn").forEach((btn) => {
+      btn.addEventListener("click", function (e) {
+        const ripple = document.createElement("span");
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+
+        ripple.className = "ripple";
+        ripple.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${x}px;
+          top: ${y}px;
         `;
-      document.head.appendChild(style);
 
-      // Add keyboard navigation support
-      document.addEventListener("keydown", function (e) {
-        // Enter key on form elements
-        if (e.key === "Enter" && e.target.tagName === "INPUT") {
-          const form = e.target.closest("form");
-          const inputs = Array.from(form.querySelectorAll("input[required]"));
-          const currentIndex = inputs.indexOf(e.target);
+        this.style.position = "relative";
+        this.style.overflow = "hidden";
+        this.appendChild(ripple);
 
-          if (currentIndex < inputs.length - 1) {
-            e.preventDefault();
-            inputs[currentIndex + 1].focus();
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+
+    // Preload animations
+    window.addEventListener("load", function () {
+      document.querySelectorAll(".animate-fade-up").forEach((el, index) => {
+        setTimeout(() => {
+          if (el.getBoundingClientRect().top < window.innerHeight) {
+            el.classList.add("visible");
           }
-        }
-
-        // Escape key to close toasts
-        if (e.key === "Escape") {
-          const visibleToasts = document.querySelectorAll(
-            '.toast[style*="flex"]'
-          );
-          visibleToasts.forEach((toast) => {
-            toast.style.animation = "slideOutRight 0.3s ease-out forwards";
-            setTimeout(() => {
-              toast.style.display = "none";
-            }, 300);
-          });
-        }
+        }, index * 150);
       });
+    });
 
-      // Add focus management for better UX
-      window.addEventListener("load", function () {
-        const emailInput = document.getElementById("email");
-        if (emailInput && !emailInput.value) {
-          emailInput.focus();
-        }
-      });
-    </script>
-  </body>
+    // Add staggered animation delays
+    document.querySelectorAll(".feature-card").forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.1}s`;
+    });
+  </script>
+</body>
+
 </html>

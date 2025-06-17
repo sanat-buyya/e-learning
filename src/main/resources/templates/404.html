@@ -1,480 +1,863 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>404 - Page Not Found | Jnana</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="shortcut icon"
-      href="https://yogastudies.org/wp-content/uploads/jnana.jpg"
-      type="image/x-icon"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <style>
-      :root {
-        --primary: #6366f1;
-        --primary-dark: #4f46e5;
-        --secondary: #06b6d4;
-        --accent: #f59e0b;
-        --success: #10b981;
-        --error: #ef4444;
-        --warning: #f59e0b;
-        --text-primary: #0f172a;
-        --text-secondary: #64748b;
-        --text-muted: #94a3b8;
-        --bg-primary: #ffffff;
-        --bg-secondary: #f8fafc;
-        --bg-tertiary: #f1f5f9;
-        --border: #e2e8f0;
-        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-          0 2px 4px -2px rgb(0 0 0 / 0.1);
-        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-          0 4px 6px -4px rgb(0 0 0 / 0.1);
-        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-          0 8px 10px -6px rgb(0 0 0 / 0.1);
-        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Page Not Found | Jnana</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="shortcut icon" href="https://yogastudies.org/wp-content/uploads/jnana.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #06b6d4;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --error: #ef4444;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #f1f5f9;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-shape:nth-child(1) {
+      width: 80px;
+      height: 80px;
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .floating-shape:nth-child(2) {
+      width: 120px;
+      height: 120px;
+      top: 60%;
+      right: 10%;
+      animation-delay: 2s;
+    }
+
+    .floating-shape:nth-child(3) {
+      width: 60px;
+      height: 60px;
+      bottom: 20%;
+      left: 20%;
+      animation-delay: 4s;
+    }
+
+    .floating-shape:nth-child(4) {
+      width: 100px;
+      height: 100px;
+      top: 10%;
+      right: 30%;
+      animation-delay: 1s;
+    }
+
+    /* Navigation - Matching other pages */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.75rem;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      letter-spacing: -0.025em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      padding: 0.5rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-btn.secondary {
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .nav-btn.secondary:hover {
+      color: var(--primary);
+      background: var(--bg-tertiary);
+      border-color: var(--primary);
+    }
+
+    .nav-btn.primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-btn.primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Main Error Content */
+    .error-section {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .error-container {
+      max-width: 600px;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .error-illustration {
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .error-code {
+      font-size: 8rem;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      position: relative;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    .error-code::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      background: var(--gradient-primary);
+      border-radius: 50%;
+      opacity: 0.1;
+      z-index: -1;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .error-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      letter-spacing: -0.025em;
+    }
+
+    .error-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      line-height: 1.6;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      padding: 0.875rem 2rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      position: relative;
+      overflow: hidden;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--bg-primary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+    }
+
+    /* Helpful Links Section */
+    .helpful-links {
+      background: var(--bg-primary);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .helpful-links h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-radius: 0.5rem;
+      text-decoration: none;
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+      border: 1px solid var(--border);
+    }
+
+    .link-item:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+      border-color: var(--primary);
+    }
+
+    .link-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    .error-footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg-primary);
+      flex-shrink: 0;
+    }
+
+    .error-footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .error-footer a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
       }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
       }
 
-      body {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-        line-height: 1.6;
-        color: var(--text-primary);
-        background: var(--bg-secondary);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        overflow-x: hidden;
+      40% {
+        transform: translateY(-10px);
       }
 
-      /* Animated Background */
-      .bg-animation {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: translate(-50%, -50%) scale(1);
         opacity: 0.1;
       }
 
-      .floating-shape {
-        position: absolute;
-        border-radius: 50%;
-        background: var(--gradient-primary);
-        animation: float 6s ease-in-out infinite;
+      50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.2;
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
       }
 
-      .floating-shape:nth-child(1) {
-        width: 80px;
-        height: 80px;
-        top: 20%;
-        left: 10%;
-        animation-delay: 0s;
+      50% {
+        transform: translateY(-20px);
       }
+    }
 
-      .floating-shape:nth-child(2) {
-        width: 120px;
-        height: 120px;
-        top: 60%;
-        right: 10%;
-        animation-delay: 2s;
-        background: var(--gradient-secondary);
-      }
-
-      .floating-shape:nth-child(3) {
-        width: 60px;
-        height: 60px;
-        bottom: 20%;
-        left: 20%;
-        animation-delay: 4s;
-      }
-
-      .floating-shape:nth-child(4) {
-        width: 100px;
-        height: 100px;
-        top: 10%;
-        right: 30%;
-        animation-delay: 1s;
-        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-      }
-
-      /* Navigation */
-      .navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--border);
-        z-index: 1000;
-        transition: all 0.3s ease;
-      }
-
+    /* Responsive Design */
+    @media (max-width: 768px) {
       .nav-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        padding: 0 1rem;
       }
 
-      .logo {
-        font-size: 1.75rem;
-        font-weight: 800;
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-decoration: none;
-        letter-spacing: -0.025em;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-      }
-
-      .nav-btn {
-        padding: 0.5rem 1.5rem;
-        border-radius: 0.5rem;
-        font-weight: 500;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        font-size: 0.875rem;
-        background: var(--primary);
-        color: white;
-      }
-
-      .nav-btn:hover {
-        background: var(--primary-dark);
-        transform: translateY(-1px);
-      }
-
-      .nav-btn.secondary {
-        background: transparent;
-        color: var(--text-secondary);
-        border: 1px solid var(--border);
-      }
-
-      .nav-btn.secondary:hover {
-        background: var(--bg-tertiary);
-        color: var(--text-primary);
-      }
-
-      /* Main Error Content */
       .error-section {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 6rem 2rem 4rem;
-        text-align: center;
-      }
-
-      .error-container {
-        max-width: 800px;
-        animation: fadeInUp 0.8s ease-out;
-      }
-
-      .error-illustration {
-        width: 300px;
-        height: 200px;
-        margin: 0 auto 3rem;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        padding: 1rem;
       }
 
       .error-code {
-        font-size: 8rem;
-        font-weight: 800;
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        line-height: 1;
-        position: relative;
-        animation: bounce 2s ease-in-out infinite;
-      }
-
-      .error-code::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 120%;
-        height: 120%;
-        background: var(--gradient-primary);
-        border-radius: 50%;
-        opacity: 0.1;
-        z-index: -1;
-        animation: pulse 2s ease-in-out infinite;
+        font-size: 6rem;
       }
 
       .error-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: var(--text-primary);
-        margin-bottom: 1rem;
-        letter-spacing: -0.025em;
+        font-size: 2rem;
       }
 
       .error-subtitle {
-        font-size: 1.25rem;
-        color: var(--text-secondary);
-        margin-bottom: 2rem;
-        line-height: 1.6;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
+        font-size: 1.125rem;
       }
 
       .error-actions {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 3rem;
+        flex-direction: column;
+        align-items: center;
       }
 
       .btn {
-        padding: 0.875rem 2rem;
-        border: none;
-        border-radius: 0.5rem;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        position: relative;
-        overflow: hidden;
+        width: 100%;
+        max-width: 300px;
       }
 
-      .btn-primary {
-        background: var(--primary);
-        color: white;
-      }
-
-      .btn-primary:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-lg);
-      }
-
-      .btn-secondary {
-        background: var(--bg-primary);
-        color: var(--text-secondary);
-        border: 1px solid var(--border);
-      }
-
-      .btn-secondary:hover {
-        background: var(--bg-tertiary);
-        color: var(--text-primary);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-      }
-
-      /* Helpful Links Section */
       .helpful-links {
-        background: var(--bg-primary);
-        border-radius: 1rem;
-        padding: 2rem;
-        box-shadow: var(--shadow-md);
-        border: 1px solid var(--border);
-        max-width: 600px;
-        margin: 0 auto;
-      }
-
-      .helpful-links h3 {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--text-primary);
-        margin-bottom: 1rem;
-        text-align: center;
+        margin: 0 1rem;
+        padding: 1.5rem;
       }
 
       .links-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .error-code {
+        font-size: 4rem;
       }
 
-      .link-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
+      .error-title {
+        font-size: 1.75rem;
+      }
+
+      .floating-shape {
+        display: none;
+      }
+
+      .nav-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+      }
+
+      .helpful-links {
         padding: 1rem;
-        background: var(--bg-secondary);
-        border-radius: 0.5rem;
-        text-decoration: none;
-        color: var(--text-secondary);
-        transition: all 0.2s ease;
-        border: 1px solid var(--border);
+      }
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-tertiary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="logo">Jnana</a>
+      <div class="nav-links">
+        <a href="/login" class="nav-btn secondary">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>Login</span>
+        </a>
+        <a href="/register" class="nav-btn primary">
+          <i class="fas fa-user-plus"></i>
+          <span>Sign Up</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Error Content -->
+  <main class="error-section">
+    <div class="error-container">
+      <!-- Error Illustration -->
+      <div class="error-illustration">
+        <div class="error-code">404</div>
+      </div>
+
+      <!-- Error Message -->
+      <h1 class="error-title">Oops! Page Not Found</h1>
+      <p class="error-subtitle">
+        The page you're looking for seems to have wandered off into the digital void.
+        Don't worry, even the best explorers sometimes take a wrong turn!
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="error-actions">
+        <a href="/" class="btn btn-primary">
+          <i class="fas fa-home"></i>
+          <span>Go Home</span>
+        </a>
+        <button onclick="history.back()" class="btn btn-secondary">
+          <i class="fas fa-arrow-left"></i>
+          <span>Go Back</span>
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="error-footer">
+    <p>
+      &copy; 2025 Jnana. All rights reserved. |
+      <a href="/privacy">Privacy Policy</a> |
+      <a href="/terms">Terms of Service</a> |
+      <a href="/contact">Contact Us</a>
+    </p>
+  </footer>
+
+  <script>
+    // Add ripple effect to buttons - Matching other pages
+    function createRipple(event) {
+      const button = event.currentTarget;
+      const circle = document.createElement("span");
+      const diameter = Math.max(button.clientWidth, button.clientHeight);
+      const radius = diameter / 2;
+
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+      circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+      circle.classList.add("ripple");
+
+      const ripple = button.getElementsByClassName("ripple")[0];
+      if (ripple) {
+        ripple.remove();
       }
 
-      .link-item:hover {
-        background: var(--bg-tertiary);
-        color: var(--text-primary);
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-sm);
+      button.appendChild(circle);
+    }
+
+    // Initialize everything
+    document.addEventListener("DOMContentLoaded", function () {
+      // Add ripple effect to all buttons
+      document.querySelectorAll(".btn, .nav-btn").forEach((btn) => {
+        btn.addEventListener("click", createRipple);
+      });
+
+      // Add hover effects to link items
+      document.querySelectorAll(".link-item").forEach((item) => {
+        item.addEventListener("mouseenter", function () {
+          this.style.transform = "translateY(-3px)";
+        });
+
+        item.addEventListener("mouseleave", function () {
+          this.style.transform = "translateY(0)";
+        });
+      });
+
+      // Add loading states to navigation links
+      document.querySelectorAll(".nav-btn, .link-item").forEach((link) => {
+        link.addEventListener("click", function (e) {
+          // Don't add loading state to external links or javascript: links
+          if (this.href && !this.href.startsWith("javascript:") && !this.href.includes("#")) {
+            const originalContent = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            this.style.pointerEvents = "none";
+
+            // Reset after 3 seconds as fallback
+            setTimeout(() => {
+              this.innerHTML = originalContent;
+              this.style.pointerEvents = "auto";
+            }, 3000);
+          }
+        });
+      });
+
+      // Staggered animation for helpful links
+      const linkItems = document.querySelectorAll(".link-item");
+      linkItems.forEach((item, index) => {
+        item.style.opacity = "0";
+        item.style.transform = "translateY(20px)";
+
+        setTimeout(() => {
+          item.style.transition = "all 0.6s ease";
+          item.style.opacity = "1";
+          item.style.transform = "translateY(0)";
+        }, index * 100 + 800);
+      });
+
+      // Add entrance animation to action buttons
+      const actionButtons = document.querySelectorAll(".btn");
+      actionButtons.forEach((btn, index) => {
+        btn.style.opacity = "0";
+        btn.style.transform = "translateY(20px)";
+
+        setTimeout(() => {
+          btn.style.transition = "all 0.6s ease";
+          btn.style.opacity = "1";
+          btn.style.transform = "translateY(0)";
+        }, index * 150 + 600);
+      });
+    });
+
+    // Enhanced keyboard navigation
+    document.addEventListener("keydown", function (e) {
+      // Home key to go to homepage
+      if (e.key === "Home" || (e.ctrlKey && e.key === "h")) {
+        e.preventDefault();
+        window.location.href = "/";
       }
 
-      .link-icon {
-        width: 20px;
-        height: 20px;
-        color: var(--primary);
+      // Escape key to go back
+      if (e.key === "Escape") {
+        history.back();
       }
 
-      /* Footer */
-      .error-footer {
-        text-align: center;
-        padding: 2rem;
-        color: var(--text-muted);
-        font-size: 0.875rem;
-        border-top: 1px solid var(--border);
-        background: var(--bg-primary);
+      // Enter key on focused elements
+      if (e.key === "Enter" && document.activeElement.classList.contains("link-item")) {
+        document.activeElement.click();
+      }
+    });
+
+    // Add search functionality (optional)
+    document.addEventListener("keydown", function (e) {
+      // Ctrl/Cmd + K to focus search (if you have search functionality)
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        // Redirect to search page or show search modal
+        window.location.href = "/search";
+      }
+    });
+
+    // Track 404 errors for analytics
+    function trackEvent(eventName, properties = {}) {
+      // Example: Google Analytics 4
+      if (typeof gtag !== "undefined") {
+        gtag("event", eventName, properties);
       }
 
-      /* Animations */
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
+      // Example: Custom analytics
+      if (typeof analytics !== "undefined") {
+        analytics.track(eventName, properties);
+      }
+    }
+
+    // Track 404 page view
+    trackEvent("404_page_view", {
+      page_url: window.location.href,
+      referrer: document.referrer,
+      timestamp: new Date().toISOString(),
+    });
+
+    // Track which helpful links are clicked
+    document.querySelectorAll(".link-item").forEach((link) => {
+      link.addEventListener("click", function () {
+        trackEvent("404_helpful_link_click", {
+          link_text: this.textContent.trim(),
+          link_url: this.href,
+          timestamp: new Date().toISOString(),
+        });
+      });
+    });
+
+    // Auto-redirect after a certain time (optional - uncomment if needed)
+    // setTimeout(() => {
+    //   if (confirm("Would you like to be redirected to the homepage?")) {
+    //     window.location.href = "/";
+    //   }
+    // }, 30000); // 30 seconds
+
+    // Add CSS for enhanced animations and effects
+    const style = document.createElement("style");
+    style.textContent = `
+      /* Enhanced focus states for accessibility */
+      .btn:focus-visible,
+      .nav-btn:focus-visible,
+      .link-item:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+      
+      /* Ripple effect */
+      .btn, .nav-btn {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple-animation 0.6s linear;
+        pointer-events: none;
+      }
+      
+      @keyframes ripple-animation {
         to {
-          opacity: 1;
-          transform: translateY(0);
+          transform: scale(4);
+          opacity: 0;
         }
       }
-
-      @keyframes bounce {
-        0%,
-        20%,
-        50%,
-        80%,
-        100% {
-          transform: translateY(0);
-        }
-        40% {
-          transform: translateY(-10px);
-        }
-        60% {
-          transform: translateY(-5px);
-        }
+      
+      /* Loading spinner animation */
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
       }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          transform: translate(-50%, -50%) scale(1);
-          opacity: 0.1;
-        }
-        50% {
-          transform: translate(-50%, -50%) scale(1.1);
-          opacity: 0.2;
-        }
+      
+      .fa-spinner {
+        animation: spin 1s linear infinite;
       }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
+      
+      /* Enhanced hover effects */
+      .helpful-links:hover {
+        box-shadow: var(--shadow-lg);
       }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .nav-container {
-          padding: 1rem;
-        }
-
-        .nav-links {
-          gap: 0.5rem;
-        }
-
-        .nav-btn {
-          padding: 0.5rem 1rem;
-          font-size: 0.8rem;
-        }
-
-        .error-section {
-          padding: 4rem 1rem 2rem;
-        }
-
+      
+      /* Smooth transitions for all interactive elements */
+      .btn, .nav-btn, .link-item {
+        transition: all 0.2s ease;
+      }
+      
+      /* Error code glow effect */
+      .error-code {
+        text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+      }
+      
+      /* Enhanced mobile responsiveness */
+      @media (max-width: 320px) {
         .error-code {
-          font-size: 6rem;
+          font-size: 3rem;
         }
-
+        
         .error-title {
-          font-size: 2rem;
+          font-size: 1.5rem;
         }
-
+        
         .error-subtitle {
-          font-size: 1.125rem;
+          font-size: 1rem;
         }
-
-        .error-actions {
-          flex-direction: column;
-          align-items: center;
-        }
-
+        
         .btn {
-          width: 100%;
-          max-width: 300px;
+          padding: 0.75rem 1.5rem;
+          font-size: 0.9rem;
         }
-
+        
         .helpful-links {
-          margin: 0 1rem;
-          padding: 1.5rem;
+          padding: 0.75rem;
         }
-
-        .links-grid {
-          grid-template-columns: 1fr;
+        
+        .link-item {
+          padding: 0.75rem;
         }
       }
-
-      @media (max-width: 480px) {
+      
+      /* High contrast mode support */
+      @media (prefers-contrast: high) {
+        .btn, .nav-btn, .link-item {
+          border: 2px solid currentColor;
+        }
+        
         .error-code {
-          font-size: 4rem;
-        }
-
-        .error-title {
-          font-size: 1.75rem;
-        }
-
-        .floating-shape {
-          display: none;
+          text-shadow: none;
         }
       }
-
-      /* Dark mode support */
+      
+      /* Print styles */
+      @media print {
+        .bg-animation,
+        .navbar,
+        .error-actions,
+        .floating-shape {
+          display: none !important;
+        }
+        
+        .error-section {
+          background: white !important;
+        }
+        
+        .helpful-links {
+          box-shadow: none;
+          border: 2px solid #000;
+        }
+        
+        .error-code {
+          color: #000 !important;
+          background: none !important;
+          -webkit-text-fill-color: #000 !important;
+        }
+      }
+      
+      /* Dark mode support (future enhancement) */
       @media (prefers-color-scheme: dark) {
         :root {
           --text-primary: #f8fafc;
@@ -486,459 +869,389 @@
           --border: #334155;
         }
       }
-
-      /* Reduced motion support */
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
+      
+      /* Parallax effect for floating shapes */
+      @media (min-width: 769px) {
+        .floating-shape {
+          will-change: transform;
         }
       }
-
-      /* Print styles */
-      @media print {
-        .navbar,
-        .bg-animation,
-        .error-actions {
-          display: none !important;
+      
+      /* Enhanced error code animation */
+      .error-code:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+      }
+      
+      /* Gradient text animation */
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      
+      .logo {
+        background-size: 200% 200%;
+        animation: gradientShift 3s ease infinite;
+      }
+      
+      /* Subtle page entrance animation */
+      body {
+        animation: pageEnter 0.8s ease-out;
+      }
+      
+      @keyframes pageEnter {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
-
-        .error-section {
-          padding-top: 2rem;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
-    </style>
-  </head>
-  <body>
-    <!-- Animated Background -->
-    <div class="bg-animation">
-      <div class="floating-shape"></div>
-      <div class="floating-shape"></div>
-      <div class="floating-shape"></div>
-      <div class="floating-shape"></div>
-    </div>
+    `;
+    document.head.appendChild(style);
 
-    <!-- Navigation -->
-    <nav class="navbar">
-      <div class="nav-container">
-        <a href="/" class="logo">Jnana</a>
-        <div class="nav-links">
-          <a href="/login" class="nav-btn secondary">Login</a>
-          <a href="/register" class="nav-btn">Get Started</a>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Main Error Content -->
-    <main class="error-section">
-      <div class="error-container">
-        <div class="error-illustration">
-          <div class="error-code">404</div>
-        </div>
-
-        <h1 class="error-title">Oops! Page Not Found</h1>
-        <p class="error-subtitle">
-          The page you're looking for seems to have wandered off into the
-          digital wilderness. Don't worry though, we'll help you find your way
-          back to learning!
-        </p>
-
-        <div class="error-actions">
-          <a href="/" class="btn btn-primary">
-            <i class="fas fa-home"></i>
-            Back to Home
-          </a>
-          <button onclick="history.back()" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i>
-            Go Back
-          </button>
-        </div>
-
-        
-    </main>
-
-    <!-- Footer -->
-    <footer class="error-footer">
-      <p>
-        &copy; 2024 Jnana. All rights reserved. |
-        <a href="/contact" style="color: var(--primary); text-decoration: none"
-          >Contact Support</a
-        >
-      </p>
-    </footer>
-
-    <script>
-      // Add ripple effect to buttons
-      function createRipple(event) {
-        const button = event.currentTarget;
-        const circle = document.createElement("span");
-        const diameter = Math.max(button.clientWidth, button.clientHeight);
-        const radius = diameter / 2;
-
-        circle.style.width = circle.style.height = `${diameter}px`;
-        circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-        circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
-        circle.classList.add("ripple");
-
-        const ripple = button.getElementsByClassName("ripple")[0];
-        if (ripple) {
-          ripple.remove();
-        }
-
-        button.appendChild(circle);
-      }
-
-      // Add ripple effect to buttons
-      document.querySelectorAll(".btn").forEach((btn) => {
-        btn.addEventListener("click", createRipple);
-      });
-
-      // Navbar scroll effect
-      let lastScrollTop = 0;
-      const navbar = document.querySelector(".navbar");
-
-      window.addEventListener("scroll", function () {
-        let scrollTop =
-          window.pageYOffset || document.documentElement.scrollTop;
-
-        // Add background when scrolled
-        if (scrollTop > 50) {
-          navbar.style.background = "rgba(255, 255, 255, 0.95)";
-          navbar.style.backdropFilter = "blur(20px)";
-        } else {
-          navbar.style.background = "rgba(255, 255, 255, 0.8)";
-          navbar.style.backdropFilter = "blur(20px)";
-        }
-
-        lastScrollTop = scrollTop;
-      });
-
-      // Add keyboard shortcuts
-      document.addEventListener("keydown", function (e) {
-        // Press 'H' to go home
-        if (e.key.toLowerCase() === "h" && !e.ctrlKey && !e.metaKey) {
-          window.location.href = "/";
-        }
-
-        // Press 'B' to go back
-        if (e.key.toLowerCase() === "b" && !e.ctrlKey && !e.metaKey) {
-          history.back();
-        }
-
-        // Press 'R' to reload
-        if (e.key.toLowerCase() === "r" && !e.ctrlKey && !e.metaKey) {
-          location.reload();
-        }
-      });
-
-      // Add CSS for ripple effect and additional enhancements
-      const style = document.createElement("style");
-      style.textContent = `
-            .btn {
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .ripple {
-                position: absolute;
-                border-radius: 50%;
-                background-color: rgba(255, 255, 255, 0.6);
-                transform: scale(0);
-                animation: ripple-animation 0.6s linear;
-                pointer-events: none;
-            }
-            
-            @keyframes ripple-animation {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-            
-            /* Enhanced focus states for accessibility */
-            .btn:focus-visible,
-            .link-item:focus-visible,
-            .nav-btn:focus-visible {
-                outline: 2px solid var(--primary);
-                outline-offset: 2px;
-            }
-            
-            /* Hover effects for floating shapes */
-            .floating-shape:hover {
-                transform: scale(1.1);
-                transition: transform 0.3s ease;
-            }
-            
-            /* Loading state for buttons */
-            .btn.loading {
-                pointer-events: none;
-                opacity: 0.7;
-            }
-            
-            .btn.loading::after {
-                content: '';
-                position: absolute;
-                width: 16px;
-                height: 16px;
-                margin: auto;
-                border: 2px solid transparent;
-                border-top-color: currentColor;
-                border-radius: 50%;
-                animation: spin 1s linear infinite;
-            }
-            
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-            
-            /* Error code glow effect */
-            .error-code {
-                text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
-            }
-            
-            /* Link item hover animation */
-            .link-item {
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .link-item::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
-                transition: left 0.5s;
-            }
-            
-            .link-item:hover::before {
-                left: 100%;
-            }
-            
-            /* Responsive navigation menu for mobile */
-            @media (max-width: 480px) {
-                .nav-links {
-                    flex-direction: column;
-                    gap: 0.25rem;
-                }
-                
-                .nav-btn {
-                    padding: 0.375rem 0.75rem;
-                    font-size: 0.75rem;
-                }
-            }
-            
-            /* Custom scrollbar */
-            ::-webkit-scrollbar {
-                width: 8px;
-            }
-            
-            ::-webkit-scrollbar-track {
-                background: var(--bg-tertiary);
-            }
-            
-            ::-webkit-scrollbar-thumb {
-                background: var(--primary);
-                border-radius: 4px;
-            }
-            
-            ::-webkit-scrollbar-thumb:hover {
-                background: var(--primary-dark);
-            }
-            
-            /* Selection styling */
-            ::selection {
-                background: var(--primary);
-                color: white;
-            }
-            
-            ::-moz-selection {
-                background: var(--primary);
-                color: white;
-            }
-        `;
-      document.head.appendChild(style);
-
-      // Add search functionality
-      function initializeSearch() {
-        const searchInput = document.createElement("input");
-        searchInput.type = "text";
-        searchInput.placeholder = "Search for pages...";
-        searchInput.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 300px;
-                padding: 1rem;
-                border: 2px solid var(--primary);
-                border-radius: 0.5rem;
-                font-size: 1rem;
-                background: var(--bg-primary);
-                box-shadow: var(--shadow-xl);
-                z-index: 1001;
-                display: none;
-            `;
-
-        const searchOverlay = document.createElement("div");
-        searchOverlay.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 1000;
-                display: none;
-            `;
-
-        document.body.appendChild(searchOverlay);
-        document.body.appendChild(searchInput);
-
-        // Show search on Ctrl/Cmd + K
-        document.addEventListener("keydown", function (e) {
-          if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-            e.preventDefault();
-            searchOverlay.style.display = "block";
-            searchInput.style.display = "block";
-            searchInput.focus();
-          }
-
-          if (e.key === "Escape") {
-            searchOverlay.style.display = "none";
-            searchInput.style.display = "none";
-          }
-        });
-
-        searchOverlay.addEventListener("click", function () {
-          searchOverlay.style.display = "none";
-          searchInput.style.display = "none";
-        });
-
-        searchInput.addEventListener("keydown", function (e) {
-          if (e.key === "Enter") {
-            const query = e.target.value.trim();
-            if (query) {
-              window.location.href = `/search?q=${encodeURIComponent(query)}`;
-            }
-          }
-        });
-      }
-
-      // Initialize search functionality
-      initializeSearch();
-
-      // Add error reporting functionality
-      function reportError() {
-        const errorData = {
-          url: window.location.href,
-          referrer: document.referrer,
-          userAgent: navigator.userAgent,
-          timestamp: new Date().toISOString(),
-        };
-
-        // Send error report to your analytics service
-        if (typeof gtag !== "undefined") {
-          gtag("event", "404_error", {
-            page_location: errorData.url,
-            page_referrer: errorData.referrer,
-          });
-        }
-
-        // You can also send to your own error tracking service
-        fetch("/api/error-report", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(errorData),
-        }).catch(() => {
-          // Silently fail if error reporting fails
-        });
-      }
-
-      // Report the 404 error
-      reportError();
-
-      // Add helpful keyboard shortcuts info
-      function showKeyboardShortcuts() {
-        const shortcutsInfo = document.createElement("div");
-        shortcutsInfo.innerHTML = `
-                <div style="position: fixed; bottom: 20px; right: 20px; background: var(--bg-primary); padding: 1rem; border-radius: 0.5rem; box-shadow: var(--shadow-lg); border: 1px solid var(--border); font-size: 0.875rem; color: var(--text-secondary); max-width: 200px; z-index: 1000;">
-                    <strong style="color: var(--text-primary);">Keyboard Shortcuts:</strong><br>
-                    <kbd>H</kbd> - Go Home<br>
-                    <kbd>B</kbd> - Go Back<br>
-                    <kbd>R</kbd> - Reload<br>
-                    <kbd>Ctrl+K</kbd> - Search
-                </div>
-            `;
-
-        document.body.appendChild(shortcutsInfo);
-
-        // Auto-hide after 5 seconds
-        setTimeout(() => {
-          shortcutsInfo.style.opacity = "0";
-          shortcutsInfo.style.transition = "opacity 0.3s ease";
-          setTimeout(() => {
-            if (shortcutsInfo.parentNode) {
-              shortcutsInfo.parentNode.removeChild(shortcutsInfo);
-            }
-          }, 300);
-        }, 5000);
-      }
-
-      // Show keyboard shortcuts after page load
-      window.addEventListener("load", () => {
-        setTimeout(showKeyboardShortcuts, 2000);
-      });
-
-      // Add page visibility API to pause animations when tab is not active
-      document.addEventListener("visibilitychange", function () {
+    // Parallax effect for floating shapes (optional)
+    if (window.innerWidth > 768) {
+      document.addEventListener("mousemove", function (e) {
         const shapes = document.querySelectorAll(".floating-shape");
-        if (document.hidden) {
-          shapes.forEach((shape) => {
-            shape.style.animationPlayState = "paused";
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+
+        shapes.forEach((shape, index) => {
+          const speed = (index + 1) * 0.5;
+          const x = (mouseX - 0.5) * speed * 50;
+          const y = (mouseY - 0.5) * speed * 50;
+
+          shape.style.transform = `translate(${x}px, ${y}px)`;
+        });
+      });
+    }
+
+    // Performance optimization: Debounce resize events
+    let resizeTimeout;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(function () {
+        const isMobile = window.innerWidth <= 768;
+        document.body.classList.toggle("mobile", isMobile);
+      }, 250);
+    });
+
+    // Initialize mobile class
+    document.body.classList.toggle("mobile", window.innerWidth <= 768);
+
+    // Service worker registration for PWA support (optional)
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker
+
+          .register("/sw.js")
+          .then(function (registration) {
+            console.log("ServiceWorker registration successful");
+          })
+          .catch(function (err) {
+            console.log("ServiceWorker registration failed");
           });
-        } else {
-          shapes.forEach((shape) => {
-            shape.style.animationPlayState = "running";
-          });
+      });
+    }
+
+    // Error handling for network issues
+    window.addEventListener("online", function () {
+      // Show a subtle notification that connection is restored
+      const notification = document.createElement("div");
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--success);
+        color: white;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        z-index: 1000;
+        animation: slideInRight 0.3s ease;
+      `;
+      notification.textContent = "Connection restored";
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.style.animation = "slideOutRight 0.3s ease";
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    });
+
+    window.addEventListener("offline", function () {
+      // Show offline notification
+      const notification = document.createElement("div");
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--error);
+        color: white;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        z-index: 1000;
+        animation: slideInRight 0.3s ease;
+      `;
+      notification.textContent = "No internet connection";
+      document.body.appendChild(notification);
+    });
+
+    // Add slide animations for notifications
+    const notificationStyles = document.createElement("style");
+    notificationStyles.textContent = `
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
         }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes slideOutRight {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(notificationStyles);
+
+    // Enhanced accessibility features
+    document.addEventListener("DOMContentLoaded", function () {
+      // Add skip link for screen readers
+      const skipLink = document.createElement("a");
+      skipLink.href = "#main-content";
+      skipLink.textContent = "Skip to main content";
+      skipLink.style.cssText = `
+        position: absolute;
+        top: -40px;
+        left: 6px;
+        background: var(--primary);
+        color: white;
+        padding: 8px;
+        text-decoration: none;
+        border-radius: 4px;
+        z-index: 1001;
+        transition: top 0.3s;
+      `;
+      skipLink.addEventListener("focus", function () {
+        this.style.top = "6px";
+      });
+      skipLink.addEventListener("blur", function () {
+        this.style.top = "-40px";
+      });
+      document.body.insertBefore(skipLink, document.body.firstChild);
+
+      // Add main content ID for skip link
+      const errorSection = document.querySelector(".error-section");
+      errorSection.id = "main-content";
+      errorSection.setAttribute("tabindex", "-1");
+
+      // Announce page content to screen readers
+      const announcement = document.createElement("div");
+      announcement.setAttribute("aria-live", "polite");
+      announcement.setAttribute("aria-atomic", "true");
+      announcement.style.cssText = `
+        position: absolute;
+        left: -10000px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      `;
+      announcement.textContent = "404 error page loaded. Page not found.";
+      document.body.appendChild(announcement);
+    });
+
+    // Add focus management
+    document.addEventListener("keydown", function (e) {
+      // Tab trapping within the main content area
+      if (e.key === "Tab") {
+        const focusableElements = document.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    });
+
+    // Add visual feedback for user interactions
+    document.querySelectorAll(".btn, .nav-btn, .link-item").forEach((element) => {
+      element.addEventListener("mousedown", function () {
+        this.style.transform = "scale(0.98)";
       });
 
-      // Add performance monitoring
-      if ("performance" in window) {
-        window.addEventListener("load", function () {
-          setTimeout(function () {
-            const perfData = performance.getEntriesByType("navigation")[0];
-            if (perfData) {
-              console.log(
-                "Page load time:",
-                perfData.loadEventEnd - perfData.loadEventStart,
-                "ms"
-              );
-            }
-          }, 0);
-        });
+      element.addEventListener("mouseup", function () {
+        this.style.transform = "";
+      });
+
+      element.addEventListener("mouseleave", function () {
+        this.style.transform = "";
+      });
+    });
+
+    // Auto-suggest similar pages based on URL (optional enhancement)
+    function suggestSimilarPages() {
+      const currentPath = window.location.pathname;
+      const suggestions = [];
+
+      // Simple URL matching logic
+      if (currentPath.includes("course")) {
+        suggestions.push({ text: "Browse All Courses", url: "/courses" });
+        suggestions.push({ text: "Popular Courses", url: "/courses/popular" });
+      } else if (currentPath.includes("user") || currentPath.includes("profile")) {
+        suggestions.push({ text: "Login", url: "/login" });
+        suggestions.push({ text: "Register", url: "/register" });
+      } else if (currentPath.includes("admin")) {
+        suggestions.push({ text: "Admin Login", url: "/admin/login" });
       }
 
-      // Add service worker registration for offline support
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          navigator.serviceWorker
-            .register("/sw.js")
-            .then(function (registration) {
-              console.log("ServiceWorker registration successful");
-            })
-            .catch(function (err) {
-              console.log("ServiceWorker registration failed");
-            });
+      // Add suggestions to helpful links if any found
+      if (suggestions.length > 0) {
+        const linksGrid = document.querySelector(".links-grid");
+        suggestions.forEach((suggestion) => {
+          const linkItem = document.createElement("a");
+          linkItem.href = suggestion.url;
+          linkItem.className = "link-item";
+          linkItem.innerHTML = `
+            <i class="fas fa-lightbulb link-icon"></i>
+            <span>${suggestion.text}</span>
+          `;
+          linksGrid.appendChild(linkItem);
         });
       }
-    </script>
-  </body>
+    }
+
+    // Call suggestion function
+    suggestSimilarPages();
+
+    // Add breadcrumb-like navigation hint
+    function addNavigationHint() {
+      const pathParts = window.location.pathname.split("/").filter(Boolean);
+      if (pathParts.length > 0) {
+        const hint = document.createElement("div");
+        hint.style.cssText = `
+          text-align: center;
+          margin-bottom: 1rem;
+          color: var(--text-muted);
+          font-size: 0.875rem;
+        `;
+        hint.innerHTML = `
+          <i class="fas fa-map-marker-alt"></i>
+          You were looking for: <code style="background: var(--bg-tertiary); padding: 0.25rem 0.5rem; border-radius: 0.25rem;">/${pathParts.join("/")}</code>
+        `;
+
+        const errorContainer = document.querySelector(".error-container");
+        const errorSubtitle = document.querySelector(".error-subtitle");
+        errorContainer.insertBefore(hint, errorSubtitle.nextSibling);
+      }
+    }
+
+    // Add navigation hint
+    addNavigationHint();
+
+    // Add a fun easter egg (optional)
+    let konamiCode = [];
+    const konamiSequence = [
+      "ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown",
+      "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight",
+      "KeyB", "KeyA"
+    ];
+
+    document.addEventListener("keydown", function (e) {
+      konamiCode.push(e.code);
+      if (konamiCode.length > konamiSequence.length) {
+        konamiCode.shift();
+      }
+
+      if (konamiCode.join(",") === konamiSequence.join(",")) {
+        // Easter egg activated!
+        const errorCode = document.querySelector(".error-code");
+        errorCode.style.animation = "bounce 0.5s ease-in-out 3";
+        errorCode.textContent = "🎉";
+
+        setTimeout(() => {
+          errorCode.textContent = "404";
+        }, 2000);
+
+        // Track easter egg activation
+        trackEvent("404_easter_egg_activated", {
+          timestamp: new Date().toISOString(),
+        });
+      }
+    });
+
+    // Add performance monitoring
+    if ("performance" in window) {
+      window.addEventListener("load", function () {
+        setTimeout(() => {
+          const perfData = performance.getEntriesByType("navigation")[0];
+          if (perfData) {
+            trackEvent("404_page_performance", {
+              load_time: perfData.loadEventEnd - perfData.loadEventStart,
+              dom_content_loaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+              timestamp: new Date().toISOString(),
+            });
+          }
+        }, 0);
+      });
+    }
+
+    // Add theme detection and adaptation
+    if (window.matchMedia) {
+      const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+      function handleThemeChange(e) {
+        if (e.matches) {
+          document.body.classList.add("dark-mode");
+        } else {
+          document.body.classList.remove("dark-mode");
+        }
+      }
+
+      darkModeQuery.addListener(handleThemeChange);
+      handleThemeChange(darkModeQuery);
+    }
+
+    // Final initialization
+    console.log("404 page initialized successfully");
+
+    // Add a helpful console message for developers
+    console.log(`
+    🔍 404 Debug Info:
+    ==================
+    Requested URL: ${window.location.href}
+    Referrer: ${document.referrer || "Direct access"}
+    User Agent: ${navigator.userAgent}
+    Timestamp: ${new Date().toISOString()}
+    
+    💡 Tip: Check your routing configuration in your Spring Boot application!
+    `);
+  </script>
+</body>
+
 </html>
